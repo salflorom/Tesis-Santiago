@@ -1,0 +1,98 @@
+\chapter{Metodología}
+    \section{Programa \textit{dtkintegrate}}
+        \noindent Se desarrolló el algoritmo Las Vegas+ en lenguaje C++ y se implementó en DensToolKit como un programa llamado \textit{dtkintegrate}, el cual llama a una clase nombrada \textit{VegasIntegrator} que se encarga de aplicar el método de integración hacia el campo deseado y sobre el volumen especificado.
+    
+        El algoritmo se compone de una clase llamada \textit{Vegas Integrator} que se encarga de leer las instrucciones por parte del usuario y la función de onda a analizar, posteriormente utiliza tal información para integrar la densidad electrónica o el integrando de la entropía de Shannon. Cabe destacar que la función de onda las procesa el paquete DensToolKit para regresar la densidad electrónica en el espacio especificado por el usuario, así como la región de integración y otros campos que se deseen junto con sus puntos críticos, tales como las entropías informacionales y los puntos críticos de las densidades electrónicas. Es así que el algoritmo de integración recibe el campo requerido.
+    
+        \subsection{Clase VegasIntegrator}
+            \noindent La clase da disponibilidad al usuario de utilizar diversos métodos para una mayor personalización sobre el método de integración Las Vegas+.
+        
+            Los métodos son los siguientes.
+            \begin{itemize}
+                \item SetDimensions: Identifica la región de integración para funciones $f$ del tipo $f:R^3\rightarrow R$, la cual recibe de la información contenida en los archivos de entrada wfx, wfn.
+                \item SetIntegrand: Recibe al campo especificado como integrando.
+                \item SetIterations: Si el proceso iterativo no alcanza el mallado óptimo, se detendrá al alcanzar un número de iteraciones arbitrario para presentar el estimado acumulado.
+                \item SetIntervals: Determina el tamaño fijo del mallado. Típicamente se establece en 1000.
+                \item SetConvergenceRate: Se establece la taza de refinamiento de la malla. Este parámetro permite suavizar los cambios en el refinamiento del mallado.
+                \item SetNumOfPoints: Determina el número de puntos de muestreo aleatorio Monte Carlo sobre la región de integración.
+                \item SetTermalization: Indica el número de las primeras iteraciones cuya integral estimada no será utilizada para el estimado acumulado.
+                \item SetTolerance: Dado que el mallado óptimo es casi imposible de alcanzar, se usa un rango de tolerancia.
+                \item SetStopRefinement: Dado que la estimación acumulada puede sesgarse, se puede cortar su cálculo a partir de cierta j-ésima iteración para basarse únicamente en los resultados de integración Monte Carlo, los cuales muestran una distribución gaussiana con media en la integral verdadera.
+                \item DisplayProperties: Muestra todos los parámetros, tanto aquellos que se determinaron por el usuario como aquellos que se definen por defecto. Los parámetros son los límites de la región de integración, el integrando (el cual puede ser la densidad electrónica en el espacio de momentos o posiciones, la entropía de Shannon en alguno de ambos espacios, entro otros), la taza de convergencia, tamaño de la malla, número de puntos de muestreo por iteración, máximo número de iteraciones, termalización, número de iteraciones para frenar el refinamiento de la malla y valor de la tolerancia para considerar la malla óptima.
+                \item NormalizedEDF: Normaliza la densidad electrónica a 1, al dividirla por el número de electrones. Esta constante de normalización la extrae el programa desde la suite \textit{DensToolKit}.
+                \item Relative2MaxDensity: Calcula el valor máximo de la densidad. Si la densidad se encuentra en el espacio de posiciones, \textit{dtkintegrate} utiliza información proporcionada por la suite \textit{DensToolKit} para obtener los valores máximos; si se encuentra en el espacio de momentos, el mismo programa utiliza un proceso de rastreo del máximo a través de un muestreo aleatorio sobre la región de integración establecido en la función SetSamplesToFindMaximum.
+                \item Variance: Muestra la varianza de la integral. El método de integración Las Vegas permite conocer tal varianza en cada una de las iteraciones y tal información ayuda a conocer la estabilidad en el proceso de integración a través de múltiples pruebas $\chi^2$. Pueden surgir casos donde la integración muestre signos de arrojar valores alejados de aquel esperado y uno de estos es la prueba $\chi^2$.
+                \item Integral: Muestra el resultado de la integral numérica. Dependiendo del tipo de integrando y si se desea que la densidad electrónica esté normalizada o sea relativa con respecto a su valor máximo, esta función se encarga de realizar transformaciones sobre la integral de la entropía o de la densidad.
+                \item MaxDensity: Muestra el valor máximo de la densidad electrónica.
+                \item NormConstant: Muestra la constante de normalización del integrando o de la densidad.
+                \item CountEvaluations y CountIterations: El primero muestra el número de evaluaciones hechas sobre el integrando antes de terminar el proceso, mientras que el segundo el número de iteraciones utilizadas para obtener el resultado.
+                \item SetNSamplesToFindMaximum: Para buscar el valor máximo de la densidad en el espacio de momentos, se realiza un muestreo aleatorio sobre la región de integración con un número de puntos arbitrario. Si se registra un valor de la densidad mayor a cero, se registra como máximo latente hasta que aparezca un valor al registrado. Por cada valor registrado, el radio de búsqueda se reduce de la región de integración a la distancia entre el origen y el último valor registrado. La oportunidad de realizar este método de rastreo se debe a que las densidades en el espacio de momento tienen comportamientos semejantes a una densidad gaussiana.
+                \item PrintLogFile: Todos los datos de salida producidos por el programa \textit{dtkintegrate} se imprimen en un archivo de extensión \textit{log} y se guardan en donde se leyó el archivo de entrada \textit{wfx/wfn}.
+                \item Integrate: Esta función se encarga de realizar la integración de la función escogida sobre una región definida a través del método Las Vegas+. Se usa la herramienta generadora de números pseudo aleatorios Mersenne Twistter, reconocida para algoritmos donde se usa gran cantidad de valores pseudo aleatorios; la información del integrando y la región de integración se obtienen a través de la clase <<GaussWaveFunction>>, previamente desarrollada por el Dr. Juan Manuel Solano Altamirano.
+            \end{itemize}
+    
+        \subsection{Función MAIN}
+            \noindent El usuario puede agregar instrucciones a través de la línea de comandos en la terminal del sistema operativo (probado en GNU-Ubuntu), los cuales son la molécula o el átomo a estudiar (archivo \textit{wfx} o \textit{wfn}), la función que se desea integrar (densidades electrónicas en los espacios de posiciones y momentos, laplaciano de las densidades, entropías de Shannon en ambos espacios, energía cinética, potenciales electrostáticos, etcétera), el número de intervalos que compondrán la malla de integración, número de puntos a muestrear, número máximo de iteraciones, tasa de convergencia, termalización, tolerancia para considerar una malla óptima, número de iteraciones antes de detener el proceso de refinado de la malla, versión de \textit{DensToolKit} e instructivo. Se habrá de notar que las funciones a integrar son campos procesados por \textit{DensToolKit} y pueden utilizarse como integrandos, mas no necesariamente debe haber razón para su uso.
+        
+            Además de la línea de comandos, aún el programa puede personalizarse más dentro de la función MAIN. De ahí, el usuario puede solicitar que se devuelvan la integral calculada (Integral), constante de normalización (NormConstant), densidad máxima (MaxDensity), varianza (Variance), número de iteraciones realizadas (CountIterations), número de evaluaciones hechas sobre el integrando (CountEvaluations) y todos los parámetros de entrada que se tienen por defecto, se calculan automáticamente o fueron ingresados por el usuario (DisplayProperties), así como ajustar la región de integración (SetDimensions), el cual, por lo general se calcula automáticamente.
+        
+            Como ejemplo, la figura \ref{fig: ejem-vegasintegrator} muestra el cálculo de la integral de la densidad electrónica para el benceno, el cual tiene 42 electrones en su estado neutral. Dado que el archivo benzene.wfn es utilizado por \text{DensToolKit} para probar la eficiencia de sus programas, \textit{dtkintegrate} tiene registrado su valor exacto del número de electrones, por lo que puede calcular el porcentaje de error relativo entre su cálculo y aquel establecido como correcto.
+        
+            \begin{figure}[htbp]
+                \centering
+                \includegraphics[width=\textwidth]{images/ejemplo-vegasintegrator.png}
+                \caption{Ejemplo del funcionamiento del programa \textit{dtkintegrate} en el sistema operativo GNU-Ubuntu 20.04.2 LTS, utilizando como molécula de estudio al benceno.}
+                \label{fig: ejem-vegasintegrator}
+            \end{figure}
+        
+        \subsection{Eficiencia de \textit{dtkintegrate} contra el método Monte Carlo}
+            Para corroborar que el programa \textit{dtkintegrate} presenta buena eficiencia, se desarrolló e implementó el algoritmo de integración Monte Carlo en \textit{DensToolKit} y se compararon ambos programas, tomando como referencia el porcentaje de error relativo contra el número de evaluaciones sobre el integrando. La función a integrar fue la densidad electrónica del metano, cuyo número de electrones es 10 y el resto de los parámetros del programa \textit{dtkintegrate} se mantuvieron fijos en los establecidos por defecto:
+            \begin{itemize}
+                \item Taza de convergencia: 1.
+                \item Número de intervalos: 10.
+                \item Máximo número de iteraciones: 20.
+                \item Termalización: 0.
+                \item No detener refinamiento de la malla durante la integración.
+                \item Tolerancia: 0.
+            \end{itemize}
+            
+            \begin{figure}[htbp]
+                \centering
+                \includegraphics[width=\textwidth]{images/MC-LV.jpg}
+                \caption{Comparación del porcentaje de error relativo contra número de evaluaciones sobre la integral de la densidad electrónica del metano (10 electrones). Los métodos de integración usados fueron Monte Caro (azul) y Las Vegas+ (naranja), entre 10,000 y 1,000,000 de evaluaciones sobre el integrando.}
+                \label{fig: mc_vs_lv}
+            \end{figure}
+    
+    \section{Entropías de Shannon en átomos}
+        \noindent Para corroborar el funcionamiento del programa implementado en \textit{DensToolKit}, se calcularon las entropías informacionales de las densidades normalizadas al número de electrones y a la unidad, así como de la densidad relativa, la cual toma como referencia su máximo global. La entropía se integró en átomos simples con números atómicos desde 1 hasta 36, utilizando como combinaciones método-base MP2/6-31+G* y HF/cc-pvTZ, ambos obtenidos por GAUSSIAN09 \cite{gaussian09}. Los resultados se compararon con aquellos publicados por Flores Gallegos, N. \cite{flores_gallegos} y Hô, M. et al. \cite{flores_gallegos,sagar}, quienes realizaron los mismos cálculos y con los mismos átomos, pero con combinaciones método-base CISD(full)/cc-pvTZ y HF/6-31G**, respectivamente. Los resultados mostrados en las figuras \ref{fig: entropies 1-36} resultaron ser muy semejantes a aquellos publicados por los autores mencionados anteriormente. Sin embargo, las pequeñas diferencias se deben al uso de diferentes bases o métodos.
+        
+            \begin{figure}
+                \centering
+                \begin{subfigure}[htbp]{0.774\textwidth}
+                    \centering
+                    \includegraphics[width=\textwidth]{images/entropies-N-1_36.jpg}
+                    \caption{Entropías de Shannoon sobre átomos desde el Hidrógeno hasta el Criptón. La densidad electrónica está normalizada al número de electrones del átomo respectivo y se muestra en los espacios de posiciones (cuadrado azul) y momentos (triángulo naranja). Además, se presenta la suma de ambas entropías (círculo verde).}
+                    \label{fig: entropies N 1-36}
+                \end{subfigure}
+                \begin{subfigure}[htbp]{0.774\textwidth}
+                    \centering
+                    \includegraphics[width=\textwidth]{images/entropies-1-1_36.jpg}
+                    \caption{Entropías de Shannoon sobre átomos desde el Hidrógeno hasta el Selenio. La densidad electrónica está normalizada a la unidad y se muestra en los espacios de posiciones (cuadrado azul) y momentos (triángulo naranja).}
+                    \label{fig: entropies 1 1-36}
+                \end{subfigure}
+                \begin{subfigure}[htbp]{0.774\textwidth}
+                    \centering
+                    \includegraphics[width=\textwidth]{images/entropies-Rel-1_36.jpg}
+                    \caption{Entropías de Shannoon sobre átomos desde el Hidrógeno hasta el Selenio. La densidad electrónica es relativa y toma como referencia el valor máximo de la densidad de cada átomo. También se muestra en los espacios de posiciones (cuadrado azul) y momentos (triángulo naranja).}
+                    \label{fig: entropies Rel 1-36}
+                \end{subfigure}        
+                \caption{}
+                \label{fig: entropies 1-36}
+            \end{figure}
+            
+        Los resultados mencionados anteriormente muestran que el programa \textit{dtkintegrate} se implementó adecuadamente en la suite \text{DensToolKit} y muestran la eficiencia esperada del algoritmo Las Vegas+ en funciones de comportamiento gaussiano, por lo que se procedió a realizar las comparaciones entre las distintas combinaciones de los métodos HF, MP2(full), MP3(full), MP4SDQ, B3LYP, wB97XD y las bases 6-31G, 6-31+G**, 6-31G(2df,p), cc-pVDZ, cc-pVTZ, aug-cc-pVDZ y aug-cc-pVTZ para átomos del Hidrógeno al Criptón.
+        
+    \section{Entropías de Shannon en moléculas simples}
+        \noindent Se escogieron entre cinco moléculas y átomos que presentaran diez electrones en su estado neutral, pero que se diferenciaran entre ellos por su número de enlaces: Neón, ácido fluorhídrico, agua, amoniaco y metano. Todas ellas incrementan respectivamente su número de enlaces en una unidad desde cero hasta cuatro y las combinaciones método-base utilizadas fueron las mismas.
+        
+        Se calcularon las entropías informativas en la densidad normalizada al número de electrones, normalizada a la unidad y relativa, tomando como densidad de referencia su máximo global. Posteriormente, se analizó el comportamiento de las tres entropías conforme incrementaba el número de enlaces.

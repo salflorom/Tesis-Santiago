@@ -1,0 +1,181 @@
+%Implementación de paquetes.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \usepackage[utf8]{inputenc} %Se acepta gran diversidad de caracteres.
+% \usepackage[spanish,es-tabla]{babel} %Se aceptan caracteres del español.
+\spanishdecimal{.} % Los decimales se diferencian por un punto.
+% \usepackage[margin=2cm]{geometry} %Márgenes.
+\usepackage{amsmath,amsthm,amssymb,bm,mathrsfs,amsfonts,latexsym,cancel} %Matemáticas.
+\usepackage{color,soul} %Para resaltar con marca textos amarillo (usa "\hl{}" sobre el texto a subrayar).
+\usepackage{comment} %Comentarios.
+\usepackage{caption,subcaption,wrapfig,float} %Agregar y editar imágenes.
+% \usepackage{graphicx,caption,subcaption,wrapfig,float} %Agregar y editar imágenes.
+\usepackage{listings}
+% \usepackage{listings,xcolor} %Agregar código (programación).
+% \usepackage{array} %Fijar ancho de tablas.
+% \usepackage{ragged2e} %Para alinear texto.
+% \usepackage[colorinlistoftodos]{todonotes}
+% \usepackage{tikz,pgf} %Para crear figuras.
+% \usepackage{multicol,color} %Agregar colores al documento.
+\usepackage{hyperref} %Insertar hipervínculos.
+% \usepackage{pdfpages} %Insertar documento (o páginas) .pdf.
+% \usepackage{chemfig} %Agregar ecuaciones químicas (incluso nomenclatura de orgánica)
+% \usepackage{booktabs} % Para establecer un orden de párrafos en el cartel.
+% \usepackage[orientation=portrait,size=a1,scale=1.4]{beamerposter} %Para hacer carteles. Orientación de retrato y tamaño de papel a0.
+% \usepackage{tgbonum}
+\begin{comment}
+    %Para clase elsearticle.
+    %La clase usa natbib por defecto. Para usar biblatex, hay que agregar 'nonatbib' como 
+    %   argumento de clase.
+    \makeatletter
+    \let\c@author\relax %Retira error: Command \c@author already defined. \abx@donames.
+    \makeatother
+\end{comment}
+% \usepackage{biblatex} %Agregar fuentes en distintos formatos.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Modificaciones extra al documento.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Para leer un archivo de fuentes.
+    % \addbibresource{fuentes.bib} %Para BibLaTeX
+%Estilo de las referencias.
+    % \bibliographystyle{unsrt} % 
+%Dirigirse al directorio images, donde se guardan las imágenes.
+    \graphicspath{{images/}}
+% Formatos de hipervínculos.
+    % \hypersetup{colorlinks=true,linkcolor=black,anchorcolor=white,citecolor=black,filecolor=white} 
+%Retirar sangría en todo el texto.
+    %\setlength{\parindent}{0pt}
+%Modificar separación entre párrafos.
+    %\setlength{\parskip}{10pt}
+%Modificar el nombre de la tabla de contenido.
+    %\addto\captionsspanish{\renewcommand*\contentsname{Ín1dice}}
+%Modificar enumeración.
+    % \renewcommand{\labelenumi}{(\alph{enumi})}
+%Modificar referencias.
+    % \renewcommand{\mkbibbrackets}[1]{(\textit{#1})}
+%Generar diagramas de flujo con Tikz.
+    % \usetikzlibrary{shapes.geometric, arrows}
+    % \tikzstyle{startstop} = [rectangle, rounded corners, minimum width=5mm, minimum height=5mm,text centered, draw=black, fill=red!30]
+    % \tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=20mm, minimum height=5mm, text centered, draw=black, fill=blue!30]
+    % \tikzstyle{process} = [rectangle, minimum width=5mm, minimum height=5mm, text centered, text width=3cm, draw=black, fill=orange!30]
+    % \tikzstyle{decision} = [diamond, minimum width=20mm, minimum height=5mm, text centered, draw=black, fill=green!30]
+    % \tikzstyle{arrow} = [thick,->,>=stealth]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Introducción a ejercicios y sus soluciones.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{comment}
+    \newcommand{\problem}[1]{
+    {\vspace{15pt} \noindent\begin{tikzpicture}[outline/.style={draw=black!75!gray,thick,fill=white!80!white}]
+    \node [outline=red] at (0,1) {\bf Problema #1 \\};
+    \end{tikzpicture}\\}
+    }
+    \newcommand{\solution}[1]{
+    {\noindent \begin{tikzpicture}[outline/.style={draw=red!75!gray,thick,fill=white!80!white}]
+    \node [outline=red] at (0,1) {\bf Solución \\};
+    \end{tikzpicture}\\}
+    }
+\end{comment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Notas extra.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{comment}
+    Notas:
+    
+    %Inserción de referencias. Acordeón de BibLaTeX.
+    Cheet sheat: http://tug.ctan.org/info/biblatex-cheatsheet/biblatex-cheatsheet.pdf
+    
+    %Inserción de referencias. BibTeX. Al final del archivo principal, colocar
+    \bibliography{fuentes}
+    
+    %Inserción de algún .pdf. Agregar el siguiente comando donde se quiere insertar archivo.
+    \includepdf[page={-}]{pdf name}
+    
+    %Inserción de código (programación). Agregar el siguiente comando donde se quiere insertar código.
+    \begin{lstlisting}[language=Python]
+        Código.
+    \end{lstlisting}
+    
+    %Inserción de archivo código (programación). Colocar al final de "main.tex".
+    \lstinputlisting[language=Python,fisrtline=1,lastline=12]{Codigo.py}
+    
+    %Edición de diapositivas. Acordeón de Beamer.
+    Cheat sheat: http://nikhildamodaran.weebly.com/uploads/3/8/0/9/38095403/beamer-appearance-cheat-sheet.pdf
+\end{comment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Estilo del código (programación) para insertar en LaTeX.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codepurple}{rgb}{0.6,0.2,0.8}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codered}{rgb}{0.7,0.13,0.13}
+\definecolor{backcolour}{rgb}{0.96,0.96,0.96}
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codepurple},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codered},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Operadores y símbolos matemáticos.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareMathOperator*{\Res}{Res} %\Res_{ #1 }{ #2 } Residuo.
+\DeclareMathOperator{\Lapt}{\mathscr{L}} %\Lapt{ #1 } Transformada de Laplace.
+\DeclareMathOperator{\Four}{\mathscr{F}} %\Four{ #1 } Transformada de Fourier.
+\DeclareMathOperator{\Gammaf}{\Gamma} %\Gammaf{ #1 } Función Gamma.
+\DeclareMathOperator{\betaf}{\beta} %\Betaf{ #1 } Función beta.
+\DeclareMathOperator{\erf}{erf} %\erf{ #1 } Función error.
+\DeclareMathOperator{\erfc}{erfc} %\erfc{ # } Función error complementaria.
+\newcommand{\oo}{\infty} %\oo Infinito.
+\newcommand{\C}{\mathbb{C}} %\C Conjunto de los complejos.
+\newcommand{\R}{\mathrm{I}\!\mathrm{R}} %\R Conjunto de los reales.
+\newcommand{\Q}{\mathbb{Q}} %\Q Conjunto de los racionales.
+\newcommand{\Z}{\mathbb{Z}} %\Z Conjunto de los enteros.
+\newcommand{\N}{\mathrm{I}\!\mathrm{N}} %\N Conjunto de los naturales.
+\newcommand{\dbar}{d\mkern-7mu\mathchar'26\mkern-2mu} %\dbar Diferencial de función de proceso.
+\newcommand{\Ham}{\mathcal{H}} %\Ham{ #1 } Hamiltoniano.
+\newcommand{\Lag}{\mathcal{L}} %\Lag{ #1 } Lagrangiano.
+\newcommand{\Par}[1]{\left( #1 \right)} %\Par{ #1 } Paréntesis.
+\newcommand{\Sqbr}[1]{\left[ #1 \right]} %\Sqbr{ #1 } Corchetes (square brackets)
+\newcommand{\Braces}[1]{\left\{ #1 \right\}} %\Braces{ #1 } Llaves.
+\newcommand{\Abs}[1]{\left| #1 \right|} %\Abs{ #1 } Valor absoluto.
+\newcommand{\Mean}[1]{\langle #1 \rangle} %\Mean{ #1 } Valor esperado.
+\newcommand{\Bra}[1]{\left\langle #1 \right|} %\Bra{ #1 } Bra en notación de Dirac.
+\newcommand{\Ket}[1]{\left| #1 \right\rangle} %\Ket{ #1 } Ket en notación de Dirac.
+\newcommand{\Braket}[2]{\left\langle#1\right|\left.#2\right\rangle} %\Braket{ #1 }{ #2 } Bra-Ket en notación de Dirac.
+\newcommand{\Div}[2]{\nabla{#1}\cdot{#2}} %\Div{ #1 }{ #2 } Divergencia.
+\newcommand{\Curl}[2]{\nabla{#1}\times{#2}} %\Curl{ #1 }{ #2 } Rotacional.
+\newcommand{\Grad}[2]{\nabla{#1}{#2}} %\Grad{ #1 }{ #2 } Gradiente.
+\newcommand{\Lap}[2]{\nabla{#1}^2{#2}} %\Lap{ #1 }{ #2 } Laplaciano.
+\newcommand{\System}[1]{\left\{ {#1} \right.}
+%\System{ #1 } Remarca un sistema de ecuaciones con una llave. Se usa junto con la función array.
+\newcommand{\Def}[3]{\left. {#1} \right|_{#2}^{#3}} 
+%\Def{ #1 }{ #2 }{ #3 } Determina los límites a evaluar de la expresión dada.
+\newcommand{\D}[3]{\dfrac{d^{#1}}{d{#3}^{#1}}#2}
+%\D{#Orden}{#Función}{#Variable indep.} Derivada de orden n. Si es de orden 1, no se anota el primer argumento. La función aparece fuera del operador
+\newcommand{\Df}[3]{\dfrac{d^{#1}#2}{d{#3}^{#1}}}
+%\D{#Orden}{#Función}{#Variable indep.} Derivada de orden n. Si es de orden 1, no se anota el primer argumento. La función aparece dentro del operador
+\newcommand{\Dpartial}[3]{\dfrac{\partial^{#1}}{\partial{#3}^{#1}}#2}
+%\Dpartial{#Orden}{#Función}{#Variable indep.} Derivada parcial de orden n. La función aparece fuera del operador
+\newcommand{\Dfpartial}[3]{\dfrac{\partial^{#1}#2}{\partial{#3}^{#1}}} %\Dpartial{#Orden}{#Función}{#Variable indep.} Derivada parcial de orden n. La función aparece dentro del operador.
+\newcommand{\Dpartialcruz}[3]{\dfrac{\partial^{2}}{\partial{#2}\partial{#3}}{#1}}
+%\Dpartialcruz{#Función}{#Variable_1 indep.}{#Variable_2 indep.} Derivada parcial de orden 2 cruzada. La función aparece fuera del operador
+\newcommand{\Dfpartialcruz}[3]{\dfrac{\partial^{2}#1}{\partial{#2}\partial{#3}}}
+%\Dfpartialcruz{#Función}{#Variable_1 indep.}{#Variable_2 indep.} Derivada parcial de orden 2 cruzada. La función aparece dentro del operador
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -1,0 +1,80 @@
+% formato-detallado.tex
+% Esqueleto para escribir tesis en la FCFM.
+% Actualización del original fcfmskel.tex
+% --- ATENCIÓN--
+% Hay varias instrucciones comentadas. Es necesario quitar el
+% comentario a alguna de ellas y comentar la instrucción de arriba.
+% Se marcan con %----
+
+\documentclass[fisica]{fcfmtesis}      %----tesis de fisica
+% Opciones     ^^^^^^  posibles son:
+% fisica (Lic. Física), fisapl (Lic. Física Aplicada)
+% pfa1 (M.C. Ciencias, Física Aplicada), pfa2 (D.C. Ciencias, Física Aplicada)
+% matematicas (Lic. Matemáticas), lma (Lic. Mat. Aplicadas), actuaria (Lic. Actuaría)
+% mem (Maestría en Educacuón Matemática)
+%\include{parche}  %----para tener tres vocales, define \vocalc
+
+
+\usepackage[T1]{fontenc}		   %%% fonts y unicode UTF8
+\usepackage[utf8]{inputenc}        
+% \usepackage{amsmath,amsfonts,amssymb,amsthm}
+% Cualquier paquete necesario debe ser incluido aquí.
+% Paquetes ya cargados por default en fcfmtesis:
+% babel, latexsym, fancyhdr, graphicx y array
+\input{format}
+
+\author{Santiago Alberto Flores Román}                  % Nombre del autor
+\title{Entropía informacional de átomos y moléculas simples: Implementación del método de integración numérica Vegas-Monte Carlo}         % Título de la tesis
+\asesor{Dr. Juan Manuel Solano Altamirano\\
+        Dr. Jorge Velázquez Castro}               % Nombre de los asesores
+\presidente{Dr. Eduardo Moreno Barbosa} % Nombre del presidente del jurado
+\secretario{Dr. Javier Miguel Hernández López}       % Nombre del secretario del jurado
+\vocala{Dr. Julio Manuel Hernández Pérez}         % Nombre del 1er vocal del jurado
+\vocalb{C. Soto}                   % Nombre del 2do vocal del jurado
+%\vocalc{}                         % Nombre del 3er vocal del jurado
+                                   % Usarse sólo si se hizo \include{parche}
+
+\date{\today}                      % Fecha del examen profesional.
+                                   % Escribirse en el formato mes año:
+                                   % por ejemplo \date{Julio de 2018}
+
+\hombre
+% \mujer       %----Es una mujer quien escribe su trabajo
+%tesina      %----En caso de escribir una tesina.
+
+\begin{document}
+\frontmatter
+           \portada         %----quitar comentario en la versión final
+           \maketitle       %----quitar comentario en la versión final
+           \makeacta        %----quitar comentario en la versión final
+           \setcounter{page}{4}		% La primer página con número impreso
+           							% debe ser la siguiente al acta (pág. impar)
+           							% pero el conteo se hace a partir del
+           							% maketitle, (segunda portada)	
+          							% El valor 4 puede cambiarse según corresponda.
+           \include{CO1-Dedicatoria}
+           \tableofcontents %----quitar comentario en la versión final
+
+\mainmatter  % A partir de aquí va el trabajo propio, se hará colocando
+             % comandos \include{archivo} donde archivo es el nombre de 
+             % un archivo de latex con nombre "archivo.tex"
+             % Notar que en sistemas Unix las mayúsculas son diferentes
+             % a las minúsculas.
+\include{01-Resumen_Introduccion}
+\include{02-Objetivos}
+\include{03-Antecedentes}
+\include{04-Metodología}
+\include{05-Resultados}
+\include{06-Conclusiones}
+
+% \appendix % A partir de esta línea van los apéndices. Quitar si no habrá apéndices
+% \include{A01-Apendice}
+
+\backmatter  % En esta línea está terminado el trabajo. No quitar
+\addcontentsline{toc}{chapter}{Bibliografía} % Agregar Bibliografía al índice
+\bibliographystyle{plain}
+\bibliography{fuentes}      % Para utilizar con BibTeX y con un archivo fuentes.bib
+% \begin{thebibliography}{XX} % Por si alguien no quiere utilizar BibTeX
+% \end{thebibliography}
+\end{document}            % Fin del documento. cualquier texto a partir de esta
+                          % línea es ignorado por latex.
