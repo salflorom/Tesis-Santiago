@@ -1,37 +1,37 @@
 \chapter{Antecedentes}
     \section{DensToolKit}
-        \noindent Es un paquete de programas con licencia GNU-GPLv3 y desarrollados por \textit{Solano Altamirano, J. M. y Hernández Pérez J. M.} \cite{manuel} enfocados en analizar densidades electrónicas y varios campos derivados de ellos, tales como el gradiente de la densidad electrónica, la función de localización electrónica (ELF por sus siglas en inglés) junto con su gradiente, región de electrones lentos (RoSE por sus siglas en inglés), gradiente de densidad reducida, detector de electrones localizados (LED por sus siglas en inglés), entropías de la información, potencial electrostático, densidades $K$ y $G$ de energía cinética, entre otros, incluso en el espacio de momentos. Además, también incluye programas que se encargan de ubicar puntos críticos y enlaces químicos, todo en moléculas y átomos, usando como referencia la teoría cuántica de átomos en moléculas (QTAIM por sus siglas en inglés). 
+        \noindent \textit{DensToolKit} es un paquete de programas con licencia GNU-GPLv3 y desarrollados por \textit{Solano-Altamirano, J. M. y Hernández-Pérez J. M.} \cite{manuel} enfocados en analizar densidades electrónicas y varios campos derivados de ellos, tales como el gradiente de la densidad electrónica, la función de localización electrónica (ELF por sus siglas en inglés) junto con su gradiente, región de electrones lentos (RoSE por sus siglas en inglés), gradiente de densidad reducida, detector de electrones localizados (LED por sus siglas en inglés), entropías de la información, potencial electrostático, densidades $K$ y $G$ de energía cinética, entre otros, incluso en el espacio de momentos. Además, también incluye programas que se encargan de ubicar puntos críticos y enlaces químicos, todo en moléculas y átomos, usando como referencia la teoría cuántica de átomos en moléculas (QTAIM por sus siglas en inglés). 
         Algunos de sus programas son
         \begin{itemize}
             \item dtkpoint, el cual evalúa los campos implementados en un punto o en un conjunto de puntos, y
-            \item dtkdpdens, cuya tarea es evaluar uno de los campos implementados a lo largo del trayecto del enlace entre dos átomos,
-        \end{itemize}
-        mientras que un par de scripts suyos son
-        \begin{itemize}
-            \item dtkeps2pdf, cuya función es utilizar un archivo eps y transformarlo a formato pdf, y
-            \item dtkpov2png, el cual se encarga de transformar archivos pov a png.
+            \item dtkbpdens, cuya tarea es evaluar uno de los campos implementados a lo largo del trayecto del enlace entre dos átomos.
         \end{itemize}
         
-        DensToolKit solicita como entrada archivos de formato \textit{wfn} ó \textit{wfx} que son producidos por programas tales como Gamess, NWChem, MOLPRO o Gaussian. Tales archivos contienen la expansión de la función de onda molecular o atómica en términos bases gaussianas. 
+        DensToolKit solicita como entrada archivos de formato \textit{wfn} ó \textit{wfx}, los cuales son producidos por programas tales como Gamess, NWChem, MOLPRO o Gaussian. Tales archivos contienen la expansión de la función de onda molecular o atómica en términos bases gaussianas. 
         
         No obstante la variedad de sus programas, no hay uno que se encargue de integrar los campos escalares mencionados, por lo que sería necesario implementar en él un algoritmo de integración para integrar cualquiera de los campos que ofrezca la suite.
     
     \section{Método Monte Carlo}
-        \noindent Dada una función $f:\R^d\rightarrow\R$, con $d\in\N$, se puede encontrar su integral sobre un volumen $\Omega\in\R^d$ utilizando $M$ puntos aleatorios generados a partir de una densidad de probabilidad arbitraria $p(\bm{x})$, con $\bm{x}\in\R^d$. Numéricamente, es
+        \noindent Dada una función $f:\R^d\rightarrow\R$, con $d\in\N$, se puede encontrar su integral sobre un volumen $\Omega\in\R^d$ utilizando $N_{ev}$ puntos aleatorios generados a partir de una densidad de probabilidad arbitraria $p(\bm{x})$, con $\bm{x}\in\R^d$. Numéricamente, es
         \begin{align}
-            \Mean{f^l} = \frac{1}{M}\sum_{M}\Par{\frac{f(\bm{x})}{p(\bm{x})}}^l,
+            \Mean{f^l} = \frac{1}{N_{ev}}\sum_{N_{ev}}\Par{\frac{f(\bm{x})}{p(\bm{x})}}^l,
         \end{align}
-        siendo $I$ la integral exacta de $f$ sobre el volumen $\Omega$, $l\in\N$ y de modo que $\Mean{f}\rightarrow I$ cuando $N\rightarrow M$.\\
+        siendo $I$ la integral exacta de $f$ sobre el volumen $\Omega$, $l\in\N$ y de modo que $\Mean{f}\rightarrow I$ cuando $N_{ev}\rightarrow\oo$.
+        
         Su varianza se puede determinar a partir de la expresión
+        \begin{align}\label{eq: devest mc}
+            \sigma^2 = \frac{\Mean{f^2}-\Mean{f}^2}{N_{ev}-1}
+        \end{align}
+        y consecuentemente, su desviación estándar es
         \begin{align}
-            \sigma^2 = \frac{\Mean{f^2}-\Mean{f}^2}{M-1}.
+            \sigma = \sqrt{\frac{\Mean{f^2}-\Mean{f}^2}{N_{ev}-1}}.
         \end{align}
         
-        A pesar de que este método es igual de preciso independientemente de la función $f$ que se escoja, su desviación estándar se comporta de la forma
+        La ecuación \eqref{eq: devest mc} muestra la tendencia hacia la integral $I$ conforme incrementan los puntos de muestreo que se realizan sobre $\Omega$. Esta tendencia puede resultar costosa en rendimiento computacional al ralentizarse a un ritmo de
         \begin{align}
-            \sigma = \sqrt{\frac{\Mean{f^2}-\Mean{f}^2}{N}},
+            \sqrt{\frac{1}{N_{ev}}},
         \end{align}
-        forzando una tendencia más lenta hacia la integral $I$ cuantos más puntos de muestreo se realicen sobre $\Omega$. Es por eso que se han desarrollado métodos adaptativos que aceleran la tendencia mencionada anteriormente.
+        es por eso que se han desarrollado métodos adaptativos que buscan reducir ese costo sin sacrificar las ventajas del mismo método.
         
         \subsection{\textit{Muestreo de importancia}}
             \noindent La varianza $\sigma^2$ puede reducirse hasta alcanzar un valor óptimo, el cual es
@@ -41,18 +41,18 @@
             Aunque en la práctica es imposible alcanzarlo, la ecuación \eqref{eq: densidad optima} muestra que tal valor se logra cuando las evaluaciones sobre $f$ se concentran en donde su magnitud es mayor.
             
         \subsection{\textit{Muestreo estratificado}}
-            \noindent Uno de los métodos para alcanzar la varianza $\sigma^2$ óptima es subdividiendo la región $\Omega$ en $N$ subconjuntos $\omega_i$, con $i\in\{1,2,\dots,N\}$, de tamaño variable, llamados incrementos. De ese modo, se puede integrar utilizando $M/N$ puntos de muestreo aleatorios en cada $\omega_i$.
+            \noindent Uno de los métodos para alcanzar la varianza $\sigma^2$ óptima es subdividiendo la región $\Omega$ en $N_g$ subconjuntos $\omega_i$, con $i\in\{1,2,\dots,N_g\}$, de tamaño variable, llamados incrementos. De ese modo, se puede integrar utilizando $N_{ev}/N_g$ puntos de muestreo aleatorios en cada $\omega_i$.
                 
             La varianza utilizando este método, $\sigma_s^2$, puede reducirse hasta un valor
             \begin{align}
-                \sigma_s^2 \rightarrow \frac{\sigma^2}{N},
+                \sigma_s^2 \rightarrow \frac{\sigma^2}{N_g},
             \end{align}
-            sin embargo el número de evaluaciones sobre $F$ crece al valor $M=2N^d$, volviéndose un serio problema cuando se trata de integrales en múltiples dimensiones.
+            sin embargo el número de evaluaciones sobre $f$ crece al valor $N_{ev}=2N_g^d$, volviéndose un serio problema cuando se trata de integrales en múltiples dimensiones.
         
     \section{Método Las Vegas+}
-        \noindent A este método de integración también lo llamaremos Las Vegas-Monte Carlo y fue desarrollado por primera vez por \textit{Lepage, P.} \cite{lepage1978} en 1978. Este método fue ampliamente utilizado que incluso llegó a usarse en el CERN \cite{vegas-cern} y se implementó en diversos lenguajes de programación como en Fortran \cite{lepagefortran} o Python a través del programa VegasFlow \cite{vegasflow}. Además, se propusieron mejoras de la primera versión por parte de otros desarrolladores \cite{vegas-revisited} para el área de la física de partículas. La última mejora implementada sobre este método fue publicada por su propio autor en agosto del 2021 y lo llamó Las Vegas+ \cite{lepage2021}.
+        \noindent A este método de integración también lo llamaremos Las Vegas-Monte Carlo y fue desarrollado por primera vez por \textit{Lepage, P.} \cite{lepage1978} en 1978. Este método ha sido ampliamente utilizado que incluso llegó a usarse en el CERN \cite{vegas-cern} y se implementó en diversos lenguajes de programación como en Fortran \cite{lepagefortran} o Python a través del programa VegasFlow \cite{vegasflow}. Además, se propusieron mejoras de la primera versión por parte de otros desarrolladores \cite{vegas-revisited} para el área de la física de partículas. La última mejora implementada sobre este método fue publicada por su propio autor en agosto del 2021 y lo llamó Las Vegas+ \cite{lepage2021}.
         
-        La importancia de este método iterativo radica en su capacidad de adaptarse en dependencia del integrando para reducir la incertidumbre $\sigma^2$ prontamente, incrementando el número de evaluaciones a un orden $O(N_gd)$, en lugar de $O\Par{N_g^d}$.
+        La importancia de este método iterativo radica en su capacidad de adaptarse al integrando para reducir la incertidumbre $\sigma^2$ prontamente, disminuyendo el número de evaluaciones a un orden $O(N_gd)$, en lugar de $O\Par{N_g^d}$, donde $N_g$ y $d$ son el número de incrementos y de dimensiones, respectivamente.
         
         Dada una una función $f$ continua en un intervalo $(a,b)$, su integral puede obtenerse a través de un remapeo que la exprese en el intervalo $(0,1)$,
         \begin{align}
@@ -93,7 +93,7 @@
         
         Otra ventaja de la transformación mencionada es la manera en que trata al integrando en el nuevo espacio, pues concentra el muestreo de puntos en aquellas zonas del integrando donde se presenten picos pronunciados y reduce el muestreo en zonas donde el integrando sea plano. En promedio, cada intervalo recibirá un mismo número de puntos de muestreo (alrededor de $N_{ev}/N_g$), mostrando la aplicación del muestreo de importancia como método adaptativo en Monte Carlo.
         
-        El procedimiento del método Las Vegas+ es generar un mallado uniforme y realizar un muestreo Monte Carlo para adquirir información del integrando, la cual será usada para modificar el mallado y realizar nuevamente un muestreo. Sucesivamente, el algoritmo recaudará cada vez más información para al final alcanzar un mallado óptimo y adaptado al comportamiento de la función a integrar.
+        El procedimiento del método Las Vegas+ consiste en generar un mallado uniforme y realizar un muestreo Monte Carlo para adquirir información del integrando, la cual será usada para modificar el mallado y realizar nuevamente un muestreo. Sucesivamente, el algoritmo recaudará cada vez más información para al final alcanzar un mallado óptimo y adaptado al comportamiento de la función a integrar.
         
         La herramienta que extraerá información del integrando es
         \begin{align}
@@ -106,12 +106,12 @@
         donde $\alpha$ se define como taza de convergencia y su valor depende del integrando, obteniéndose a prueba y error. Sin embargo, típicamente se escoge $\alpha=1$ y el valor $\alpha=0$ indica que ya no se realizará más refinamiento del mallado. Este parámetro es una constante durante el proceso de integración.
         
         Para saber si $d_i$ es constante, se busca que en cada intervalo $d_i$ sea considerablemente igual. Sean
-        \begin{align}
+        \begin{align}\label{eq: d d_i}
             d & \equiv \sum_i d_i \nonumber\\
             \text{y} & \\
             \delta d & \equiv \frac{\sum_id_i}{N_g}. \nonumber
         \end{align}
-        Se procede al siguiente algoritmo.
+        Una vez definidas las variables \eqref{eq: d d_i}, se procede al siguiente algoritmo.
         \begin{enumerate}
             \item Se inicializan las variables siguientes.
                 \begin{align*}
@@ -130,7 +130,7 @@
                 Se regresa al paso 2.
         \end{enumerate}
         
-        Una vez generada la nueva malla, se reemplaza la anterior por esta, se realiza una muevo muestreo Monte Carlo y se repite el procedimiento hasta alcanzar el mallado óptimo y el estimado de la integral es suficientemente preciso.
+        Una vez generada la nueva malla, se reemplaza la anterior por esta, se realiza un nuevo muestreo Monte Carlo y se repite el procedimiento hasta alcanzar el mallado óptimo y que el estimado de la integral sea suficientemente preciso.
         
         Para funciones cuyo dominio se encuentre en un espacio multidimensional, es decir,
         \begin{align}
@@ -145,7 +145,7 @@
             J(y) = \prod_{\mu} J^{\mu}(y).
         \end{align}
         
-        Dado que cada integración Monte Carlo arroja información sobre el integrando, se puede utilizar también para obtener un estimado acumulado y una varianza acumulada que ayudan a amortiguar la variación de ambas estimaciones, las cuales se pueden determinar por
+        Dado que cada integración Monte Carlo arroja información sobre el integrando, se puede utilizar también para obtener un estimado acumulado y una varianza acumulada que ayudan a amortiguar la variación de ambas estimaciones, las cuales se pueden determinar mediante
         \begin{align}
             \bar{I} & = \frac{\sum_jI_j/\sigma_j^2}{\sum_j1/\sigma_j^2} \nonumber\\
             \text{y} & \\
@@ -153,17 +153,17 @@
         \end{align}
         siendo $j$ el índice del número de iteraciones.
         
-        Por último, se debe verificar que los resultados obtenidos en cada iteración deben ser consistentes con respecto a las incertidumbres estimadas. La forma de hacerlo es a través de pruebas $\chi^2$, expresadas para este caso como
+        Por último, se debe verificar que los resultados obtenidos en cada iteración sean consistentes con respecto a las incertidumbres estimadas. La forma de hacerlo es a través de pruebas $\chi^2$, expresadas para este caso como
         \begin{align}
             \chi^2 = \sum_j\frac{\Par{I_j-\bar{I}}^2}{\sigma_j^2}.
         \end{align}
         
-        Si $\chi^2$ llega a ser mayor al número de iteraciones presentes (menos uno), el proceso de integración debe reiniciarse.
+        Si $\chi^2$ llegara a ser mayor al número de iteraciones presentes (menos uno), el proceso de integración deberá reiniciarse.
         
         Hay casos donde $\chi^2$ supera con frecuencia el umbral mencionado anteriormente. Algunas veces se debe a que la malla no se encuentra lo suficientemente refinada en las primeras iteraciones y otras veces a que el número de puntos de muestreo no es lo suficientemente grande para garantizar un comportamiento gaussiano alrededor de la integral. Para solucionar el primero, se puede eliminar la estimación obtenida en las primeras iteraciones (termalización) para considerar solo aquellas donde el mallado ya se encuentra lo suficientemente refinado; para el segundo caso, será suficiente con incrementar el número de puntos de muestreo a utilizar por iteración.
         
     \section{Entropía de Shannon}
-        \noindent Este concepto desarrollado por \textit{Shannon, C. E.} \cite{shannon2001} y nombrado como tal por su autor y semejanza con la entropía definida en la mecánica estadística se encarga de medir la cantidad de desinformación que presenta una variable aleatoria. Matemáticamente, se define como
+        \noindent Este concepto, desarrollado por \textit{Shannon, C. E.} \cite{shannon2001} y nombrado como tal por su autor debido a su semejanza con la entropía definida en la mecánica estadística, se encarga de medir la cantidad de desinformación que presenta una variable aleatoria y matemáticamente se define como
         \begin{align}
             H(p_1,p_2,\dots,p_n) \equiv -K\sum_{i=1}^np_i\log{p_i},
         \end{align}
@@ -179,18 +179,18 @@
         mientras que para variables condicionales, la entropía condicional es
         \begin{align}
             H(Y|X) & = \sum_{x\in\mathbb{X}}p(x)H(Y|X=x) \nonumber\\
-            & = -K\sum_{x\in\mathbb{X}}p(x)\sum_{y\in\mathbb{Y}}p(y|x)\log{\Sqbr{p(y|x)}}
+            & = -K\sum_{x\in\mathbb{X}}p(x)\sum_{y\in\mathbb{Y}}p(y|x)\log{\Sqbr{p(y|x)}}.
         \end{align}
         
         $H$ satisface las siguientes propiedades:
         \begin{enumerate}
             \item $H$ es continua en cada probabilidad $p_i$, con $i=1,2,\dots,n$.
         
-            \item Si todas las probabilidades son iguales, $p_i=\frac{1}{n}$, siendo $n$ el número de eventos posibles, entonces $H$ es una función monótona creciente y dependiente de $n$. Para probabilidades distintas, $H\leq \log{n}$. Esto quiere decir que los eventos con misma probabilidad de ocurrir, tienen más incertidumbre cuando hay un mayor número de posibles eventos.
+            \item Si todas las probabilidades son iguales, $p_i=1/n$, siendo $n$ el número de eventos posibles, entonces $H$ es una función monótona creciente y dependiente de $n$. Para probabilidades distintas, $H\leq \log{n}$. Esto quiere decir que los eventos con la misma probabilidad de ocurrir, tienen más incertidumbre cuando hay un mayor número de eventos posibles.
         
             \item $H(p_i)\geq 0$ cuando $0 \leq p_i \leq 1$. En caso de que $H(p_i) = 0$, el evento $i$-ésimo será seguro.
         
-            \item La entropía de Shannon también se puede interpretar como un valor esperado.
+            \item La entropía de Shannon también se puede interpretar como un valor esperado:
                 \begin{align}
                     H(X) = K\Mean{\log{\Par{1/p(x)}}}_X,
                 \end{align}
@@ -204,7 +204,7 @@
                     H(Y|X) = -K\Mean{\log{\Sqbr{p(Y|X)}}}_{XY}.
                 \end{align}
         
-            \item La entropía de un par de variables aleatorias es la entropía de una más la entropía condicional de la otra, es decir,
+            \item La entropía de un par de variables aleatorias es la entropía de la una más la entropía condicional de la otra, es decir,
                 \begin{align}
                     H(X,Y) = H(X)+H(X|Y).
                 \end{align}
@@ -213,7 +213,7 @@
             \begin{align}\label{eq: desigualdad triangulo}
                 H(X,Y) \leq H(X)+H(Y).
             \end{align}
-            Esto quiere decir que la mínima incertidumbre que se puede alcanzar es cuando los eventos son independientes entre sí.
+            Esto quiere decir que la mínima incertidumbre que se puede alcanzar ocurre cuando los eventos son independientes entre sí.
             También se cumple que
             \begin{align}
                 H(X) \geq H(X|Y)
@@ -245,13 +245,16 @@
             para variables aleatorias continuas.
         
         \subsection{Aplicación de la entropía de Shannon en átomos y moléculas}
-            \hl{Agrega el uso de la suma de las entrop\'ias en la qu\'imica computacional}.
-            
             \noindent La densidad electrónica de un átomo o molécula, comúnmente expresada como $\rho(\bm{r})$ y definida como
             \begin{align}\label{eq: densidad elec}
                 \rho(\bm{r}) \equiv N_{el}\int d\sigma_1d\bm{x}_2\cdots d\bm{x_N}\psi^*\Par{\bm{x}_1,\bm{x}_2,\dots,\bm{x}_N}\psi\Par{\bm{x}_1,\bm{x}_2,\dots,\bm{x}_N},
             \end{align}
-            donde $\bm{x}_i=x(\bm{r}_i,\sigma_i)$, $\sigma_i$ es el espín del $i$-ésimo electrón y $N_{el}$ es el número de electrones que componen al átomo o la molécula, alberga la información del número de electrones por unidad de volumen en un punto del espacio de posiciones \cite{jensen}. Cabe notar que se considera un espacio 4-dimensional sobre $\psi$ al ser esta una función antisimétrica, por lo que el espin influye considerablemente en la localización de los electrones sobre el espacio 3-dimensional. Así mismo, la densidad electrónica puede estudiarse tanto en el espacio de posiciones, como en el espacio de momentos y su expresión es $\Pi=\Pi(\bm{p})$.
+            donde $\bm{x}_i=x(\bm{r}_i,\sigma_i)$, $\sigma_i$ es el espín del $i$-ésimo electrón y $N_{el}$ es el número de electrones que componen al átomo o la molécula, alberga la información del número de electrones por unidad de volumen en un punto del espacio de posiciones \cite{jensen}. Cabe notar que se considera un espacio 4-dimensional (por cada electrón) sobre $\psi$ al ser esta una función antisimétrica, por lo que el espín influye considerablemente en la localización de los electrones sobre el espacio 3-dimensional. Así mismo, la densidad electrónica puede estudiarse tanto en el espacio de posiciones, como en el espacio de momentos a través de la transformada de Fourier, y su expresión es $\Pi=\Pi(\bm{p})$. Esto debido a que el espacio es Fourier es el espacio de momentos:
+            
+            \begin{align}
+                \Pi(\bm{p}) = \frac{1}{(2\pi)^{3/2}}\int\rho(\bm{r})e^{-i\bm{p}\cdot\bm{r}}d\bm{r},
+            \end{align}
+            en unidades atómicas.
         
             A sabiendas de la utilidad de la función \eqref{eq: densidad elec}, la entropía de Shannon puede otorgar información sobre el grado de localización de los electrones en un átomo o molécula: Cuanto mayor sea su valor, mayor incertidumbre habrá sobre sus posiciones o momentos. Conocida la densidad electrónica de un átomo o molécula, las entropías de Shannon en el espacio de posiciones $S_{\rho}$ y en espacio de momentos $S_{\Pi}$ pueden expresarse como \cite{sagar}
             \begin{align}\label{eq: entropia N}
@@ -294,7 +297,7 @@
                 S_{\rho}^{1}+S_{\Pi}^{1} \ge 3\Par{1+\ln{\pi}}.
             \end{align}
             
-            \textit{Gadre, S., Sears, S. et al.} \cite{gadre} propusieron que la suma de las entropías podría arrojar información sobre la eficiencia de un conjunto base que conforma a los orbitales atómicos y probó su hipótesis con los métodos y bases. \textit{Tripathi, A., Sagar, R. et al.} \cite{tripathi}, realizaron una prueba semejantes, pero con la serie isoelectrónica del Berilio. Por último, \textit{H{\^o}, M., Sagar, R. et al.} \cite{ho} mostraron estudios sobre la sensibilidad de las entropías $S_{\rho}$, $S_{\Pi}$ y $S_{\rho}+S_{\Pi}$ ante pequeñas variaciones de la densidad electrónica y sobre series isoelectrónicas de átomos.
+            \textit{Gadre, S. et al.} \cite{gadre} propusieron que la suma de las entropías podría arrojar información sobre la calidad de un conjunto base que conforma a los orbitales atómicos y probó su hipótesis con los métodos y bases. \textit{Tripathi, A. et al.} \cite{tripathi}, realizaron una prueba semejantes, pero con la serie isoelectrónica del Berilio. Por último, \textit{H{\^o}, M. et al.} \cite{ho} mostraron estudios sobre la sensibilidad de las entropías $S_{\rho}$, $S_{\Pi}$ y $S_{\rho}+S_{\Pi}$ ante pequeñas variaciones de la densidad electrónica y sobre series isoelectrónicas de átomos.
                     
     \section{Método Hartree-Fock}
         \noindent También llamado método del campo autoconsistente, consiste en encontrar la función de onda de un átomo a través de varias iteraciones \cite{berthier,mcweeny,pople,roothaan}. En este método, se consideran funciones de onda antisimétricas y se expresan a través de determinantes de Slater.
@@ -311,21 +314,25 @@
         \end{align}
         el cual es el determinante de Slater, donde el factor a la izquierda del determinante es la constante de normalización de $\Psi$ y $\Psi$ se llamará función de onda determinantal.
         
-        Por otro lado, el operador hamiltoniano asociado a un átomo de $2N$ electrones, utilizando unidades atómicas, es
+        Por otro lado, el operador hamiltoniano asociado a un átomo de $2N$ electrones y carga nuclear $Z$, utilizando unidades atómicas, es
         \begin{align}
             \hat{\Ham} & = -\frac{1}{2}\sum_{j=1}^{2N_{el}}\Lap{_j}{}-\sum_{j=1}^{2N_{el}}\frac{Z}{r_j}+\sum_{j=1}^{2N_{el}}\sum_{j>i}\frac{1}{r_{ij}} \nonumber\\
             & = \sum_{j=1}^{2N_{el}}\hat{h}_j+\sum_{j=1}^{2N_{el}}\sum_{j>i}\frac{1}{r_{ij}}, \label{eq: hamiltoniano}
         \end{align}
         donde
         \begin{align}
-            \hat{h}_j \equiv -\frac{1}{2}\Lap{_j}{}-\frac{Z}{r_j}.
+            \hat{h}_j \equiv -\frac{1}{2}\Lap{_j}{}-\frac{Z}{r_j}
+        \end{align}
+        y
+        \begin{align}
+            r_{ij} \equiv \Abs{\bm{r}_i-\bm{r}_j}.
         \end{align}
         
         Los primeros dos términos están asociados con la energía cinética de los electrones y la interacción electrón con núcleo, respectivamente, mientras que el tercero se debe a la interacción electrón con electrón.
         
         La razón por la que se mencionan 2$N_{el}$ electrones es para definir $N_{el}$ electrones por cada espín.
         
-        El método Hartree-Fock resuelve cada espín orbital a través del operador Fock. Al referirnos con $\bm{\tau}_1$ y $\bm{\tau}_2$ como las coordenadas espín-espaciales donde queremos ver la interacción entre dos electrones y al expresar $\varphi_i$ como el i-ésimo espín orbital de un electrón,
+        El método Hartree-Fock resuelve cada espín orbital a través del operador de Fock $\hat{F}$ \eqref{eq: fock equation}. Al referirnos con $\bm{\tau}_1$ y $\bm{\tau}_2$ como las coordenadas espín-espaciales donde queremos ver la interacción entre dos electrones y al expresar $\varphi_i$ como el i-ésimo espín orbital de un electrón,
         \begin{align}\label{eq: fock equation}
             \hat{F}(\bm{\tau}_1)\varphi_i(\bm{\tau}_1) = \varepsilon_i\varphi_i(\bm{\tau}_1),\quad i=1,2\dots,N_{el},
         \end{align}
@@ -355,24 +362,24 @@
         \begin{align}
             I_i = \int d\bm{r}_1\psi_i^*(\bm{r}_1)\hat{h}_i(\bm{r}_1)\psi_i(\bm{r}_1)
         \end{align}
-        deriva de la energía cinética del electrón y su interacción con el núcleo. Esto se debe a que la interacción entre electrones es a través de un potencial promedio, o bien, los movimientos de los electrones no se consideran correlacionados, lo cual implica que no se considera energía de correlación. Su cálculo se realiza a través de la ecuación \eqref{eq: corr-energy},
+        deriva de la energía cinética del electrón y su interacción con el núcleo. Esto se debe a que la interacción entre electrones sucede a través de un potencial promedio, o bien, los movimientos de los electrones no se consideran correlacionados, lo cual implica que no se considera energía de correlación. Su cálculo se realiza a través de la ecuación \eqref{eq: corr-energy},
         \begin{align}\label{eq: corr-energy}
             E_{corr} = E_{exacto}-E_{HF},
         \end{align}
         la cual muestra la diferencia de energía entre la exacta y la obtenida usando el método Hartree-Fock. Cabe mencionar que la energía de correlación incrementa conforme incrementa el número de electrones que componen al sistema, alejando la energía calculada de la exacta.
         
-        Sin importar si el sistema es una molécula o un átomo, uno puede suponer un orbital molecular que se compone de una combinación lineal de orbitales atómicos (MO-LCAO),
+        Sin importar si el sistema es una molécula o un átomo, uno puede suponer que un orbital molecular se compone de una combinación lineal de orbitales atómicos (MO-LCAO por sus siglas en inglés),
         \begin{align}\label{eq: orbital molecular}
             \psi(\bm{r}) = \sum_{i}^{k}c_i\phi_i(\bm{r}),
         \end{align}
         cuyo número de términos ($k$) es arbitrario. Este conjunto de orbitales atómicos recibe el nombre de conjunto base y hay una gran variedad de ellos que cumplen diversas características propias \cite{conjunto_base}.
         
-        Esta propuesta de función de onda implica en trabajar con un sistema de ecuaciones llamadas \textit{ecuaciones de Hartree-Fock-Roothaan} \cite{roothaan}, las cuales pueden manipularse como matrices herméticas de tamaño $k\times k$,
+        Esta propuesta de función de onda implica trabajar con un sistema de ecuaciones llamadas \textit{ecuaciones de Hartree-Fock-Roothaan} \cite{roothaan}, las cuales pueden manipularse como matrices hermíticas de tamaño $k\times k$,
         \begin{align}
             \mathbb{F}\mathrm{c} = \mathbb{\varepsilon S}\mathrm{c},
         \end{align}
         cuyos elementos son
-        \begin{align}
+        \begin{align}\label{eq: elementos h-f-r}
             \mathbb{F}_{ij} & = \int d\bm{r}\phi_{i}^*\hat{F}(\bm{r})\phi_{j}(\bm{r}), \nonumber\\
             \text{y} & \\
             \mathbb{S}_{ij} & = \int d\bm{r}\phi_{i}^*(\bm{r})\phi_{j}(\bm{r}) \nonumber
@@ -403,18 +410,24 @@
                 \Lag(c_0,c_1,...,c_i,...)=\Bra{\Psi}\Ham\Ket{\Psi}-\lambda\Par{\Braket{\Psi}{\Psi}-1}.
             \end{align}
             
-            Las expresiones $\Bra{\Psi}\Ham\Ket{\Psi}$ y $\Braket{\Psi}{\Psi}$ en términos de los coeficientes de la expanción de $\Psi$ pueden mostrarse como
+            Las expresiones $\Bra{\Psi}\Ham\Ket{\Psi}$ y $\Braket{\Psi}{\Psi}$ en términos de los coeficientes de la expansión de $\Psi$ pueden mostrarse como
             \begin{align}
-                \Bra{\Psi}\Ham\Ket{\Psi} & = \sum_{i=0}\sum_{j=0}c_ic_j\Bra{\psi_i}\Ham\Ket{\psi_j} = \sum_{i=0}a_i^2E_i+\sum_{i=0}\sum_{j=0}\Bra{\psi_i}\Ham\Ket{\psi_j}\\
+                \Bra{\Psi}\Ham\Ket{\Psi} & = \sum_{i=0}\sum_{j=0}c_ic_j\Bra{\psi_i}\Ham\Ket{\psi_j} = \sum_{i=0}a_i^2E_i+\sum_{i=0}\sum_{j=0}\Bra{\psi_i}\Ham\Ket{\psi_j}
+            \end{align}
+            y
+            \begin{align}
                 \Braket{\Psi}{\Psi} & = \sum_{i=0}\sum_{j=0}c_ic_j\Braket{\psi_i}{\psi_j} = \sum_{i=0}c_i^2\Braket{\psi_i}{\psi_j}
             \end{align}
             
             Dado que cada parcial de $\Lag$, 
             \begin{align}
-                \Dfpartial{}{\Lag}{c_i} = 2\sum_jc_j\Bra{\psi_i}\Ham\Ket{\psi_j}-2\lambda c_i & = 0\\
+                \Dfpartial{}{\Lag}{c_i} = 2\sum_jc_j\Bra{\psi_i}\Ham\Ket{\psi_j}-2\lambda c_i & = 0
+            \end{align}
+            y
+            \begin{align}
                 a_i(E_i-\lambda)+\sum_{j\neq0}c_j\Bra{\psi_i}\Ham\Ket{\psi_j} & = 0,
             \end{align}
-            depende únicamente de su propia variable, podemos resolver el problema por valores propios, es decir,
+            depende únicamente de su propia variable, podemos resolver el problema mediante valores propios, es decir,
             \begin{align} \label{eq: matriz_1 ci}
                 \begin{pmatrix}
                     \Bra{\psi_0}\Ham\Ket{\psi_0}-E & \Bra{\psi_0}\Ham\Ket{\psi_1} & \cdots & \Bra{\psi_0}\Ham\Ket{\psi_j} & \cdots \\
@@ -438,14 +451,14 @@
                     \vdots
                 \end{pmatrix},
             \end{align}
-            para proceder a la búsqueda de la energía mínima y los coeficientes $c_i$, con $i\in\{0,1,...\}$. La energía es el menor valor propio de \eqref{eq: matriz_1 ci} y los vectores propios son los coeficientes de los conjuntos de la función de onda \eqref{eq: psi ci}. El cálculo de los elementos $\Bra{\psi_i}\Ham\Ket{\psi_j}$, varía en dependencia de la pareja de orbiales $\psi_i$ y $\psi_j$, el cual puede verse a myor detalle por \textit{Jensen, F.} \cite{jensen}.
+            para proceder a la búsqueda de la energía mínima y los coeficientes $c_i$, con $i\in\{0,1,...\}$. La energía es el menor valor propio de \eqref{eq: matriz_1 ci} y los vectores propios son los coeficientes de los conjuntos de la función de onda \eqref{eq: psi ci}. El cálculo de los elementos $\Bra{\psi_i}\Ham\Ket{\psi_j}$ varía en dependencia de la pareja de orbitales $\psi_i$ y $\psi_j$, el cual puede verse con mayor detalle en el libro \textit{Introduction to Computational Chemistry} de \textit{Jensen, F.} \cite{jensen}.
             
-            Cuando se consideran todos los posibles determinantes de Slater por cada excitación, el método es CI(full), pero este método exige un coste computacional muy elevado, por lo que se suele cortar la combinación lineal de determinantes de Slater en las excitaciones o hasta las interacciones simples CIS, dobles CISD, triples CIST, etcétera. Por ejemplo, si se corta la serie hasta las excitaciones dobles, pero se consideran todos los determinantes de Slater por cada tipo de excitación, se tiene el método CISD(full).
+            Cuando se consideran todos los posibles determinantes de Slater por cada excitación, el método es CI(full), pero este método exige un coste computacional muy elevado, por lo que se suele cortar la combinación lineal de determinantes de Slater hasta las interacciones simples CIS, dobles CISD, triples CIST, etcétera. Por ejemplo, si se corta la serie hasta las excitaciones dobles, pero se consideran todos los determinantes de Slater por cada tipo de excitación, se tiene el método CISD(full).
             
         \subsection{Métodos perturbativos M\o ller-Plesset}
-            \noindent Son métodos pos-Hartree-Fock que se caracterizan por usar la teoría perturbativa de Rayleigh-Schr\"odinger como estrategia para superar el límite Hartree-Fock y se pueden realizar perturbaciones de segundo orden (MP2) \cite{mp2-1}, tercero (MP3) \cite{mp3-1}, cuarto (MP4) \cite{mp4-1} e incluso más. MP2 puede tomar en cuenta entre el 80\% y 90\% de la energía de correlación, MP3 entre el 90\% y 95\%, y MP4 entre el 95\% y 98\% \cite{jensen}. Sobre los métodos subsecuentes, no se suele tener mucha información, puesto que requieren mucho costo computacional.
+            \noindent Son métodos pos-Hartree-Fock que se caracterizan por usar la teoría perturbativa de Rayleigh-Schr\"odinger como estrategia para superar el límite Hartree-Fock y se pueden realizar perturbaciones de segundo orden (MP2) \cite{mp2-1}, tercero (MP3) \cite{mp3-1}, cuarto (MP4) \cite{mp4-1} e incluso más. MP2 puede tomar en cuenta entre el 80\% y 90\% de la energía de correlación, MP3 entre el 90\% y 95\%, y MP4 entre el 95\% y 98\% \cite{jensen}. Sobre los métodos subsecuentes, no se suele tener mucha información, puesto que requieren mucho trabajo computacional.
         
-            En este método, el hamiltoniano no perturbado es la suma de los operadores de Fock,
+            En estos métodos, el hamiltoniano no perturbado es la suma de los operadores de Fock,
             \begin{align}
                 \hat{\Ham}^{(0)} & = \sum_{j=1}^{N_{el}}\hat{F} \nonumber\\
             & = \sum_{i=1}^{N_{el}}\hat{h}_i+\sum_{i=1}^{N_{el}}\sum_{j=1}^{N_{el}}\Mean{\frac{1}{r_{ij}}},
@@ -457,11 +470,11 @@
                 & = \sum_{i=1}^{N_{el}}\sum_{j>i}\frac{1}{r_{ij}}-\sum_{i=1}^{N_{el}}\sum_{j>i}
                 \Mean{\frac{1}{r_{ij}}}.
             \end{align}
-            Entonces, por la teoría perturbativa de Rayleigh-Schr\"odinger, la energía de orden cero de la energía es
+            Entonces, por la teoría perturbativa de Rayleigh-Schr\"odinger, la energía de orden cero es
             \begin{align}
                 E_{HF} = E^{(0)} = \Bra{\psi_{0}}\hat{\Ham}^{(0)}\Ket{\psi_{0}},
             \end{align}
-            la cual es la energía de Hartree-fock y $\psi_0$ el determinante de Hartree-Fock. La de primer orden es
+            la cual es la energía de Hartree-Fock y $\psi_0$ el determinante de Hartree-Fock. La de primer orden es
             \begin{align}
                 E_{MP1} \equiv E^{(1)} = \Bra{\psi_{0}}\hat{\Ham}'\Ket{\psi_{0}},
             \end{align}
@@ -470,21 +483,21 @@
                 E_{MP2} \equiv E^{(2)} = 2\sum_{i,j,a,b}\frac{\Bra{\varphi_i\varphi_j}\dfrac{1}{r_{12}}\Ket{\varphi_a\varphi_b}\Bra{\varphi_a\varphi_b}\dfrac{1}{r_{12}}\Ket{\varphi_i\varphi_j}}{\epsilon_i+\epsilon_j-\epsilon_a-\epsilon_b}\\
                 -\sum_{i,j,a,b}\frac{\Bra{\varphi_i\varphi_j}\dfrac{1}{r_{12}}\Ket{\varphi_a\varphi_b}\Bra{\varphi_a\varphi_b}\dfrac{1}{r_{12}}\Ket{\varphi_j\varphi_i}}{\epsilon_i+\epsilon_j-\epsilon_a-\epsilon_b},
             \end{multline}
-            donde $\varphi_i$ y $\varphi_j$ son orbitales ocupados, $\varphi_a$ y $\varphi_b$ orbitales virtuales (no ocupados) y $\epsilon_i$, $\epsilon_j$, $\epsilon_a$ y $\epsilon_b$, respectivamente, las energías orbitales asociadas a los orbitales apenas mencionados. Así sucesivamente, programas como Gaussian09 \cite{gaussian09} alcanzan correcciones de orden mayor a cuatro.
+            donde $\varphi_i$ y $\varphi_j$ son orbitales ocupados, $\varphi_a$ y $\varphi_b$ orbitales virtuales (no ocupados en $\psi_0$) y $\epsilon_i$, $\epsilon_j$, $\epsilon_a$ y $\epsilon_b$, respectivamente, las energías orbitales asociadas a los orbitales apenas mencionados. Así sucesivamente, programas como Gaussian09 \cite{gaussian09} alcanzan correcciones de orden mayor a cuatro.
             
-            Una observación a remarcar es que los determinantes de excitaciones dobles contribuyen para calcular la energía de segundo orden, los determinantes de excitaciones dobles y triples contribuyen para la de tercer orden, los de excitaciones dobles, triples y cuádruples contribuyen para la de cuarto orden, y así sucesivamente. Uno puede escoger arbitrariamente no tomar en consideración alguna de la excitaciones mencionadas en la perturbación de cuarto orden para reducir el costo computacional, en tal caso, se agregan las contribuciones que se tomaron en cuenta para el método MP4, por ejemplo, MP4(SDQ) ignora la contribución de determinantes de excitación triple (T) y solo toma en cuenta las simples (S), dobles (D) y cuádruples (Q).
+            Una observación a remarcar es que los determinantes de excitaciones dobles contribuyen para calcular la energía de segundo orden, los determinantes de excitaciones dobles y triples contribuyen para la de tercer orden, los de excitaciones dobles, triples y cuádruples contribuyen para la de cuarto orden, y así sucesivamente. Uno puede escoger arbitrariamente no considerar alguna de la excitaciones mencionadas en la perturbación de cuarto orden para reducir el costo computacional, en tal caso, se agregan las contribuciones que se tomaron en cuenta para el método MP4, por ejemplo, MP4(SDQ) ignora la contribución de determinantes de excitación triple (T) y solo toma en cuenta las simples (S), dobles (D) y cuádruples (Q).
             
-            Otra observación más es la reducción del costo computcional al cortar las sumas de la ecuación \eqref{eq: mp2}, lo cual también puede suceder para MP3, MP4 o subsecuentes. Cuando se consideran todos los términos de las sumas, estos métodos pueden renombrarse como MP2(full), MP3(full) o MP4(full), respectivamente.
+            Otra observación más es la reducción del costo computacional al cortar las sumas de la ecuación \eqref{eq: mp2}, lo cual también puede suceder para MP3, MP4 o subsecuentes. Cuando se consideran todos los términos de las sumas, estos métodos pueden renombrarse como MP2(full), MP3(full) o MP4(full), respectivamente.
             
-    \section{Funcional B3LYP}
-        \noindent En la teoría del funcional de la densidad, se establece que la densidad electrónica posee todas las propiedades electrónicas del sistema en estudio, de modo que se podría simplificar el estudio de átomos y moléculas al reemplazar a la función de onda, la cual depende de 4n variables, con n como el número de electrones, por la densidad electrónica que depende de 3 variables.
-        
+    \section{Funcionales híbridos}
+        \noindent En la teoría del funcional de la densidad (DFT por sus siglas en inglés), se establece que la densidad electrónica posee todas las propiedades electrónicas del sistema en estudio, de modo que se podría simplificar el estudio de átomos y moléculas al reemplazar a la función de onda, la cual depende de 4n variables, con n como el número de electrones, por la densidad electrónica que depende de 3 variables.
+            
         \textit{Kohn, W. y Sham, L.} \cite{kohn} propusieron resolver el problema de una molécula a través de la consideración de un sistema de referencia $s$ de infinitos electrones no interactuantes entre sí que ocuparan un volumen infinito y estuvieran sometidos a un potencial externo $\nu_s$ (que sería causado por el núcleo), pero cuya densidad electrónica fuera aquella de la molécula en estudio en su estado fundamental, $\rho$ que se puede conocer. Bajo estas circunstancias, la energía en función de la densidad sería
         \begin{align}
             E[\rho] = \int\rho(\bm{r})\nu_s(\bm{r})dr+T_s[\rho],
         \end{align}
         donde $T_s[\rho]$ es el funcional energía cinética en función de $\rho$.
-        
+    
         Para el caso real donde los electrones sí interactúan mutuamente bajo un potencial externo $\nu$, la energía sería
         \begin{align}
             E[\rho] = \int\rho(\bm{r})\nu(\bm{r})dr+T_s[\rho]+V_{ee}[\rho],
@@ -500,24 +513,48 @@
             J[\rho] \equiv \frac{1}{2}\int\int d\bm{r}_1\bm{r}_2\frac{\rho(\bm{r}_1)\rho(\bm{r}_2)}{r_{12}}
         \end{align}
         es la energía de repulsión electrostática y $E_{XC}[\rho]$ es la energía de correlación e intercambio.
+    
+        Para resolver el problema, se requiere conocer $E_{XC}$, sin embargo, hasta ahora sólo se saben aproximaciones de la misma a través de diversos métodos donde suponen que la energía $E_{XC}$ es una combinación lineal de las energías de intercambio $E_{X}$ y correlación $E_{C}$ individuales y que además, ambas se deducen por diversos métodos, entre ellos, Hartree-Fock. 
         
-        Para resolver el problema, se requiere conocer $E_{XC}$, sin embargo, hasta ahora sólo se saben aproximaciones de la misma a través de diversos métodos, entre ellos aquellos que arrojan funcionales híbridos como B3LYP, donde suponen que la energía $E_{XC}$ formarse por una combinación lineal de las energías de intercambio $E_{X}$ y correlación $E_{C}$ individuales y que además, ambas se deducen por diversos métodos, entre ellos, Hartree-Fock. 
+        \subsection{Funcional B3LYP}
+           La energía funcional de B3LYP fue desarrollada por \textit{Stephens, P. et al.} \cite{b3lyp} y se compone de la combinación lineal
+            \begin{align}
+                E_{XC}^{B3LYP} = (1-a)E_X^{LDA}+aE_X^{HF}+bE_X^{B88}+(1-c)E_C^{LDA}+cE_C^{LYP},
+            \end{align}
+            donde $E_X^{LDA}$, $E_X^{HF}$ y $E_X^{B88}$ son las energías de intercambio deducidas a través de los métodos de aproximación de la densidad local ($LDA$ por sus siglas en inglés), Hartree-Fock ($HF$) y por \textit{Becke, A.} ($B88$) \cite{becke}, respectivamente, mientras que $E_C^{LYP}$ \cite{lyp} y $E_C^{LDA}$ son sus respectivas energías de correlación. Los coeficientes $a$ y $b$ se ajustan con datos experimentales.
         
-        La energía funcional de B3LYP es 
-        \begin{align}
-            E_{XC}^{B3LYP} = (1-a)E_X^{LDA}+aE_X^{HF}+bE_X^{B88}+(1-c)E_C^{LDA}+cE_C^{LYP},
-        \end{align}
-        donde $E_X^{LDA}$, $E_X^{HF}$ y $E_X^{B88}$ son las energías de intercambio deducidas a través de los métodos de aproximación de la densidad local ($LDA$), Hartree-Fock ($HF$) y por \textit{Becke, A.} ($B88$) \cite{becke}, respectivamente, mientras que $E_C^{LDA}$ y $E_C^{LYP}$ son sus respectivas energías de intercambio. Los coeficientes $a$ y $b$ se ajustan experimentalmente.
-        
+        \subsection{Funcional $\omega$B97X-D}
+            Este funcional fue desarrollado por \textit{Jeng-Da, C. y Head-Gordon, M.} \cite{wb97xd} para tomar en cuenta interacciones de dispersión (fuerzas de London) a través de correcciones de largo alcance y términos de amortiguamiento.
+            
+            Para lograrlo, ajustaron el funcional $\omega$B97X \cite{wb97x}, el cual contiene las correcciones de largo alcance, y un término asociado a la energía de dispersión, es decir,
+            \begin{align}
+                E_{XC}^{\omega B97X-D} = E_{XC}^{\omega B97X}+E_{disp},
+            \end{align}
+            donde la energía de dispersión es
+            \begin{align}\label{eq: energia disp}
+                E_{disp} = -\sum_{i=1}^{N_{at}-1}\sum_{j=i+1}^{N_{at}}\frac{C_6^{ij}}{R_{ij}^6}f_{damp}(R_{ij}),
+            \end{align}
+            utilizando la notación de \textit{Jeng-Da, C. y Head-Gordon, M.}, donde $N_{at}$ es el número de átomos que componen la molécula, $C_6^{ij}$ es el coeficiente de dispersión para la pareja de átomos $ij$ y $R_{ij}$ es la distancia interatómica.
+            
+            La ecuación \eqref{eq: energia disp} contiene una función de amortiguamiento,
+            \begin{align}
+                f_{damp}(R_{ij}) = \frac{1}{1+a\Par{R_{ij}/R_r}^{-12}},
+            \end{align}
+            para tomar en cuenta los efectos de dispersión a corto alcance, donde $R_r$ es la suma de los radios de van der Waals y $a$ es un parámetro ajustable.
+             
     \section{Conjuntos base de gaussianas}
-        \noindent El conjunto base al que nos referiremos es a un combinación lineal de funciones que sirven para conformar a un orbital atómico. Existen varios tipos conjuntos base, pero las más utilizadas son las de tipo gaussiana (GTO), debido a la baja exigencia computacional que requieren, a diferencia de otros orbitales como los de Slater (STO) \cite{slater} que requieren infinitos términos para representar a un orbital molecular. Incluso, aunque no representan adecuadamente el comportamiento electrónico de un sistema cerca del núcleo, electrones core, ni muy lejos del mismo, electrones de valencia, combinaciones adecuadas de las mismas pueden arrojar un comportamiento aceptable de una función de onda Hartree-Fock \eqref{eq: funcion onda hf}.
+        \noindent El conjunto base al que nos referiremos es a una combinación lineal de funciones que sirven para conformar a un orbital atómico. Existen varios tipos de conjuntos base, pero los más utilizados son los de tipo gaussiano (GTO) debido a la baja exigencia computacional que requieren, a diferencia de otros orbitales como los de Slater (STO) \cite{slater}, cuyos cálculos son más exigentes para resolver las integrales \eqref{eq: elementos h-f-r}, aunque describan mejor el comportamiento de $\psi$. Incluso, a pesar de que los orbitales GTO no representan adecuadamente el comportamiento electrónico de un sistema cerca del núcleo ni muy lejos del mismo, las combinaciones adecuadas de las mismas pueden arrojar un comportamiento aproximado a $\psi$.
         
-        Una función gaussiana cartesiana primitiva es
+        Una función gaussiana primitiva en coordenadas cartesianas es
         \begin{align}\label{eq: gaussiana}
-            g_{ijk}(x,y,z) = Nx_b^iy_b^jz_b^ke^{-\alpha r_b^2},\quad N \equiv \Par{\frac{2\alpha}{\Pi}}\Sqbr{\frac{(8\alpha)^{i+j+k}i!j!k!}{(2i)!(2j)!(2k)!}}^{1/2},
+            g_{ijk}(x,y,z) = Nx_b^iy_b^jz_b^ke^{-\alpha r_b^2},
         \end{align}
-        donde $x_b$, $y_b$ y $z_b$ son las coordenadas del núcleo $b$-ésimo, $\alpha>0$ es un parámetro arbitrario y los valores $i$, $j$ y $k$ indican el tipo de gaussiana que se desee crear. Aunque también se pueden representar en coordenadas esféricas. La razón de llamarla primitiva es porque se pueden formar gaussianas a partir de combinaciones lineales de funciones primitivas.
-        
+        donde
+        \begin{align}
+            N \equiv \Par{\frac{2\alpha}{\Pi}}\Sqbr{\frac{(8\alpha)^{i+j+k}i!j!k!}{(2i)!(2j)!(2k)!}}^{1/2},
+        \end{align}
+        $x_b$, $y_b$ y $z_b$ son las coordenadas del núcleo $b$-ésimo, $\alpha>0$ es un parámetro ajustado con valores experimentales y los valores $i$, $j$ y $k$ indican el tipo de gaussiana que se desea crear. La razón de llamarla primitiva es porque se pueden formar orbitales atómicos GTO a partir de combinaciones lineales de funciones primitivas.
+
         Las combinaciones lineales de estas funciones \eqref{eq: gaussiana} se adecúan para cada orbital molecular e incluso llegan a reforzar a los orbitales de capas interna y de valencia formando combinaciones lineales de gaussianas para formar gaussianas más adecuadas para el caso. La base más común es 6-31G \cite{gto}, la cual utiliza una combinación lineal de 6 gaussianas para los orbitales de capa interna, mientras los orbitales de valencia se conforman por un desdoblamiento de una combinación de 3 gaussianas y una gaussiana primitiva. 
         Para casos donde la nube electrónica se polariza, se agregan funciones de polarización a los orbitales de valencia, como es el caso de la base 6-31G* ó 6-31G(d), en el cual las funciones de polarización se agregan en los orbitales d para los átomos pesados. Otro ejemplo es 6-31G** ó 6-31G(d,f), donde se agregan además en los orbital f. Por último, si hay presencia electrónica en zonas muy alejadas del núcleo, se agregan funciones de difusión que extiendan a la función de onda aún más, como la base 6-31+G. Estas funciones se caracterizan por generalmente establecer al parámetro $\alpha$ entre los valores 0.01 y 0.1. Todas las bases GTO mencionadas anteriormente pueden mezclarse entre sí para representar de manera más adecuada al sistema, por ejemplo 6-31+G*.
         
