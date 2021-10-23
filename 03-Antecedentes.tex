@@ -9,7 +9,7 @@
         
         DensToolKit solicita como entrada archivos de formato \textit{wfn} ó \textit{wfx}, los cuales son producidos por programas tales como Gamess, NWChem, MOLPRO o Gaussian. Tales archivos contienen la expansión de la función de onda molecular o atómica en términos bases gaussianas. 
         
-        No obstante la variedad de sus programas, no hay uno que se encargue de integrar los campos escalares mencionados, por lo que sería necesario implementar en él un algoritmo de integración para integrar cualquiera de los campos que ofrezca la suite.
+        No obstante la variedad de sus programas, no hay uno que se encargue de integrar los campos escalares mencionados, por lo que es necesario implementar en él un algoritmo de integración para integrar cualquiera de los campos que ofrezca la suite.
     
     \section{Método Monte Carlo}
         \noindent Dada una función $f:\R^d\rightarrow\R$, con $d\in\N$, se puede encontrar su integral sobre un volumen $\Omega\in\R^d$ utilizando $N_{ev}$ puntos aleatorios generados a partir de una densidad de probabilidad arbitraria $p(\bm{x})$, con $\bm{x}\in\R^d$. Numéricamente, es
@@ -247,9 +247,9 @@
         \subsection{Aplicación de la entropía de Shannon en átomos y moléculas}
             \noindent La densidad electrónica de un átomo o molécula, comúnmente expresada como $\rho(\bm{r})$ y definida como
             \begin{align}\label{eq: densidad elec}
-                \rho(\bm{r}) \equiv N_{el}\int d\sigma_1d\bm{x}_2\cdots d\bm{x_N}\psi^*\Par{\bm{x}_1,\bm{x}_2,\dots,\bm{x}_N}\psi\Par{\bm{x}_1,\bm{x}_2,\dots,\bm{x}_N},
+                \rho(\bm{r}) \equiv N_{e}\int d\sigma_1d\bm{x}_2\cdots d\bm{x_N}\psi^*\Par{\bm{x}_1,\bm{x}_2,\dots,\bm{x}_N}\psi\Par{\bm{x}_1,\bm{x}_2,\dots,\bm{x}_N},
             \end{align}
-            donde $\bm{x}_i=x(\bm{r}_i,\sigma_i)$, $\sigma_i$ es el espín del $i$-ésimo electrón y $N_{el}$ es el número de electrones que componen al átomo o la molécula, alberga la información del número de electrones por unidad de volumen en un punto del espacio de posiciones \cite{jensen}. Cabe notar que se considera un espacio 4-dimensional (por cada electrón) sobre $\psi$ al ser esta una función antisimétrica, por lo que el espín influye considerablemente en la localización de los electrones sobre el espacio 3-dimensional. Así mismo, la densidad electrónica puede estudiarse tanto en el espacio de posiciones, como en el espacio de momentos a través de la transformada de Fourier, y su expresión es $\Pi=\Pi(\bm{p})$. Esto debido a que el espacio es Fourier es el espacio de momentos:
+            donde $\bm{x}_i=x(\bm{r}_i,\sigma_i)$, $\sigma_i$ es el espín del $i$-ésimo electrón y $N_{e}$ es el número de electrones que componen al átomo o la molécula, alberga la información del número de electrones por unidad de volumen en un punto del espacio de posiciones \cite{jensen}. Cabe notar que se considera un espacio 4-dimensional (por cada electrón) sobre $\psi$ al ser esta una función antisimétrica, por lo que el espín influye considerablemente en la localización de los electrones sobre el espacio 3-dimensional. Así mismo, la densidad electrónica puede estudiarse tanto en el espacio de posiciones, como en el espacio de momentos a través de la transformada de Fourier, y su expresión es $\Pi=\Pi(\bm{p})$. Esto debido a que el espacio es Fourier es el espacio de momentos:
             
             \begin{align}
                 \Pi(\bm{p}) = \frac{1}{(2\pi)^{3/2}}\int\rho(\bm{r})e^{-i\bm{p}\cdot\bm{r}}d\bm{r},
@@ -258,9 +258,9 @@
         
             A sabiendas de la utilidad de la función \eqref{eq: densidad elec}, la entropía de Shannon puede otorgar información sobre el grado de localización de los electrones en un átomo o molécula: Cuanto mayor sea su valor, mayor incertidumbre habrá sobre sus posiciones o momentos. Conocida la densidad electrónica de un átomo o molécula, las entropías de Shannon en el espacio de posiciones $S_{\rho}$ y en espacio de momentos $S_{\Pi}$ pueden expresarse como \cite{sagar}
             \begin{align}\label{eq: entropia N}
-                S_{\rho}^{N_{el}}(\bm{r}) & = -\int\rho\!\Par{\bm{r}}\ln{\Sqbr{\rho\!\Par{\bm{r}}}}d\bm{r} \nonumber\\
+                S_{\rho}^{N_{e}}(\bm{r}) & = -\int\rho\!\Par{\bm{r}}\ln{\Sqbr{\rho\!\Par{\bm{r}}}}d\bm{r} \nonumber\\
                 \text{y} & \\
-                S_{\Pi}^{N_{el}}(\bm{p}) & = -\int\Pi\!\Par{\bm{p}}\ln{\Sqbr{\Pi\!\Par{\bm{p}}}}d\bm{p}. \nonumber
+                S_{\Pi}^{N_{e}}(\bm{p}) & = -\int\Pi\!\Par{\bm{p}}\ln{\Sqbr{\Pi\!\Par{\bm{p}}}}d\bm{p}. \nonumber
             \end{align}
             
             Cabe remarcar que en ambas ecuaciones, las densidades no se encuentran normalizadas a 1. En tal caso, pasarán a ser \cite{sagar}
@@ -272,25 +272,25 @@
             
             También hay otras propuestas alternativas para estudiar la incertidumbre en las densidades electrónicas a partir de la entropía relativa, las cuales son para los espacios de posiciones y momentos, respectivamente,
             \begin{align}\label{eq: entropia rel 1}
-                S_{\rho,r}^{N_{el}}\Par{\bm{r}} & = \int\rho(\bm{r})\ln{\Sqbr{\frac{\rho(\bm{r})}{\rho_0(\bm{r})}}}d\bm{r} \nonumber\\
+                S_{\rho_0}^{N_e}\Par{\bm{r}} & = \int\rho(\bm{r})\ln{\Sqbr{\frac{\rho(\bm{r})}{\rho_0(\bm{r})}}}d\bm{r} \nonumber\\
                 \text{y} & \\
-                S_{\Pi,r}^{N_{el}}\Par{\bm{p}} & = \int\Pi(\bm{p})\ln{\Sqbr{\frac{\Pi(\bm{p})}{\Pi_0(\bm{p})}}}d\bm{p} \nonumber,
+                S_{\Pi_0}^{N_e}\Par{\bm{p}} & = \int\Pi(\bm{p})\ln{\Sqbr{\frac{\Pi(\bm{p})}{\Pi_0(\bm{p})}}}d\bm{p} \nonumber,
             \end{align}
-            donde $\rho_0$ y $\Pi_0$ son densidades de referencia y por la definición de entropía relativa, $S_{\rho,r}^{N_{el}}$ y $S_{\Pi,r}^{N_{el}}$ miden la distancia entre ambas densidades correspondientes.
+            donde $\rho_0$ y $\Pi_0$ son densidades de referencia y por la definición de entropía relativa, $S_{\rho,r}^{N_{e}}$ y $S_{\Pi,r}^{N_{e}}$ miden la distancia entre ambas densidades correspondientes.
         
             Otra propuesta, realizada por \textit{Flores Gallegos, N.} \cite{flores_gallegos}, es usar como referencia el máximo de la densidad para el caso del estudio de un átomo o el promedio de los máximos locales para el caso de moléculas. De ese modo, las densidades relativas $\rho/\rho_{max}$ y $\Pi/\Pi_{max}$ tomarían valores no negativos y menores a 1, refiriéndose al estudio de átomos. Por otro lado, aquellos máximos locales representan las densidades donde se ubican los núcleos, por lo que se medirían distancias entre la densidad en el núcleo y la densidad en el orbital de ocupación de mayor energía.
         
             Las entropías pasarían a ser
             \begin{align}\label{eq: entropias max}
-                S_{\rho_{max}} & \equiv -\frac{\rho_{max}}{N}\int\Sqbr{\frac{\rho(\bm{r})}{\rho_{max}}}\log{\Sqbr{\frac{\rho(\bm{r})}{\rho_{max}}}}d\bm{r} \nonumber \\
+                S_{\rho_{max}}^1 & \equiv -\frac{\rho_{max}}{N}\int\Sqbr{\frac{\rho(\bm{r})}{\rho_{max}}}\log{\Sqbr{\frac{\rho(\bm{r})}{\rho_{max}}}}d\bm{r} \nonumber \\
                 \text{y} & \\
-                S_{\Pi_{max}} & \equiv -\frac{\Pi_{max}}{N}\int\Sqbr{\frac{\Pi(\bm{p})}{\Pi_{max}}}\log{\Sqbr{\frac{\Pi(\bm{p})}{\Pi_{max}}}}d\bm{p}. \nonumber
+                S_{\Pi_{max}}^1 & \equiv -\frac{\Pi_{max}}{N}\int\Sqbr{\frac{\Pi(\bm{p})}{\Pi_{max}}}\log{\Sqbr{\frac{\Pi(\bm{p})}{\Pi_{max}}}}d\bm{p}. \nonumber
             \end{align}
         
         \subsection{Suma de las entropías de Shannon}
             \textit{Bia{\l}ynicki-Birula, I. y Mycielski, J.} \cite{bialynicki} dedujeron que la suma de ambas entropías presentaba una equivalencia a la incertidumbre de Heisenberg, la cual es
             \begin{align}\label{eq: suma entropias}
-                S_{\rho}+S_{\Pi} \ge 3N_{el}\Par{1+\ln{\pi}}-2N_{el}\ln{N_{el}},
+                S_{\rho}^{N_{e}}+S_{\Pi}^{N_{e}} \ge 3N_{e}\Par{1+\ln{\pi}}-2N_{e}\ln{N_{e}},
             \end{align}
             la cual muestra que habrá de presentarse una mínima incertidumbre entre las distribuciones de momentos y posiciones y depende del número de electrones del sistema. Sin embargo, si las densidades se encuentran normalizadas, aquél mínimo alcanzable es
             \begin{align}
@@ -316,8 +316,8 @@
         
         Por otro lado, el operador hamiltoniano asociado a un átomo de $2N$ electrones y carga nuclear $Z$, utilizando unidades atómicas, es
         \begin{align}
-            \hat{\Ham} & = -\frac{1}{2}\sum_{j=1}^{2N_{el}}\Lap{_j}{}-\sum_{j=1}^{2N_{el}}\frac{Z}{r_j}+\sum_{j=1}^{2N_{el}}\sum_{j>i}\frac{1}{r_{ij}} \nonumber\\
-            & = \sum_{j=1}^{2N_{el}}\hat{h}_j+\sum_{j=1}^{2N_{el}}\sum_{j>i}\frac{1}{r_{ij}}, \label{eq: hamiltoniano}
+            \hat{\Ham} & = -\frac{1}{2}\sum_{j=1}^{2N_{e}}\Lap{_j}{}-\sum_{j=1}^{2N_{e}}\frac{Z}{r_j}+\sum_{j=1}^{2N_{e}}\sum_{j>i}\frac{1}{r_{ij}} \nonumber\\
+            & = \sum_{j=1}^{2N_{e}}\hat{h}_j+\sum_{j=1}^{2N_{e}}\sum_{j>i}\frac{1}{r_{ij}}, \label{eq: hamiltoniano}
         \end{align}
         donde
         \begin{align}
@@ -330,17 +330,17 @@
         
         Los primeros dos términos están asociados con la energía cinética de los electrones y la interacción electrón con núcleo, respectivamente, mientras que el tercero se debe a la interacción electrón con electrón.
         
-        La razón por la que se mencionan 2$N_{el}$ electrones es para definir $N_{el}$ electrones por cada espín.
+        La razón por la que se mencionan 2$N_{e}$ electrones es para definir $N_{e}$ electrones por cada espín.
         
         El método Hartree-Fock resuelve cada espín orbital a través del operador de Fock $\hat{F}$ \eqref{eq: fock equation}. Al referirnos con $\bm{\tau}_1$ y $\bm{\tau}_2$ como las coordenadas espín-espaciales donde queremos ver la interacción entre dos electrones y al expresar $\varphi_i$ como el i-ésimo espín orbital de un electrón,
         \begin{align}\label{eq: fock equation}
-            \hat{F}(\bm{\tau}_1)\varphi_i(\bm{\tau}_1) = \varepsilon_i\varphi_i(\bm{\tau}_1),\quad i=1,2\dots,N_{el},
+            \hat{F}(\bm{\tau}_1)\varphi_i(\bm{\tau}_1) = \varepsilon_i\varphi_i(\bm{\tau}_1),\quad i=1,2\dots,N_{e},
         \end{align}
         cuyo valor propio asociado al i-ésimo espín orbital es la energía orbital de Hartree-Fock, $\varepsilon_i$.
         
         Si uno supone un sistema de capa cerrada, es decir que los orbitales se encuentran doblemente ocupados, el operador Fock puede depender únicamende de las coordenadas espaciales y expresarse como
         \begin{align}
-            \hat{F}(\bm{r}_1) = \hat{h}(\bm{r}_1)+\sum_{j}^{N_{el}}\Sqbr{2\hat{J}_j(\bm{r}_1)-\hat{K}_j(\bm{r}_1)}, 
+            \hat{F}(\bm{r}_1) = \hat{h}(\bm{r}_1)+\sum_{j}^{N_{e}}\Sqbr{2\hat{J}_j(\bm{r}_1)-\hat{K}_j(\bm{r}_1)}, 
         \end{align}
         donde los operadores de Coulomb $\hat{J}$ y de intercambio $\hat{K}$ son
         \begin{align}
@@ -356,7 +356,7 @@
         \end{align}
         de la cual no se obtiene la energía total del sistema sumando todas ellas, sino a través de la ecuación \eqref{eq: energy-fock},
         \begin{align}\label{eq: energy-fock}
-            E = \sum_{i=1}^{N_{el}}\Par{I_i-\varepsilon_i},
+            E = \sum_{i=1}^{N_{e}}\Par{I_i-\varepsilon_i},
         \end{align}
         donde
         \begin{align}
@@ -460,14 +460,14 @@
         
             En estos métodos, el hamiltoniano no perturbado es la suma de los operadores de Fock,
             \begin{align}
-                \hat{\Ham}^{(0)} & = \sum_{j=1}^{N_{el}}\hat{F} \nonumber\\
-            & = \sum_{i=1}^{N_{el}}\hat{h}_i+\sum_{i=1}^{N_{el}}\sum_{j=1}^{N_{el}}\Mean{\frac{1}{r_{ij}}},
+                \hat{\Ham}^{(0)} & = \sum_{j=1}^{N_{e}}\hat{F} \nonumber\\
+            & = \sum_{i=1}^{N_{e}}\hat{h}_i+\sum_{i=1}^{N_{e}}\sum_{j=1}^{N_{e}}\Mean{\frac{1}{r_{ij}}},
             \end{align}
             el hamiltoniano que se desea conocer es aquel de la ecuación \eqref{eq: hamiltoniano} y el perturbado es
             \begin{align}
                 \hat{\Ham}' & = \hat{\Ham}-\hat{\Ham}^{(0)} \nonumber\\
-                & = \Par{\sum_{i=1}^{N_{el}}\hat{h}_i+\sum_{i=1}^{N_{el}}\sum_{j>i}\frac{1}{r_{ij}}}-\Par{\sum_{i=1}^{N_{el}}\hat{h}_i+\sum_{j=1}^{N_{el}}\sum_{j=1}^{N_{el}}\Mean{\frac{1}{r_{ij}}}} \nonumber\\
-                & = \sum_{i=1}^{N_{el}}\sum_{j>i}\frac{1}{r_{ij}}-\sum_{i=1}^{N_{el}}\sum_{j>i}
+                & = \Par{\sum_{i=1}^{N_{e}}\hat{h}_i+\sum_{i=1}^{N_{e}}\sum_{j>i}\frac{1}{r_{ij}}}-\Par{\sum_{i=1}^{N_{e}}\hat{h}_i+\sum_{j=1}^{N_{e}}\sum_{j=1}^{N_{e}}\Mean{\frac{1}{r_{ij}}}} \nonumber\\
+                & = \sum_{i=1}^{N_{e}}\sum_{j>i}\frac{1}{r_{ij}}-\sum_{i=1}^{N_{e}}\sum_{j>i}
                 \Mean{\frac{1}{r_{ij}}}.
             \end{align}
             Entonces, por la teoría perturbativa de Rayleigh-Schr\"odinger, la energía de orden cero es
@@ -534,7 +534,7 @@
             \begin{align}\label{eq: energia disp}
                 E_{disp} = -\sum_{i=1}^{N_{at}-1}\sum_{j=i+1}^{N_{at}}\frac{C_6^{ij}}{R_{ij}^6}f_{damp}(R_{ij}),
             \end{align}
-            utilizando la notación de \textit{Jeng-Da, C. y Head-Gordon, M.}, donde $N_{at}$ es el número de átomos que componen la molécula, $C_6^{ij}$ es el coeficiente de dispersión para la pareja de átomos $ij$ y $R_{ij}$ es la distancia interatómica.
+            utilizando la notación de \textit{Jeng-Da, C. y Head-Gordon, M.}, donde $N_{at}$ es el número de átomos que componen a la molécula, $C_6^{ij}$ es el coeficiente de dispersión para la pareja de átomos $ij$ y $R_{ij}$ es la distancia interatómica.
             
             La ecuación \eqref{eq: energia disp} contiene una función de amortiguamiento,
             \begin{align}
@@ -547,15 +547,16 @@
         
         Una función gaussiana primitiva en coordenadas cartesianas es
         \begin{align}\label{eq: gaussiana}
-            g_{ijk}(x,y,z) = Nx_b^iy_b^jz_b^ke^{-\alpha r_b^2},
+            g_{ijk}(x,y,z) = Nx_b^iy_b^jz_b^ke^{-\zeta r_b^2},
         \end{align}
         donde
         \begin{align}
-            N \equiv \Par{\frac{2\alpha}{\Pi}}\Sqbr{\frac{(8\alpha)^{i+j+k}i!j!k!}{(2i)!(2j)!(2k)!}}^{1/2},
+            N \equiv \Par{\frac{2\alpha}{\Pi}}\Sqbr{\frac{(8\alpha)^{i+j+k}i!j!k!}{(2i)!(2j)!(2k)!}}^{1/2}
         \end{align}
-        $x_b$, $y_b$ y $z_b$ son las coordenadas del núcleo $b$-ésimo, $\alpha>0$ es un parámetro ajustado con valores experimentales y los valores $i$, $j$ y $k$ indican el tipo de gaussiana que se desea crear. La razón de llamarla primitiva es porque se pueden formar orbitales atómicos GTO a partir de combinaciones lineales de funciones primitivas.
+        es la constante de normalización, $x_b$, $y_b$ y $z_b$ son las coordenadas del núcleo $b$-ésimo, $\zeta>0$ es un parámetro variacional y los valores $i$, $j$ y $k$ indican el tipo de gaussiana que se desea crear. La razón de llamarla primitiva es porque se pueden formar orbitales atómicos GTO a partir de combinaciones lineales de funciones primitivas.
 
-        Las combinaciones lineales de estas funciones \eqref{eq: gaussiana} se adecúan para cada orbital molecular e incluso llegan a reforzar a los orbitales de capas interna y de valencia formando combinaciones lineales de gaussianas para formar gaussianas más adecuadas para el caso. La base más común es 6-31G \cite{gto}, la cual utiliza una combinación lineal de 6 gaussianas para los orbitales de capa interna, mientras los orbitales de valencia se conforman por un desdoblamiento de una combinación de 3 gaussianas y una gaussiana primitiva. 
-        Para casos donde la nube electrónica se polariza, se agregan funciones de polarización a los orbitales de valencia, como es el caso de la base 6-31G* ó 6-31G(d), en el cual las funciones de polarización se agregan en los orbitales d para los átomos pesados. Otro ejemplo es 6-31G** ó 6-31G(d,f), donde se agregan además en los orbital f. Por último, si hay presencia electrónica en zonas muy alejadas del núcleo, se agregan funciones de difusión que extiendan a la función de onda aún más, como la base 6-31+G. Estas funciones se caracterizan por generalmente establecer al parámetro $\alpha$ entre los valores 0.01 y 0.1. Todas las bases GTO mencionadas anteriormente pueden mezclarse entre sí para representar de manera más adecuada al sistema, por ejemplo 6-31+G*.
+        Las combinaciones lineales de estas funciones \eqref{eq: gaussiana} se adecúan para cada orbital molecular e incluso llegan a reforzar a los orbitales de capas interna y de valencia formando combinaciones lineales de gaussianas para formar gaussianas más adecuadas para el caso. La base más común es 6-31G \cite{gto}, la cual utiliza una combinación lineal de 6 gaussianas para los orbitales de capa interna, mientras que los orbitales de valencia se conforman por una combinación de 3 gaussianas en la zona interna y una gaussiana en la externa.
         
-        Otras bases gaussianas conocidas son las de tipo cc-pVXZ \cite{cc-pvxz}, las cuales quieren decir correlación consistente con funciones X Zeta de valencia polarizadas, donde X puede ser doble (D), triple (T), cuádruple (Q), etcétera. Además, a estas bases también se les pueden agregar gaussianas difusas, renombrándose aug-cc-pVXZ. Estas bases se caracterizan por su uso en métodos que incluyen correlación electrónica, como son los métodos post-Hartree-Fock. 
+        Para casos donde la nube electrónica se polariza, se agregan funciones de polarización a los orbitales de valencia, como es el caso de la base 6-31G* ó 6-31G(d), en el cual las funciones de polarización que se agregan son orbitales tipo d para los átomos pesados. Otro ejemplo es 6-31G** ó 6-31G(d,p), donde se agrega además un orbital tipo p de polarización para los hidrógenos que compongan a la molécula. Por último, si hay presencia electrónica en zonas muy alejadas del núcleo, se agregan funciones de difusión que extiendan a la función de onda aún más, como la base 6-31+G, la cual agrega funciones de difusión tipo s y p para los átomos pesados. En el caso de la base 6-31++G, un función de difusión tipo s se agrega a los hidrógenos. Todas las bases GTO mencionadas anteriormente pueden combinarse entre sí para representar de manera más adecuada al sistema, por ejemplo 6-31+G**.
+        
+        Otras bases gaussianas conocidas son las de tipo cc-pVXZ \cite{cc-pvxz}, las cuales quieren decir correlación consistente con funciones X Zeta de valencia polarizadas, donde X puede ser doble (D), triple (T), cuádruple (Q), etcétera. Además, a estas bases también se les pueden agregar gaussianas difusas, renombrándolas aug-cc-pVXZ. Estas bases se caracterizan por su uso en métodos que incluyen correlación electrónica, como son los métodos post-Hartree-Fock. 
