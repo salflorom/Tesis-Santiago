@@ -256,7 +256,7 @@
             \end{align}
             en unidades atómicas.
         
-            A sabiendas de la utilidad de la función \eqref{eq: densidad elec}, la entropía de Shannon puede otorgar información sobre el grado de localización de los electrones en un átomo o molécula: Cuanto mayor sea su valor, mayor incertidumbre habrá sobre sus posiciones o momentos. Conocida la densidad electrónica de un átomo o molécula, las entropías de Shannon en el espacio de posiciones $S_{\rho}$ y en espacio de momentos $S_{\Pi}$ pueden expresarse como \cite{sagar}
+            A sabiendas de la utilidad de la función \eqref{eq: densidad elec}, la entropía de Shannon puede otorgar información sobre el grado de localización de los electrones en un átomo o molécula: Cuanto mayor sea su valor, mayor incertidumbre habrá sobre sus posiciones o cantidades de movimiento. Conocida la densidad electrónica de un átomo o molécula, las entropías de Shannon en el espacio de posiciones $S_{\rho}$ y en espacio de momentos $S_{\Pi}$ pueden expresarse como \cite{sagar}
             \begin{align}\label{eq: entropia N}
                 S_{\rho}^{N_{e}}(\bm{r}) & = -\int\rho\!\Par{\bm{r}}\ln{\Sqbr{\rho\!\Par{\bm{r}}}}d\bm{r} \nonumber\\
                 \text{y} & \\
@@ -292,15 +292,15 @@
             \begin{align}\label{eq: suma entropias}
                 S_{\rho}^{N_{e}}+S_{\Pi}^{N_{e}} \ge 3N_{e}\Par{1+\ln{\pi}}-2N_{e}\ln{N_{e}},
             \end{align}
-            la cual muestra que habrá de presentarse una mínima incertidumbre entre las distribuciones de momentos y posiciones y depende del número de electrones del sistema. Sin embargo, si las densidades se encuentran normalizadas, aquél mínimo alcanzable es
+            la cual muestra que habrá de presentarse una mínima incertidumbre entre las distribuciones de momentos y posiciones y depende del número de electrones del sistema. Sin embargo, si las densidades se encuentran normalizadas a 1, aquél mínimo alcanzable es
             \begin{align}
                 S_{\rho}^{1}+S_{\Pi}^{1} \ge 3\Par{1+\ln{\pi}}.
             \end{align}
             
-            \textit{Gadre, S. et al.} \cite{gadre} propusieron que la suma de las entropías podría arrojar información sobre la calidad de un conjunto base que conforma a los orbitales atómicos y probó su hipótesis con los métodos y bases. \textit{Tripathi, A. et al.} \cite{tripathi}, realizaron una prueba semejantes, pero con la serie isoelectrónica del Berilio. Por último, \textit{H{\^o}, M. et al.} \cite{ho} mostraron estudios sobre la sensibilidad de las entropías $S_{\rho}$, $S_{\Pi}$ y $S_{\rho}+S_{\Pi}$ ante pequeñas variaciones de la densidad electrónica y sobre series isoelectrónicas de átomos.
+            \textit{Gadre, S. et al.} \cite{gadre} propusieron que la suma de las entropías podría arrojar información sobre la calidad de un conjunto base que conforma a los orbitales atómicos y probó su hipótesis con los métodos y bases. \textit{Tripathi, A. et al.} \cite{tripathi}, realizaron una prueba semejante, pero con la serie isoelectrónica del Berilio. Por último, \textit{H{\^o}, M. et al.} \cite{ho} mostraron estudios sobre la sensibilidad de las entropías $S_{\rho}$, $S_{\Pi}$ y $S_{\rho}+S_{\Pi}$ ante pequeñas variaciones de la densidad electrónica y sobre series isoelectrónicas de átomos.
                     
     \section{Método Hartree-Fock}
-        \noindent También llamado método del campo autoconsistente, consiste en encontrar la función de onda de un átomo a través de varias iteraciones \cite{berthier,mcweeny,pople,roothaan}. En este método, se consideran funciones de onda antisimétricas y se expresan a través de determinantes de Slater.
+        \noindent También llamado método del campo autoconsistente (SCF por sus siglas en inglés), consiste en encontrar la función de onda de un átomo a través de varias iteraciones \cite{berthier,mcweeny,pople,roothaan}. En este método, se consideran funciones de onda antisimétricas y se expresan a través de determinantes de Slater.
         
         Utilizando la notación de \textit{McQuarrie, D. A.} \cite{mcquarrie}, defínase la i-ésima función de onda espín orbital independiente del tiempo del j-ésimo electrón y con espín $\alpha$ como $\psi_{i}\alpha(j)$, mientras que con espín $\beta$, es $\psi_{i}\beta(j)$. Además, sea $\Psi(1,\dots,2N)$ la función de onda de un átomo compuesto por 2$N$ electrones. Al dotarle la característica de antisimetría, esta puede expresarse como
         \begin{align} \label{eq: funcion onda hf}
@@ -338,7 +338,7 @@
         \end{align}
         cuyo valor propio asociado al i-ésimo espín orbital es la energía orbital de Hartree-Fock, $\varepsilon_i$.
         
-        Si uno supone un sistema de capa cerrada, es decir que los orbitales se encuentran doblemente ocupados, el operador Fock puede depender únicamende de las coordenadas espaciales y expresarse como
+        Si uno supone un sistema de capa cerrada, es decir que los orbitales se encuentran doblemente ocupados, el operador Fock puede depender únicamente de las coordenadas espaciales y expresarse como
         \begin{align}
             \hat{F}(\bm{r}_1) = \hat{h}(\bm{r}_1)+\sum_{j}^{N_{e}}\Sqbr{2\hat{J}_j(\bm{r}_1)-\hat{K}_j(\bm{r}_1)}, 
         \end{align}
@@ -346,9 +346,9 @@
         \begin{align}
             \hat{J}_j(\bm{r}_1)\psi_i(\bm{r}_1) & = \psi_i(\bm{r}_1)\int d\bm{r}_2\psi_j^*(\bm{r}_2)\frac{1}{r_{12}}\psi_j(\bm{r}_2) \nonumber\\
             \text{y} & \\
-            \hat{K}_j(\bm{r}_1)\psi_i(\bm{r}_1) & = \psi_j(\bm{r}_1)\int d\bm{r}_2\psi_j^*(\bm{r}_2)\frac{1}{r_{12}}\psi_i(\bm{r}_2) \nonumber,
+            \hat{K}_j(\bm{r}_1)\psi_i(\bm{r}_1) & = \psi_j(\bm{r}_1)\int d\bm{r}_2\psi_j^*(\bm{r}_2)\frac{1}{r_{12}}\psi_i(\bm{r}_2) \nonumber
         \end{align}
-        donde las funciones de onda orbitales ahora son espaciales, $\psi$. Estas son \textit{ecuaciones restringidas de Hartree-Fock}, sin embargo, no es necesario que se aplique la condición de capa cerrada para encontrar las soluciones, pues también se puede derivar el operador de Fock para casos de capa abierta y sus ecuaciones se llamarán \textit{ecuaciones no restringidas de Hartree-Fock}.
+        y las funciones de onda orbitales ahora son espaciales, $\psi$. Estas son \textit{ecuaciones restringidas de Hartree-Fock}, sin embargo, no es necesario que se aplique la condición de capa cerrada para encontrar las soluciones, pues también se puede derivar el operador de Fock para casos de capa abierta y sus ecuaciones se llamarán \textit{ecuaciones no restringidas de Hartree-Fock}.
         
         A partir de la ecuación \eqref{eq: fock equation}, se puede obtener la energía del i-ésimo orbital,
         \begin{align}

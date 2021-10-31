@@ -15,7 +15,30 @@
             \begin{subfigure}{0.75\textwidth}
                 \includegraphics[width=\textwidth]{images/hfk_GraphsNTot.jpg}
                 \caption{}
-                \label{fig: deltasum-hf-n-tot}
+                \label{fig: deltasum-hfk-n-tot}
+            \end{subfigure}
+            \hfill
+            \begin{subfigure}{0.75\textwidth}
+                \includegraphics[width=\textwidth]{images/b3l_GraphsNTot.jpg}
+                \caption{}
+                \label{fig: deltasum-b3l-n-tot}
+            \end{subfigure}
+            \hfill
+            \begin{subfigure}{0.75\textwidth}
+                \includegraphics[width=\textwidth]{images/wb9_GraphsNTot.jpg}
+                \caption{}
+                \label{fig: deltasum-wb9-n-Tot}
+            \end{subfigure}
+            \caption{Diferencias de entropía $\Delta (S_{T}^{N_e})^{6-31G}\equiv(S_{T}^{N_e})^{\mu}-(S_{T}^{N_e})^{6-31G}$, para las bases $\mu\in\{\text{aug-cc-pVDZ, aug-cc-pVTZ, cc-pVDZ, cc-pVTZ, 6-31G, 6-31+G**, 6-31G(2df,p)}\}$ contra número atómico (1--36), para los métodos HF (\ref{fig: deltasum-hfk-n-tot}), B3LYP (\ref{fig: deltasum-b3l-n-tot}) y $\omega$B97X-D (\ref{fig: deltasum-wb9-n-Tot}). El lado izquierdo muestra una comparación entre todas las bases mencionadas con referencia en 6-31G, mientras que el derecho se enfoca en cada una de ellas, agregando barras de error para cada uno de los valores obtenidos.}
+            \label{fig: deltasum-n-tot-1}
+        \end{figure}
+
+        \begin{figure}
+            \centering
+            \begin{subfigure}{0.75\textwidth}
+                \includegraphics[width=\textwidth]{images/mp2_GraphsNTot.jpg}
+                \caption{}
+                \label{fig: deltasum-mp2-n-tot}
             \end{subfigure}
             \hfill
             \begin{subfigure}{0.75\textwidth}
@@ -25,24 +48,24 @@
             \end{subfigure}
             \hfill
             \begin{subfigure}{0.75\textwidth}
-                \includegraphics[width=\textwidth]{images/b3l_GraphsNTot.jpg}
+                \includegraphics[width=\textwidth]{images/mp4_GraphsNTot.jpg}
                 \caption{}
-                \label{fig: deltasum-b3lyp-n-Tot}
+                \label{fig: deltasum-mp4-n-Tot}
             \end{subfigure}
-            \caption{Diferencias de entropía $\Delta (S_{T}^{N_e})^{6-31G}\equiv(S_{T}^{N_e})^{\mu}-(S_{T}^{N_e})^{6-31G}$, para las bases $\mu\in\{\text{aug-cc-pVDZ, aug-cc-pVTZ, cc-pVDZ, cc-pVTZ, 6-31G, 6-31+G**, 6-31G(2df,p)}\}$ contra número atómico (1--36), para los métodos HF (\ref{fig: deltasum-hf-n-tot}), MP3(full) (\ref{fig: deltasum-mp3-n-tot}) y B3LYP (\ref{fig: deltasum-b3lyp-n-Tot}). El lado izquierdo muestra una comparación entre todas las bases mencionadas con referencia en 6-31G, mientras que el derecho se enfoca en cada una de ellas, agregando barras de error para cada uno de los valores obtenidos.}
-            \label{fig: deltasum-n-tot}
+            \caption{Diferencias de entropía $\Delta (S_{T}^{N_e})^{6-31G}\equiv(S_{T}^{N_e})^{\mu}-(S_{T}^{N_e})^{6-31G}$, para las bases $\mu\in\{\text{aug-cc-pVDZ, aug-cc-pVTZ, cc-pVDZ, cc-pVTZ, 6-31G, 6-31+G**, 6-31G(2df,p)}\}$ contra número atómico (1--36), para los métodos MP2(full) (\ref{fig: deltasum-mp2-n-tot}), MP3(full) (\ref{fig: deltasum-mp3-n-tot}) y MP4(SDQ) (\ref{fig: deltasum-mp4-n-Tot}). El lado izquierdo muestra una comparación entre todas las bases mencionadas con referencia en 6-31G, mientras que el derecho se enfoca en cada una de ellas, agregando barras de error para cada uno de los valores obtenidos.}
+            \label{fig: deltasum-n-tot-2}
         \end{figure}
         
-        El comportamiento de las $\Delta (S_{T}^{N_e})^{6-31G}$ para todas las bases que no son referencia muestran aparentes fluctuaciones alrededor del cero que van incrementando proporcionalmente con el número atómico, lo cual indica que las bases habrán de tener calidades semejantes para números atómicos cercanos a 1, mientras que discrepan notoriamente para aquellos cercanos a 36. Esto debido a que las bases describen con mayor dificultad a los átomos conforme el número atómico incrementa. Este evento sucede de manera semejante para todos los métodos restantes.
+        El comportamiento de las $\Delta (S_{T}^{N_e})^{6-31G}$ para todas las bases que no son referencia muestran aparentes fluctuaciones alrededor del cero que van incrementando proporcionalmente con el número atómico, lo cual indica que las bases habrán de tener calidades semejantes para números atómicos cercanos a 1, mientras que discrepan notoriamente para aquellos cercanos a 36. Particularmente, estas fluctuaciones incrementan bruscamente a partir del número atómico 19, donde comienza la presencia de los metales de transición. Todo esto es debido a que las bases describen con mayor dificultad a los átomos conforme el número atómico incrementa y los metales de transición son los primeros en mostrar dificultades en ser descritos por las bases utilizadas.
         
-        Los resultados mostrados en las figuras \ref{fig: deltasum-n-tot} muestran que el uso de la suma de la entropía de Shannon $S_{T}^{N_e}$ podría no fungir como medida confiable para la calidad de las bases si se compara entre diferentes átomos, por ejemplo, el átomo con número atómico 29 en la figura \ref{fig: deltasum-mp3-n-tot} mostraría que la calidad en la base aug-cc-pVTZ es menor a aquella en la base 6-31G, pues $\Delta (S_{T}^{N_e})^{6-31G} = -1.23\pm0.015$, mientras que el átomo con número atómico 30 indicaría el caso contrario con $\Delta (S_{T}^{N_e})^{6-31G} = 2.147\pm0.011$.
+        Los resultados mostrados en las figuras \ref{fig: deltasum-n-tot-1} y \ref{fig: deltasum-n-tot-2} muestran que el uso de la suma de la entropía de Shannon $S_{T}^{N_e}$ podría no fungir como medida confiable para la calidad de las bases si se compara entre diferentes átomos, por ejemplo, el átomo con número atómico 29 en la figura \ref{fig: deltasum-mp3-n-tot} mostraría que la calidad en la base aug-cc-pVTZ es menor a aquella en la base 6-31G, pues $\Delta (S_{T}^{N_e})^{6-31G} = -1.23\pm0.015$, mientras que el átomo con número atómico 30 indicaría el caso contrario con $\Delta (S_{T}^{N_e})^{6-31G} = 2.147\pm0.011$.
         
-        Las tablas \ref{tab: deltasum-n-tot} muestran las sumas de las diferencias $\Delta (S_{T}^{N_e})_i^{6-31G}$ para cada átomo $i$-ésimo, con $i\in\{1,2,...,36\}$, y para una sola base $\mu$,
+        Las tablas \ref{tab: deltasum-n-tot} indican las sumas de las diferencias $\Delta (S_{T}^{N_e})_i^{6-31G}$ para cada átomo $i$-ésimo, con $i\in\{1,2,...,36\}$, y para una sola base $\mu$,
         \begin{align}
             \sum_{i=1}^{36}\Delta (S_{T}^{N_e})_i^{6-31G} = \sum_{i=1}^{36}\Sqbr{(S_{T}^{N_e})_i^{\mu}-(S_{T}^{N_e})_i^{6-31G}},
         \end{align}
-        ordenados de forma descendente para los métodos MP2(full), MP4(SDQ) y $\omega$B97X-D, incluyendo la incertidumbre $\sigma$ para cada suma. La base 6-31G no se muestra en las tablas al ser la referencia de $\Delta (S_{T}^{N_e})_i^{6-31G}$. Al tomar en cuenta el peso de cada término $\Delta (S_{T}^{N_e})_i^{6-31G}$, la suma $\sum_i\Delta (S_{T}^{N_e})_i^{6-31G}$ indicaría la calidad general de la base, dentro de un rango de números atómicos del 1 a 36.
-        
+        ordenados de forma descendente para los métodos MP2(full), MP4(SDQ) y $\omega$B97X-D, incluyendo la incertidumbre $\sigma$ para cada suma. La base 6-31G no se muestra en las tablas al ser la referencia de $\Delta (S_{T}^{N_e})_i^{6-31G}$. Al tomar en cuenta el peso de cada término $\Delta (S_{T}^{N_e})_i^{6-31G}$, la suma $\sum_i\Delta (S_{T}^{N_e})_i^{6-31G}$ indicaría la calidad general de la base, dentro de un rango de números atómicos del 1 a 36. 
+
         \begin{table}[htbp]
             \begin{subtable}[htbp]{0.5\textwidth}
                 \centering
@@ -65,6 +88,22 @@
                 \begin{tabular}{c|c|c}
                     Base & $\sum \Delta (S_{T}^{N_e})_i^{6-31G}$ & $\sigma$ \\
                     \hline \hline
+                    aug-cc-pVTZ & 17.967147 & 0.562968 \\
+                    cc-pVTZ & 17.151206 & 0.401457 \\
+                    6-31G(2df,p) & 13.536851 & 0.200741 \\
+                    6-31+G** & 12.663726 & 0.481137 \\
+                    cc-pVDZ & 11.825322 & 0.467958 \\
+                    aug-cc-pVDZ & 11.465729 & 0.422108 \\
+                \end{tabular}
+                \caption{Método MP3(full)}
+                \label{tab: deltasum-mp3-n-tot}
+            \end{subtable}
+            \hfill
+            \begin{subtable}[htbp]{0.5\textwidth}
+                \centering
+                \begin{tabular}{c|c|c}
+                    Base & $\sum \Delta (S_{T}^{N_e})_i^{6-31G}$ & $\sigma$ \\
+                    \hline \hline
                     cc-pVTZ & 10.128685 & 0.023400 \\
                     cc-pVDZ & 7.921664 & 0.013845 \\
                     aug-cc-pVTZ & 5.947558 & 0.093945 \\
@@ -75,8 +114,40 @@
                 \caption{Método MP4(SDQ)}
                 \label{tab: deltasum-mp4-n-tot}
             \end{subtable}
+             \hfill
+            \begin{subtable}[htbp]{0.5\textwidth}
+                \centering
+                \begin{tabular}{c|c|c}
+                    Base & $\sum \Delta (S_{T}^{N_e})_i^{6-31G}$ & $\sigma$ \\
+                    \hline \hline
+                    aug-cc-pVTZ & -2.687250 & 0.025184 \\
+                    cc-pVTZ & -3.039062 & 0.162700 \\
+                    6-31G(2df,p) & -4.140256 & 0.079262 \\
+                    6-31+G** & -6.363486& 0.153932 \\
+                    cc-pVDZ & -7.008983 & 0.034058 \\
+                    aug-cc-pVDZ & -9.831531 & 0.021970 \\
+                \end{tabular}
+                \caption{Método HF}
+                \label{tab: deltasum-hfk-n-tot}
+            \end{subtable}
             \hfill
-            \begin{subtable}[htbp]{\textwidth}
+            \begin{subtable}[htbp]{0.5\textwidth}
+                \centering
+                \begin{tabular}{c|c|c}
+                    Base & $\sum \Delta (S_{T}^{N_e})_i^{6-31G}$ & $\sigma$ \\
+                    \hline \hline
+                    aug-cc-pVTZ & 7.206050 & 0.016823 \\
+                    cc-pVTZ & 5.880107 & 0.241420 \\
+                    6-31G(2df,p) & 1.880675 & 0.261338 \\
+                    6-31+G** & 1.487288 & 0.053517 \\
+                    cc-pVDZ & 0.701543 & 0.384228 \\
+                    aug-cc-pVDZ & 0.313457 & 0.052916 \\
+                \end{tabular}
+                \caption{Funcional B3LYP}
+                \label{tab: deltasum-b3l-n-tot}
+            \end{subtable}
+            \hfill
+            \begin{subtable}[htbp]{0.5\textwidth}
                 \centering
                 \begin{tabular}{c|c|c}
                     Base & $\sum \Delta (S_{T}^{N_e})_i^{6-31G}$ & $\sigma$ \\
@@ -91,11 +162,15 @@
                 \caption{Funcional $\omega$B97X-D}
                 \label{tab: deltasum-wb9-n-tot}
             \end{subtable}
-            \caption{Suma de las cantidades $\Delta (S_{T}^{N_e})_i^{6-31G}$ sobre todos los átomos desde el hidrógeno hasta el criptón, para los métodos MP2(full) (\ref{tab: deltasum-mp2-n-tot}), MP4(SDQ) (\ref{tab: deltasum-mp4-n-tot}) y $\omega$B97X-D (\ref{tab: deltasum-wb9-n-tot}). Cada suma se realizó sobre una misma base, se incluyó su respectiva incertidumbre y se ordenaron de forma descendente.}
+            \caption{Suma de las cantidades $\Delta (S_{T}^{N_e})_i^{6-31G}$ sobre todos los átomos desde el hidrógeno hasta el criptón, para los métodos MP2(full) (\ref{tab: deltasum-mp2-n-tot}), MP3(full) (\ref{tab: deltasum-mp3-n-tot}), MP4(SDQ) (\ref{tab: deltasum-mp4-n-tot}) y HF (\ref{tab: deltasum-hfk-n-tot}), así como funcionales B3LYP (\ref{tab: deltasum-b3l-n-tot}) y $\omega$B97X-D (\ref{tab: deltasum-wb9-n-tot}). Cada suma se realizó sobre una misma base, se incluyó su respectiva incertidumbre y se ordenaron de forma descendente.}
             \label{tab: deltasum-n-tot}
-        \end{table}        
+        \end{table}                
         
-        Las tablas \ref{tab: deltasum-n-tot} se muestra que el método a utilizar influye considerablemente en la base. En la tabla \ref{tab: deltasum-mp2-n-tot}, el método MP2(full) incluye la correlación electrónica, por lo que las bases que más aportarán serán aquellas consistentes con la correlación electrónica, aug-cc-pVDZ, aug-cc-pVTZ, cc-pVDZ y cc-pVTZ, de las cuales, las primeras dos incluyen funciones difusas, lo cual ayuda a describir mejor las densidades electrónicas de los átomos, lo cual da indicios de que la entropía podría cumplir la función de medir la calidad de una base. No obstante, el orden que se presenta entre ellas y entre todas aquellas consideradas en el presente trabajo es algo que debe analizarse a mayor detalle, lo cual queda para trabajos futuros.
+        Estas muestran que el método a utilizar influye considerablemente en la base. En la mayoría de los métodos utilizados, MP2(full) (\ref{tab: deltasum-mp2-n-tot}), MP3(full) (\ref{tab: deltasum-mp3-n-tot}), MP4(SDQ) (\ref{tab: deltasum-mp4-n-tot}), B3LYP (\ref{tab: deltasum-b3l-n-tot}) y $\omega$B97X-D (\ref{tab: deltasum-wb9-n-tot}), se incluye la correlación electrónica, por lo que las bases que más habrían de aportar serían aquellas consistentes con la correlación electrónica, aug-cc-pVDZ, aug-cc-pVTZ, cc-pVDZ y cc-pVTZ, de las cuales, las primeras dos incluyen funciones difusas, lo cual ayuda a describir mejor las densidades electrónicas de los átomos y daría indicios de que la entropía podría cumplir la función de medir la calidad de una base. Tal y como se observa en sus respectivas tablas, las bases consistentes con la correlación electrónica son las que se ubican en las primeras posiciones. Otra observación es que la base 6-31G se encuentra como la de menor calidad para los mismos métodos, a excepción de MP2(full) (\ref{tab: deltasum-mp2-n-tot}), pues esta es la base que menos efectos permite toma en cuenta (correlación electrónica, densidad difusa y polarización). Sin embargo, para el método HF la misma base se muestra como la de mejor calidad, congruente con el hecho de que este método es el más simple y no toma en cuenta la correlación electrónica más allá del promedio, por lo que las bases restantes no habrían de influenciar sobre una mejora en calidad.
+        
+        Las posiciones en las que se presentan las bases presentan cierta consistencia, pero la dependencia de las bases al método requiere que se realice un análisis más detallado sobre las características de todos los miembros (bases y métodos) para determinar con más claridad la causa del orden mostrado, lo cual queda para trabajos futuros.
+        
+        Las tablas \ref{tab: deltasum-n-tot-method}, a diferencia de las \ref{tab: deltasum-n-tot}, comparan a métodos combinados con una sola base. Los valores negativos en un método indican, en este caso, que el método en combinación con la base, presenta una calidad menor al mismo método combinado con la base 6-31G. Por último, no se muestra una tabla para la base 6-31G porque toda combinación con ella, al ser la base de referencia, toma como valores el cero.
         
         \begin{table}[htbp]
             \begin{subtable}[htbp]{0.5\textwidth}
@@ -196,12 +271,10 @@
             \caption{Suma de las cantidades $\Delta (S_{T}^{N_e})_i^{6-31G}$ sobre todos los átomos desde el hidrógeno hasta el criptón, para las bases aug-cc-pVDZ (\ref{tab: deltasum-acd-n-tot}), aug-cc-pVTZ (\ref{tab: deltasum-act-n-tot}), cc-pVDZ (\ref{tab: deltasum-cd-n-tot}), cc-pVTZ (\ref{tab: deltasum-ct-n-tot}), 6-31G(2df,p) (\ref{tab: deltasum-2df-n-tot}) y 6-31+G** (\ref{tab: deltasum-631+g-n-tot}). Cada suma se realizó sobre un mismo método, se incluyó su respectiva incertidumbre y se ordenaron de forma descendente.}
             \label{tab: deltasum-n-tot-method}
         \end{table}
-                
-        Las tablas \ref{tab: deltasum-n-tot-method}, a diferencia de las \ref{tab: deltasum-n-tot}, comparan métodos combinados con una sola base. Es ellas se muestra consistencia con algunos de los métodos usados, por ejemplo, el funcional $\omega$B97X-D, al incluir interacciones de largo alcance, presenta una mayor calidad que $B3LYP$, el método HF es el único que no considera la energía de correlación electrónica más allá del promedio, por lo que se presenta como el método con la menor calidad, le sigue MP2(full) al tomar en cuenta correlación electrónica en un porcentaje menor a comparación de MP3(full). MP4(SDQ) es un caso distinto al no estar completo y no utilizar excitaciones triples.
         
-        Por otro lado, al mostrarse un orden distinto entre cada tabla del grupo \ref{tab: deltasum-n-tot-method}, también se muestra dependencia entre el método y la base con respecto a sus calidades.
+        En ellas se muestra consistencia con algunos de los métodos usados, por ejemplo, el funcional $\omega$B97X-D, al incluir interacciones de largo alcance, presenta una mayor calidad que $B3LYP$, el método HF es el único que no considera la energía de correlación electrónica más allá del promedio, por lo que se presenta como el método con la menor calidad. Le sigue MP2(full) al tomar en cuenta correlación electrónica en un porcentaje menor a comparación de MP3(full). MP4(SDQ) es un caso distinto al no estar completo y no utilizar excitaciones triples.
         
-        Los resultados mostrados en las tablas \ref{tab: deltasum-n-tot-method} dan indicio de que la entropía de Shannon puede presentar congruencia con la calidad en el uso de los métodos, sin embargo, nuevamente se requiere un análisis más detallado que quedará para futuros trabajos.
+        Por otro lado, al mostrarse un orden distinto entre cada tabla del grupo \ref{tab: deltasum-n-tot-method}, también se muestra dependencia del método a la base con respecto a sus calidades.
         
-    \section{Entropías de Shannon en moléculas simples}
+        Los resultados mostrados en las tablas \ref{tab: deltasum-n-tot-method} dan indicio de que la entropía de Shannon puede presentar consistencia con la calidad en el uso de los métodos, sin embargo, nuevamente se requiere un análisis más detallado que quedará para futuros trabajos.
         
