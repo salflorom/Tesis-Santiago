@@ -1,12 +1,73 @@
-\chapter{SPS Apéndice}
-wdadsdsadsdsadsadasdasdsadasdsadasdasdsadasdada
+\chapter{Validación del programa \textit{dtkintegrate}}
+    \section{Eficiencia de \textit{dtkintegrate}}
+        Para corroborar que el programa \textit{dtkintegrate} presenta buena precisión, se calcularon los errores relativos de las integrales de las densidades electrónicas en los espacios de posiciones y momentos para cada uno de los átomos (1-36) y se compararon contra su límite de redondeo a la unidad más cercana (figura \ref{fig:relErrRhoLV}). Cuando el error relativo calculado es mayor a su límite de redondeo, el redondeo de la integral arrojará un valor distinto al correcto.
+        
+        \begin{figure}[thbp]
+            \centering
+            \includegraphics[width=\textwidth]{images/relErrRhoLV.pdf}
+            \caption{Error relativo de la integral de la densidad electrónica en los espacios de posiciones (cículos) y momentos (cuadrados) contra el número atómico (1-36). La línea punteada representa el límite de redondeo a la unidad más cercana. Se usó un total de 200,000 puntos de muestreo.}
+            \label{fig:relErrRhoLV}
+        \end{figure}
+        
+        Los parámetros utilizados para la integración fueron:
+        \begin{itemize}
+            \item Número total de puntos de muestreo: 200,000.
+            \item Número de intervalos: 10.
+            \item Máximo número de iteraciones: 20.
+            \item Taza de convergencia: 1.
+            \item Termalización: 0.
+            \item No detener refinamiento de la malla durante la integración.
+            \item Tolerancia: 0.
+        \end{itemize}
+        
+        La figura \ref{fig:relErrRhoLV} muestra que los valores obtenidos son suficientemente precisos para el cálculo del número de electrones a partir de densidades electrónicas, a pesar de ser un método aleatorio, haber utilizado 200,000 puntos y presentar fluctuaciones alrededor del valor exacto, pues estas no superan el límite de redondeo.
+        
+    \section{Eficiencia de \textit{dtkintegrate} contra el método Monte Carlo}
+        También se puede probar la eficiencia del programa. Para eso, se desarrolló e implementó el algoritmo de integración Monte Carlo en \textit{DensToolKit} y se compararon ambos programas, tomando como referencia el porcentaje de error relativo contra el número de evaluaciones sobre el integrando. La función a integrar fue la densidad electrónica del metano, cuyo número de electrones es 10 y el resto de los parámetros del programa \textit{dtkintegrate} se mantuvieron fijos en los establecidos por defecto:
+        \begin{itemize}
+            \item Taza de convergencia: 1.
+            \item Número de intervalos: 10.
+            \item Máximo número de iteraciones: 20.
+            \item Termalización: 0.
+            \item No detener refinamiento de la malla durante la integración.
+            \item Tolerancia: 0.
+        \end{itemize}
+        
+        Se puede apreciar en la figura \ref{fig: mc_vs_lv} que los resultados obtenidos por Las Vegas+ son notablemente más acertados que aquellos por Monte Carlo, sin importar el número de evaluaciones que se realicen (puntos de muestreo) sobre el integrando.
+        
+        \begin{figure}[htbp]
+            \centering
+            \includegraphics[width=\textwidth]{images/MC-LV.jpg}
+            \caption{Comparación del porcentaje de error relativo contra número de evaluaciones sobre la integral de la densidad electrónica del metano (10 electrones). Los métodos de integración usados fueron Monte Carlo (azul) y Las Vegas+ (naranja). Se usaron entre 10,000 y 1,000,000 evaluaciones sobre el integrando.}
+            \label{fig: mc_vs_lv}
+        \end{figure}
+    
+    \section{Entropías de Shannon en átomos utilizando \textit{dtkintegrate}}
+        \noindent Para corroborar el funcionamiento del programa implementado en \textit{DensToolKit}, se calcularon las entropías informacionales de las densidades normalizadas al número de electrones y a la unidad, así como de la densidad relativa, la cual toma como referencia su máximo global. La entropía se integró en átomos simples con números atómicos desde 1 hasta 36, utilizando como combinaciones método-base MP2/6-31+G* y HF/cc-pvTZ, ambos obtenidos por GAUSSIAN09 \cite{gaussian09}. Los resultados se compararon con aquellos publicados por \textit{Flores-Gallegos, N.} \cite{flores_gallegos} y \textit{Hô, M. et al.} \cite{flores_gallegos,sagar}, quienes realizaron los mismos cálculos y con los mismos átomos, pero con combinaciones método-base CISD(full)/cc-pvTZ y HF/6-31G**, respectivamente. Los resultados mostrados en las figuras \ref{fig: entropies 1-36} resultaron ser muy semejantes a aquellos publicados por los autores mencionados anteriormente. Sin embargo, las pequeñas diferencias se deben al uso de diferentes bases o métodos.
+        
+        \begin{figure}
+            \centering
+            \begin{subfigure}[htbp]{0.774\textwidth}
+                \centering
+                    \includegraphics[width=\textwidth]{images/entropies-N-1_36.jpg}
+                    \caption{Entropías de Shannoon sobre átomos desde el Hidrógeno hasta el Criptón. La densidad electrónica está normalizada al número de electrones del átomo respectivo y se muestra en los espacios de posiciones (cuadrado azul) y momentos (triángulo naranja). Además, se presenta la suma de ambas entropías (círculo verde).}
+                    \label{fig: entropies N 1-36}
+            \end{subfigure}
+            \begin{subfigure}[htbp]{0.774\textwidth}
+                    \centering
+                    \includegraphics[width=\textwidth]{images/entropies-1-1_36.jpg}
+                    \caption{Entropías de Shannoon sobre átomos desde el Hidrógeno hasta el Selenio. La densidad electrónica está normalizada a la unidad y se muestra en los espacios de posiciones (cuadrado azul) y momentos (triángulo naranja).}
+                    \label{fig: entropies 1 1-36}
+            \end{subfigure}
+            \begin{subfigure}[htbp]{0.774\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{images/entropies-Rel-1_36.jpg}
+                \caption{Entropías de Shannoon sobre átomos desde el Hidrógeno hasta el Selenio. La densidad electrónica es relativa y toma como referencia el valor máximo de la densidad de cada átomo. También se muestra en los espacios de posiciones (cuadrado azul) y momentos (triángulo naranja).}
+                    \label{fig: entropies Rel 1-36}
+                \end{subfigure}        
+                \caption{}
+                \label{fig: entropies 1-36}
+            \end{figure}
             
-Los árticulos ácentúados son mi fuerte!
-\begin{figure}[!h]
-\centering
-\includegraphics[width=.2\textwidth,keepaspectratio=true]{escudo-2}
-\end{figure}
-
-mas texto Loren itsu
-\[ \vec E = \vec \nabla \cdot \vec \nabla \vec r \times \vec A
-\]
+        Los resultados mencionados anteriormente muestran que el programa \textit{dtkintegrate} se implementó adecuadamente en la suite \text{DensToolKit} y muestran la eficiencia esperada del algoritmo Las Vegas+ en funciones de comportamiento gaussiano.
+    

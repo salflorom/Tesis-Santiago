@@ -1,16 +1,4 @@
 \chapter{Antecedentes}
-    \section{DensToolKit}
-        \noindent \textit{DensToolKit} es un paquete de programas con licencia GNU-GPLv3 y desarrollados por \textit{Solano-Altamirano, J. M. y Hernández-Pérez J. M.} \cite{manuel} enfocados en analizar densidades electrónicas y varios campos derivados de ellos, tales como el gradiente de la densidad electrónica, la función de localización electrónica (ELF por sus siglas en inglés) junto con su gradiente, región de electrones lentos (RoSE por sus siglas en inglés), gradiente de densidad reducida, detector de electrones localizados (LED por sus siglas en inglés), entropías de la información, potencial electrostático, densidades $K$ y $G$ de energía cinética, entre otros, incluso en el espacio de momentos. Además, también incluye programas que se encargan de ubicar puntos críticos y enlaces químicos, todo en moléculas y átomos, usando como referencia la teoría cuántica de átomos en moléculas (QTAIM por sus siglas en inglés). 
-        Algunos de sus programas son
-        \begin{itemize}
-            \item dtkpoint, el cual evalúa los campos implementados en un punto o en un conjunto de puntos, y
-            \item dtkbpdens, cuya tarea es evaluar uno de los campos implementados a lo largo del trayecto del enlace entre dos átomos.
-        \end{itemize}
-        
-        DensToolKit solicita como entrada archivos de formato \textit{wfn} ó \textit{wfx}, los cuales son producidos por programas tales como Gamess, NWChem, MOLPRO o Gaussian. Tales archivos contienen la expansión de la función de onda molecular o atómica en términos bases gaussianas. 
-        
-        No obstante la variedad de sus programas, no hay uno que se encargue de integrar los campos escalares mencionados, por lo que es necesario implementar en él un algoritmo de integración para integrar cualquiera de los campos que ofrezca la suite.
-    
     \section{Método Monte Carlo}
         \noindent Dada una función $f:\R^d\rightarrow\R$, con $d\in\N$, se puede encontrar su integral sobre un volumen $\Omega\in\R^d$ utilizando $N_{ev}$ puntos aleatorios generados a partir de una densidad de probabilidad arbitraria $p(\bm{x})$, con $\bm{x}\in\R^d$. Numéricamente, es
         \begin{align}
@@ -559,4 +547,17 @@
         
         Para casos donde la nube electrónica se polariza, se agregan funciones de polarización a los orbitales de valencia, como es el caso de la base 6-31G* ó 6-31G(d), en el cual las funciones de polarización que se agregan son orbitales tipo d para los átomos pesados. Otro ejemplo es 6-31G** ó 6-31G(d,p), donde se agrega además un orbital tipo p de polarización para los hidrógenos que compongan a la molécula. Por último, si hay presencia electrónica en zonas muy alejadas del núcleo, se agregan funciones de difusión que extiendan a la función de onda aún más, como la base 6-31+G, la cual agrega funciones de difusión tipo s y p para los átomos pesados. En el caso de la base 6-31++G, un función de difusión tipo s se agrega a los hidrógenos. Todas las bases GTO mencionadas anteriormente pueden combinarse entre sí para representar de manera más adecuada al sistema, por ejemplo 6-31+G**.
         
-        Otras bases gaussianas conocidas son las de tipo cc-pVXZ \cite{cc-pvxz}, las cuales quieren decir correlación consistente con funciones X Zeta de valencia polarizadas, donde X puede ser doble (D), triple (T), cuádruple (Q), etcétera. Además, a estas bases también se les pueden agregar gaussianas difusas, renombrándolas aug-cc-pVXZ. Estas bases se caracterizan por su uso en métodos que incluyen correlación electrónica, como son los métodos post-Hartree-Fock. 
+        Otras bases gaussianas conocidas son las de tipo cc-pVXZ \cite{cc-pvxz}, las cuales quieren decir correlación consistente con funciones X Zeta de valencia polarizadas, donde X puede ser doble (D), triple (T), cuádruple (Q), etcétera. Además, a estas bases también se les pueden agregar gaussianas difusas, renombrándolas aug-cc-pVXZ. Estas bases se caracterizan por su uso en métodos que incluyen correlación electrónica, como son los métodos post-Hartree-Fock.
+
+    \section{DensToolKit}
+        \noindent \textit{DensToolKit} es un paquete de programas con licencia GNU-GPLv3 y desarrollados por \textit{Solano-Altamirano, J. M. y Hernández-Pérez J. M.} \cite{manuel} enfocados en analizar densidades electrónicas y varios campos derivados de ellos, tales como el gradiente de la densidad electrónica, la función de localización electrónica (ELF por sus siglas en inglés) junto con su gradiente, región de electrones lentos (RoSE por sus siglas en inglés), gradiente de densidad reducida, detector de electrones localizados (LED por sus siglas en inglés), entropías de la información, potencial electrostático, densidades $K$ y $G$ de energía cinética, entre otros, incluso en el espacio de momentos. Además, también incluye programas que se encargan de ubicar puntos críticos y enlaces químicos, todo en moléculas y átomos, usando como referencia la teoría cuántica de átomos en moléculas (QTAIM por sus siglas en inglés). 
+        Algunos de sus programas son
+        \begin{itemize}
+            \item dtkpoint, el cual evalúa los campos implementados en un punto o en un conjunto de puntos, y
+            \item dtkbpdens, cuya tarea es evaluar uno de los campos implementados a lo largo del trayecto del enlace entre dos átomos.
+        \end{itemize}
+        
+        DensToolKit solicita como entrada archivos de formato \textit{wfn} ó \textit{wfx}, los cuales son producidos por programas tales como Gamess, NWChem, MOLPRO o Gaussian. Tales archivos contienen la expansión de la función de onda molecular o atómica en términos bases gaussianas. 
+        
+        No obstante la variedad de sus programas, no hay uno que se encargue de integrar los campos escalares mencionados, por lo que es necesario implementar en él un algoritmo de integración para integrar cualquiera de los campos que ofrezca la suite.
+    
