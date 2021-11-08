@@ -21,15 +21,15 @@
         \end{align}
         es por eso que se han desarrollado métodos adaptativos que buscan reducir ese costo sin sacrificar las ventajas del mismo método.
         
-        \subsection{\textit{Muestreo de importancia}}
+        \subsection{Muestreo de importancia}
             \noindent La varianza $\sigma^2$ puede reducirse hasta alcanzar un valor óptimo, el cual es
                 \begin{align}\label{eq: densidad optima}
                     p(\bm{x}) = \frac{\Abs{f(\bm{x})}}{\int_{\Omega}\Abs{f(\bm{x})}}.
                 \end{align}
             Aunque en la práctica es imposible alcanzarlo, la ecuación \eqref{eq: densidad optima} muestra que tal valor se logra cuando las evaluaciones sobre $f$ se concentran en donde su magnitud es mayor.
             
-        \subsection{\textit{Muestreo estratificado}}
-            \noindent Uno de los métodos para alcanzar la varianza $\sigma^2$ óptima es subdividiendo la región $\Omega$ en $N_g$ subconjuntos $\omega_i$, con $i\in\{1,2,\dots,N_g\}$, de tamaño variable, llamados incrementos. De ese modo, se puede integrar utilizando $N_{ev}/N_g$ puntos de muestreo aleatorios en cada $\omega_i$.
+        \subsection{Muestreo estratificado}
+            \noindent Uno de los métodos para alcanzar la varianza $\sigma^2$ óptima consiste en subdividir la región $\Omega$ en $N_g$ subconjuntos $\omega_i$, con $i\in\{1,2,\dots,N_g\}$, de tamaño variable, a los que se llamarán incrementos o intervalos por dimensión. De ese modo, se puede integrar utilizando $N_{ev}/N_g$ puntos de muestreo aleatorios en cada $\omega_i$.
                 
             La varianza utilizando este método, $\sigma_s^2$, puede reducirse hasta un valor
             \begin{align}
@@ -38,7 +38,7 @@
             sin embargo el número de evaluaciones sobre $f$ crece al valor $N_{ev}=2N_g^d$, volviéndose un serio problema cuando se trata de integrales en múltiples dimensiones.
         
     \section{Método Las Vegas+}
-        \noindent Este método de integración fue desarrollado por primera vez por \textit{Lepage, P.} \cite{lepage1978} en 1978. Este método ha sido ampliamente utilizado que incluso llegó a usarse en el CERN \cite{vegas-cern} y se implementó en diversos lenguajes de programación como en Fortran \cite{lepagefortran} o Python a través del programa VegasFlow \cite{vegasflow}. Además, se propusieron mejoras de la primera versión por parte de otros desarrolladores \cite{vegas-revisited} para el área de la física de partículas. La última mejora implementada sobre este método fue publicada por su propio autor en agosto del 2021 y lo llamó Las Vegas+ \cite{lepage2021}.
+        \noindent Este método de integración fue desarrollado por primera vez por Lepage, P. \cite{lepage1978} en 1978 y ha sido tan ampliamente utilizado que incluso llegó a usarse en el CERN \cite{vegas-cern} y se implementó en diversos lenguajes de programación como en Fortran \cite{lepagefortran} o Python a través del programa VegasFlow \cite{vegasflow}. Además, se propusieron mejoras de la primera versión por parte de otros desarrolladores \cite{vegas-revisited} para el área de la física de partículas. La última mejora implementada sobre este método fue publicada por su propio autor en agosto del 2021 y lo llamó Las Vegas+ \cite{lepage2021}.
         
         La importancia de este método iterativo radica en su capacidad de adaptarse al integrando para reducir la incertidumbre $\sigma^2$ prontamente, disminuyendo el número de evaluaciones a un orden $O(N_gd)$, en lugar de $O\Par{N_g^d}$, donde $N_g$ y $d$ son el número de incrementos y de dimensiones, respectivamente.
         
@@ -93,7 +93,7 @@
         \end{align}
         donde $\alpha$ se define como taza de convergencia y su valor depende del integrando, obteniéndose a prueba y error. Sin embargo, típicamente se escoge $\alpha=1$ y el valor $\alpha=0$ indica que ya no se realizará más refinamiento del mallado. Este parámetro es una constante durante el proceso de integración.
         
-        Para saber si $d_i$ es constante, se busca que en cada intervalo $d_i$ sea considerablemente igual. Sean
+        Para saber si $d_i$ es constante, se busca que $d_i$ sea considerablemente igual en cada intervalo. Sean
         \begin{align}\label{eq: d d_i}
             d & \equiv \sum_i d_i \nonumber\\
             \text{y} & \\
@@ -148,10 +148,10 @@
         
         Si $\chi^2$ llegara a ser mayor al número de iteraciones presentes (menos uno), el proceso de integración deberá reiniciarse.
         
-        Hay casos donde $\chi^2$ supera con frecuencia el umbral mencionado anteriormente. Algunas veces se debe a que la malla no se encuentra lo suficientemente refinada en las primeras iteraciones y otras veces a que el número de puntos de muestreo no es lo suficientemente grande para garantizar un comportamiento gaussiano alrededor de la integral. Para solucionar el primero, se puede eliminar la estimación obtenida en las primeras iteraciones (termalización) para considerar solo aquellas donde el mallado ya se encuentra lo suficientemente refinado; para el segundo caso, será suficiente con incrementar el número de puntos de muestreo a utilizar por iteración.
+        Hay casos donde $\chi^2$ supera frecuentemente el umbral mencionado anteriormente. Algunas veces se debe a que la malla no se encuentra lo suficientemente refinada en las primeras iteraciones y otras veces a que el número de puntos de muestreo no es lo suficientemente grande para garantizar un comportamiento gaussiano alrededor de la integral. Para solucionar el primero, se puede eliminar la estimación obtenida en las primeras iteraciones (termalización) para considerar solo aquellas donde el mallado ya se encuentra lo suficientemente refinado; para el segundo caso, será suficiente con incrementar el número de puntos de muestreo a utilizar por iteración.
         
     \section{Entropía de Shannon}
-        \noindent Este concepto, desarrollado por \textit{Shannon, C. E.} \cite{shannon2001} y nombrado como tal por su autor debido a su semejanza con la entropía definida en la mecánica estadística, se encarga de medir la cantidad de desinformación que presenta una variable aleatoria y matemáticamente se define como
+        \noindent Este concepto, desarrollado por Shannon, C. E. \cite{shannon2001} y nombrado como tal por su autor debido a su semejanza con la entropía definida en la mecánica estadística, se encarga de medir la cantidad de desinformación que presenta una variable aleatoria y matemáticamente se define como
         \begin{align}
             H(p_1,p_2,\dots,p_n) \equiv -K\sum_{i=1}^np_i\log{p_i},
         \end{align}
@@ -266,7 +266,7 @@
             \end{align}
             donde $\rho_0$ y $\Pi_0$ son densidades de referencia y por la definición de entropía relativa, $S_{\rho,r}^{N_{e}}$ y $S_{\Pi,r}^{N_{e}}$ miden la distancia entre ambas densidades correspondientes.
         
-            Otra propuesta, realizada por \textit{Flores Gallegos, N.} \cite{flores_gallegos}, es usar como referencia el máximo de la densidad para el caso del estudio de un átomo o el promedio de los máximos locales para el caso de moléculas. De ese modo, las densidades relativas $\rho/\rho_{max}$ y $\Pi/\Pi_{max}$ tomarían valores no negativos y menores a 1, refiriéndose al estudio de átomos. Por otro lado, aquellos máximos locales representan las densidades donde se ubican los núcleos, por lo que se medirían distancias entre la densidad en el núcleo y la densidad en el orbital de ocupación de mayor energía.
+            Otra propuesta, realizada por Flores Gallegos, N. \cite{flores_gallegos}, es usar como referencia el máximo de la densidad para el caso del estudio de un átomo o el promedio de los máximos locales para el caso de moléculas. De ese modo, las densidades relativas $\rho/\rho_{max}$ y $\Pi/\Pi_{max}$ tomarían valores no negativos y menores a 1, refiriéndose al estudio de átomos. Por otro lado, aquellos máximos locales representan las densidades donde se ubican los núcleos, por lo que se medirían distancias entre la densidad en el núcleo y la densidad en el orbital de ocupación de mayor energía.
         
             Las entropías pasarían a ser
             \begin{align}\label{eq: entropias max}
@@ -276,7 +276,7 @@
             \end{align}
         
         \subsection{Suma de las entropías de Shannon}
-            \textit{Bia{\l}ynicki-Birula, I. y Mycielski, J.} \cite{bialynicki} dedujeron que la suma de ambas entropías presentaba una equivalencia a la incertidumbre de Heisenberg, la cual es
+            Bia{\l}ynicki-Birula, I. y Mycielski, J. \cite{bialynicki} dedujeron que la suma de ambas entropías presentaba una equivalencia a la incertidumbre de Heisenberg, la cual es
             \begin{align}\label{eq: suma entropias}
                 S_{\rho}^{N_{e}}+S_{\Pi}^{N_{e}} \ge 3N_{e}\Par{1+\ln{\pi}}-2N_{e}\ln{N_{e}},
             \end{align}
@@ -285,12 +285,12 @@
                 S_{\rho}^{1}+S_{\Pi}^{1} \ge 3\Par{1+\ln{\pi}}.
             \end{align}
             
-            \textit{Gadre, S. et al.} \cite{gadre} propusieron que la suma de las entropías podría arrojar información sobre la calidad de un conjunto base que conforma a los orbitales atómicos y probó su hipótesis con los métodos y bases. \textit{Tripathi, A. et al.} \cite{tripathi}, realizaron una prueba semejante, pero con la serie isoelectrónica del Berilio. Por último, \textit{H{\^o}, M. et al.} \cite{ho} mostraron estudios sobre la sensibilidad de las entropías $S_{\rho}$, $S_{\Pi}$ y $S_{\rho}+S_{\Pi}$ ante pequeñas variaciones de la densidad electrónica y sobre series isoelectrónicas de átomos.
+            Gadre, S. et al. \cite{gadre} propusieron que la suma de las entropías podría arrojar información sobre la calidad de un conjunto base que conforma a los orbitales atómicos y probó su hipótesis con los métodos y bases. Tripathi, A. et al. \cite{tripathi}, realizaron una prueba semejante, pero con la serie isoelectrónica del Berilio. Por último, H{\^o}, M. et al. \cite{ho} mostraron estudios sobre la sensibilidad de las entropías $S_{\rho}$, $S_{\Pi}$ y $S_{\rho}+S_{\Pi}$ ante pequeñas variaciones de la densidad electrónica y sobre series isoelectrónicas de átomos.
                     
     \section{Método Hartree-Fock}
         \noindent También llamado método del campo autoconsistente (SCF por sus siglas en inglés), consiste en encontrar la función de onda de un átomo a través de varias iteraciones \cite{berthier,mcweeny,pople,roothaan}. En este método, se consideran funciones de onda antisimétricas y se expresan a través de determinantes de Slater.
         
-        Utilizando la notación de \textit{McQuarrie, D. A.} \cite{mcquarrie}, defínase la i-ésima función de onda espín orbital independiente del tiempo del j-ésimo electrón y con espín $\alpha$ como $\psi_{i}\alpha(j)$, mientras que con espín $\beta$, es $\psi_{i}\beta(j)$. Además, sea $\Psi(1,\dots,2N)$ la función de onda de un átomo compuesto por 2$N$ electrones. Al dotarle la característica de antisimetría, esta puede expresarse como
+        Utilizando la notación de McQuarrie, D. A. \cite{mcquarrie}, defínase la i-ésima función de onda espín orbital independiente del tiempo del j-ésimo electrón y con espín $\alpha$ como $\psi_{i}\alpha(j)$, mientras que con espín $\beta$, es $\psi_{i}\beta(j)$. Además, sea $\Psi(1,\dots,2N)$ la función de onda de un átomo compuesto por 2$N$ electrones. Al dotarle la característica de antisimetría, esta puede expresarse como
         \begin{align} \label{eq: funcion onda hf}
             \Psi(1,2,\dots,2N) = 
             \frac{1}{\sqrt{(2N)!}}\begin{vmatrix}
@@ -318,8 +318,6 @@
         
         Los primeros dos términos están asociados con la energía cinética de los electrones y la interacción electrón con núcleo, respectivamente, mientras que el tercero se debe a la interacción electrón con electrón.
         
-        La razón por la que se mencionan 2$N_{e}$ electrones es para definir $N_{e}$ electrones por cada espín.
-        
         El método Hartree-Fock resuelve cada espín orbital a través del operador de Fock $\hat{F}$ \eqref{eq: fock equation}. Al referirnos con $\bm{\tau}_1$ y $\bm{\tau}_2$ como las coordenadas espín-espaciales donde queremos ver la interacción entre dos electrones y al expresar $\varphi_i$ como el i-ésimo espín orbital de un electrón,
         \begin{align}\label{eq: fock equation}
             \hat{F}(\bm{\tau}_1)\varphi_i(\bm{\tau}_1) = \varepsilon_i\varphi_i(\bm{\tau}_1),\quad i=1,2\dots,N_{e},
@@ -336,7 +334,7 @@
             \text{y} & \\
             \hat{K}_j(\bm{r}_1)\psi_i(\bm{r}_1) & = \psi_j(\bm{r}_1)\int d\bm{r}_2\psi_j^*(\bm{r}_2)\frac{1}{r_{12}}\psi_i(\bm{r}_2) \nonumber
         \end{align}
-        y las funciones de onda orbitales ahora son espaciales, $\psi$. Estas son \textit{ecuaciones restringidas de Hartree-Fock}, sin embargo, no es necesario que se aplique la condición de capa cerrada para encontrar las soluciones, pues también se puede derivar el operador de Fock para casos de capa abierta y sus ecuaciones se llamarán \textit{ecuaciones no restringidas de Hartree-Fock}.
+        y las funciones de onda orbitales ahora son espaciales, $\psi$. Estas son las \textit{ecuaciones restringidas de Hartree-Fock}, sin embargo, no es necesario que se aplique la condición de capa cerrada para encontrar las soluciones, pues también se puede derivar el operador de Fock para casos de capa abierta y sus ecuaciones se llamarán \textit{ecuaciones no restringidas de Hartree-Fock}.
         
         A partir de la ecuación \eqref{eq: fock equation}, se puede obtener la energía del i-ésimo orbital,
         \begin{align}
@@ -350,17 +348,17 @@
         \begin{align}
             I_i = \int d\bm{r}_1\psi_i^*(\bm{r}_1)\hat{h}_i(\bm{r}_1)\psi_i(\bm{r}_1)
         \end{align}
-        deriva de la energía cinética del electrón y su interacción con el núcleo. Esto se debe a que la interacción entre electrones sucede a través de un potencial promedio, o bien, los movimientos de los electrones no se consideran correlacionados, lo cual implica que no se considera energía de correlación. Su cálculo se realiza a través de la ecuación \eqref{eq: corr-energy},
+        deriva de la energía cinética del electrón y su interacción con el núcleo. Esto sucede porque en el método Hartree-Fock (HF) la interacción entre electrones se da a través de un potencial promedio, o bien, no hay correlación en el movimiento de los electrones, lo cual implica que no se considera la interacción instantánea entre electrones. Esta se calcula a través de la ecuación \eqref{eq: corr-energy},
         \begin{align}\label{eq: corr-energy}
             E_{corr} = E_{exacto}-E_{HF},
         \end{align}
-        la cual muestra la diferencia de energía entre la exacta y la obtenida usando el método Hartree-Fock. Cabe mencionar que la energía de correlación incrementa conforme incrementa el número de electrones que componen al sistema, alejando la energía calculada de la exacta.
+        la cual muestra la diferencia de energía entre la exacta y la obtenida usando el método HF. Cabe mencionar que la energía de correlación incrementa conforme incrementa el número de electrones que componen al sistema, alejando la energía calculada de la exacta.
         
-        Sin importar si el sistema es una molécula o un átomo, uno puede suponer que un orbital molecular se compone de una combinación lineal de orbitales atómicos (MO-LCAO por sus siglas en inglés),
+        Uno puede suponer que un orbital molecular se compone de una combinación lineal de orbitales atómicos (MO-LCAO por sus siglas en inglés),
         \begin{align}\label{eq: orbital molecular}
             \psi(\bm{r}) = \sum_{i}^{k}c_i\phi_i(\bm{r}),
         \end{align}
-        cuyo número de términos ($k$) es arbitrario. Este conjunto de orbitales atómicos recibe el nombre de conjunto base y hay una gran variedad de ellos que cumplen diversas características propias \cite{conjunto_base}.
+        además de que los orbitales atómicos $\phi$ se conformarán de un conjunto de funciones base de tamaño arbitrario. Hay una gran variedad de estos conjuntos y cumplen diversas características propias \cite{conjunto_base}.
         
         Esta propuesta de función de onda implica trabajar con un sistema de ecuaciones llamadas \textit{ecuaciones de Hartree-Fock-Roothaan} \cite{roothaan}, las cuales pueden manipularse como matrices hermíticas de tamaño $k\times k$,
         \begin{align}
@@ -439,19 +437,19 @@
                     \vdots
                 \end{pmatrix},
             \end{align}
-            para proceder a la búsqueda de la energía mínima y los coeficientes $c_i$, con $i\in\{0,1,...\}$. La energía es el menor valor propio de \eqref{eq: matriz_1 ci} y los vectores propios son los coeficientes de los conjuntos de la función de onda \eqref{eq: psi ci}. El cálculo de los elementos $\Bra{\psi_i}\Ham\Ket{\psi_j}$ varía en dependencia de la pareja de orbitales $\psi_i$ y $\psi_j$, el cual puede verse con mayor detalle en el libro \textit{Introduction to Computational Chemistry} de \textit{Jensen, F.} \cite{jensen}.
+            para proceder a la búsqueda de la energía mínima y los coeficientes $c_i$, con $i\in\{0,1,...\}$. La energía es el menor valor propio de \eqref{eq: matriz_1 ci} y los vectores propios son los coeficientes de los conjuntos de la función de onda \eqref{eq: psi ci}. El cálculo de los elementos $\Bra{\psi_i}\Ham\Ket{\psi_j}$ varía en dependencia de la pareja de orbitales $\psi_i$ y $\psi_j$, el cual puede verse con mayor detalle en el libro \textit{Introduction to Computational Chemistry} de Jensen, F. \cite{jensen}.
             
             Cuando se consideran todos los posibles determinantes de Slater por cada excitación, el método es CI(full), pero este método exige un coste computacional muy elevado, por lo que se suele cortar la combinación lineal de determinantes de Slater hasta las interacciones simples CIS, dobles CISD, triples CIST, etcétera. Por ejemplo, si se corta la serie hasta las excitaciones dobles, pero se consideran todos los determinantes de Slater por cada tipo de excitación, se tiene el método CISD(full).
             
         \subsection{Métodos perturbativos M\o ller-Plesset}
             \noindent Son métodos pos-Hartree-Fock que se caracterizan por usar la teoría perturbativa de Rayleigh-Schr\"odinger como estrategia para superar el límite Hartree-Fock y se pueden realizar perturbaciones de segundo orden (MP2) \cite{mp2-1}, tercero (MP3) \cite{mp3-1}, cuarto (MP4) \cite{mp4-1} e incluso más. MP2 puede tomar en cuenta entre el 80\% y 90\% de la energía de correlación, MP3 entre el 90\% y 95\%, y MP4 entre el 95\% y 98\% \cite{jensen}. Sobre los métodos subsecuentes, no se suele tener mucha información, puesto que requieren mucho trabajo computacional.
         
-            En estos métodos, el hamiltoniano no perturbado es la suma de los operadores de Fock,
+            En estos métodos, el hamiltoniano no perturbado es la suma de los operadores de Fock provenientes del método HF,
             \begin{align}
                 \hat{\Ham}^{(0)} & = \sum_{j=1}^{N_{e}}\hat{F} \nonumber\\
             & = \sum_{i=1}^{N_{e}}\hat{h}_i+\sum_{i=1}^{N_{e}}\sum_{j=1}^{N_{e}}\Mean{\frac{1}{r_{ij}}},
             \end{align}
-            el hamiltoniano que se desea conocer es aquel de la ecuación \eqref{eq: hamiltoniano} y el perturbado es
+            donde el último término se refiere a una interacción promedio. El hamiltoniano que se desea conocer es aquel de la ecuación \eqref{eq: hamiltoniano} y el perturbado es
             \begin{align}
                 \hat{\Ham}' & = \hat{\Ham}-\hat{\Ham}^{(0)} \nonumber\\
                 & = \Par{\sum_{i=1}^{N_{e}}\hat{h}_i+\sum_{i=1}^{N_{e}}\sum_{j>i}\frac{1}{r_{ij}}}-\Par{\sum_{i=1}^{N_{e}}\hat{h}_i+\sum_{j=1}^{N_{e}}\sum_{j=1}^{N_{e}}\Mean{\frac{1}{r_{ij}}}} \nonumber\\
@@ -480,7 +478,7 @@
     \section{Funcionales híbridos}
         \noindent En la teoría del funcional de la densidad (DFT por sus siglas en inglés), se establece que la densidad electrónica posee todas las propiedades electrónicas del sistema en estudio, de modo que se podría simplificar el estudio de átomos y moléculas al reemplazar a la función de onda, la cual depende de 4n variables, con n como el número de electrones, por la densidad electrónica que depende de 3 variables.
             
-        \textit{Kohn, W. y Sham, L.} \cite{kohn} propusieron resolver el problema de una molécula a través de la consideración de un sistema de referencia $s$ de infinitos electrones no interactuantes entre sí que ocuparan un volumen infinito y estuvieran sometidos a un potencial externo $\nu_s$ (que sería causado por el núcleo), pero cuya densidad electrónica fuera aquella de la molécula en estudio en su estado fundamental, $\rho$ que se puede conocer. Bajo estas circunstancias, la energía en función de la densidad sería
+        Kohn, W. y Sham, L. \cite{kohn} propusieron resolver el problema de una molécula a través de la consideración de un sistema de referencia $s$ de infinitos electrones no interactuantes entre sí que ocuparan un volumen infinito y estuvieran sometidos a un potencial externo $\nu_s$ (que sería causado por el núcleo), pero cuya densidad electrónica fuera aquella de la molécula en estudio en su estado fundamental, $\rho$ que se puede conocer. Bajo estas circunstancias, la energía en función de la densidad sería
         \begin{align}
             E[\rho] = \int\rho(\bm{r})\nu_s(\bm{r})dr+T_s[\rho],
         \end{align}
@@ -505,14 +503,14 @@
         Para resolver el problema, se requiere conocer $E_{XC}$, sin embargo, hasta ahora sólo se saben aproximaciones de la misma a través de diversos métodos donde suponen que la energía $E_{XC}$ es una combinación lineal de las energías de intercambio $E_{X}$ y correlación $E_{C}$ individuales y que además, ambas se deducen por diversos métodos, entre ellos, Hartree-Fock. 
         
         \subsection{Funcional B3LYP}
-           La energía funcional de B3LYP fue desarrollada por \textit{Stephens, P. et al.} \cite{b3lyp} y se compone de la combinación lineal
+           La energía funcional de B3LYP fue desarrollada por Stephens, P. et al. \cite{b3lyp} y se compone de la combinación lineal
             \begin{align}
                 E_{XC}^{B3LYP} = (1-a)E_X^{LDA}+aE_X^{HF}+bE_X^{B88}+(1-c)E_C^{LDA}+cE_C^{LYP},
             \end{align}
-            donde $E_X^{LDA}$, $E_X^{HF}$ y $E_X^{B88}$ son las energías de intercambio deducidas a través de los métodos de aproximación de la densidad local ($LDA$ por sus siglas en inglés), Hartree-Fock ($HF$) y por \textit{Becke, A.} ($B88$) \cite{becke}, respectivamente, mientras que $E_C^{LYP}$ \cite{lyp} y $E_C^{LDA}$ son sus respectivas energías de correlación. Los coeficientes $a$ y $b$ se ajustan con datos experimentales.
+            donde $E_X^{LDA}$, $E_X^{HF}$ y $E_X^{B88}$ son las energías de intercambio deducidas a través de los métodos de aproximación de la densidad local ($LDA$ por sus siglas en inglés), Hartree-Fock ($HF$) y por Becke, A. ($B88$) \cite{becke}, respectivamente, mientras que $E_C^{LYP}$ \cite{lyp} y $E_C^{LDA}$ son sus respectivas energías de correlación. Los coeficientes $a$ y $b$ se ajustan con datos experimentales.
         
         \subsection{Funcional $\omega$B97X-D}
-            Este funcional fue desarrollado por \textit{Jeng-Da, C. y Head-Gordon, M.} \cite{wb97xd} para tomar en cuenta interacciones de dispersión (fuerzas de London) a través de correcciones de largo alcance y términos de amortiguamiento.
+            Este funcional fue desarrollado por Jeng-Da, C. y Head-Gordon, M. \cite{wb97xd} para tomar en cuenta interacciones de dispersión (fuerzas de London) a través de correcciones de largo alcance y términos de amortiguamiento.
             
             Para lograrlo, ajustaron el funcional $\omega$B97X \cite{wb97x}, el cual contiene las correcciones de largo alcance, y un término asociado a la energía de dispersión, es decir,
             \begin{align}
@@ -522,7 +520,7 @@
             \begin{align}\label{eq: energia disp}
                 E_{disp} = -\sum_{i=1}^{N_{at}-1}\sum_{j=i+1}^{N_{at}}\frac{C_6^{ij}}{R_{ij}^6}f_{damp}(R_{ij}),
             \end{align}
-            utilizando la notación de \textit{Jeng-Da, C. y Head-Gordon, M.}, donde $N_{at}$ es el número de átomos que componen a la molécula, $C_6^{ij}$ es el coeficiente de dispersión para la pareja de átomos $ij$ y $R_{ij}$ es la distancia interatómica.
+            utilizando la notación de Jeng-Da, C. y Head-Gordon, M., donde $N_{at}$ es el número de átomos que componen a la molécula, $C_6^{ij}$ es el coeficiente de dispersión para la pareja de átomos $ij$ y $R_{ij}$ es la distancia interatómica.
             
             La ecuación \eqref{eq: energia disp} contiene una función de amortiguamiento,
             \begin{align}
@@ -550,14 +548,13 @@
         Otras bases gaussianas conocidas son las de tipo cc-pVXZ \cite{cc-pvxz}, las cuales quieren decir correlación consistente con funciones X Zeta de valencia polarizadas, donde X puede ser doble (D), triple (T), cuádruple (Q), etcétera. Además, a estas bases también se les pueden agregar gaussianas difusas, renombrándolas aug-cc-pVXZ. Estas bases se caracterizan por su uso en métodos que incluyen correlación electrónica, como son los métodos post-Hartree-Fock.
 
     \section{DensToolKit}
-        \noindent \textit{DensToolKit} es un paquete de programas con licencia GNU-GPLv3 y desarrollados por \textit{Solano-Altamirano, J. M. y Hernández-Pérez J. M.} \cite{manuel} enfocados en analizar densidades electrónicas y varios campos derivados de ellos, tales como el gradiente de la densidad electrónica, la función de localización electrónica (ELF por sus siglas en inglés) junto con su gradiente, región de electrones lentos (RoSE por sus siglas en inglés), gradiente de densidad reducida, detector de electrones localizados (LED por sus siglas en inglés), entropías de la información, potencial electrostático, densidades $K$ y $G$ de energía cinética, entre otros, incluso en el espacio de momentos. Además, también incluye programas que se encargan de ubicar puntos críticos y enlaces químicos, todo en moléculas y átomos, usando como referencia la teoría cuántica de átomos en moléculas (QTAIM por sus siglas en inglés). 
-        Algunos de sus programas son
+        \noindent \textit{DensToolKit} es un paquete de programas con licencia GNU-GPLv3 y desarrollados por Solano-Altamirano, J. M. y Hernández-Pérez J. M. \cite{manuel} enfocados en analizar densidades electrónicas y varios campos derivados de ellos, tales como el gradiente de la densidad electrónica, la función de localización electrónica (ELF por sus siglas en inglés) junto con su gradiente, región de electrones lentos (RoSE por sus siglas en inglés), gradiente de densidad reducida, detector de electrones localizados (LED por sus siglas en inglés), entropías de la información, potencial electrostático, densidades $K$ y $G$ de energía cinética, entre otros, incluso en el espacio de momentos. Además, también incluye programas que se encargan de ubicar puntos críticos y enlaces químicos, todo en moléculas y átomos, usando como referencia la \textit{Teoría Cuántica de Átomos en Moléculas} (QTAIM por sus siglas en inglés). Algunos de sus programas son
         \begin{itemize}
             \item dtkpoint, el cual evalúa los campos implementados en un punto o en un conjunto de puntos, y
             \item dtkbpdens, cuya tarea es evaluar uno de los campos implementados a lo largo del trayecto del enlace entre dos átomos.
         \end{itemize}
         
-        DensToolKit solicita como entrada archivos de formato \textit{wfn} ó \textit{wfx}, los cuales son producidos por programas tales como Gamess, NWChem, MOLPRO o Gaussian. Tales archivos contienen la expansión de la función de onda molecular o atómica en términos bases gaussianas. 
+        \textit{DensToolKit} solicita como entrada archivos de formato \textit{wfn} o \textit{wfx}, los cuales son producidos por programas tales como Gamess, NWChem, MOLPRO o Gaussian. Tales archivos contienen la expansión de la función de onda molecular o atómica en términos bases gaussianas. 
         
         No obstante la variedad de sus programas, no hay uno que se encargue de integrar los campos escalares mencionados, por lo que es necesario implementar en él un algoritmo de integración para integrar cualquiera de los campos que ofrezca la suite.
     

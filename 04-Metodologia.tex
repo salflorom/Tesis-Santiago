@@ -18,7 +18,7 @@
                         \item SetConvergenceRate: Se establece la taza de refinamiento de la malla. Este parámetro permite suavizar los cambios en el refinamiento del mallado y depende mucho del integrando, por lo que no se suele modificar. Por defecto, el valor es 1.
                         \item SetNumOfPoints: Determina el número de puntos de muestreo aleatorio Monte Carlo sobre la región de integración. Por defecto, son 10,000 evaluaciones por iteración.
                         \item SetTermalization: Indica el número de las primeras iteraciones cuya integral estimada no será utilizada para el estimado acumulado. Por defecto, su valor es 0.
-                        \item SetTolerance: Dado que el mallado óptimo es casi imposible de alcanzar, se usa un rango de tolerancia. Por defecto, es 0.
+                        \item SetTolerance: Dado que el mallado óptimo es no siempre se alcanza, se usa un intervalo de tolerancia. Por defecto, es 0.
                         \item SetStopRefinement: Dado que la estimación acumulada puede sesgarse, se puede cortar su cálculo a partir de cierta j-ésima iteración para basarse únicamente en los resultados de integración Monte Carlo, los cuales muestran una distribución gaussiana con media en la integral verdadera. Por defecto, no se toma un límite para este parámetro.
                         \item SetNSamplesToFindMaximum: Para buscar el valor máximo de la densidad en el espacio de momentos, se realiza un muestreo aleatorio sobre la región de integración con un número de puntos arbitrario e independiente de la integración Las Vegas+. Si se registra un valor de la densidad mayor a cero al lanzar el primer punto, se registra como máximo latente hasta que aparezca un valor registrado. Por cada valor registrado, el radio de búsqueda se reduce de la región de integración a la distancia entre el origen y el último valor registrado. La necesidad de realizar este método de rastreo se debe a que las densidades en el espacio de momento tienen comportamientos semejantes a una densidad gaussiana. El valor depende del átomo o la molécula en estudio, pues algunas veces el punto crítico se encuentra en el origen, lo que implica la innecesidad de solicitar este cálculo. En caso contrario, se suele requerir alrededor de 1,000,000 puntos de muestreo aleatorio para encontrar un valor aproximado.
                     \end{itemize}
@@ -51,7 +51,7 @@
         
             Además de la línea de comandos, aún el programa puede personalizarse más dentro de la función MAIN. De ahí, el usuario puede solicitar que se devuelvan la integral calculada (Integral), constante de normalización (NormConstant), densidad máxima (MaxDensity), varianza (Variance), número de iteraciones realizadas (CountIterations), número de evaluaciones hechas sobre el integrando (CountEvaluations) y todos los parámetros de entrada que se tienen por defecto, se calculan automáticamente o fueron ingresados por el usuario (DisplayProperties), así como ajustar la región de integración (SetDimensions), el cual, por lo general se calcula automáticamente.
         
-            Como ejemplo, la figura \ref{fig: ejem-vegasintegrator} muestra el cálculo de la integral de la densidad electrónica para el benceno, el cual tiene 42 electrones en su estado neutral. Dado que el archivo benzene.wfn es utilizado por \text{DensToolKit} para probar la eficiencia de sus programas, \textit{dtkintegrate} tiene registrado su valor exacto del número de electrones, por lo que puede calcular el porcentaje de error relativo entre su cálculo y aquel establecido como correcto.
+            Como ejemplo, la figura \ref{fig: ejem-vegasintegrator} muestra el cálculo de la integral de la densidad electrónica para el benceno, el cual tiene 42 electrones en su estado neutro. Dado que el archivo \textit{benzene.wfn} es utilizado por \textit{DensToolKit} para probar la eficiencia de sus programas, \textit{dtkintegrate} tiene registrado su valor exacto del número de electrones, por lo que puede calcular el porcentaje de error relativo entre su cálculo y aquel establecido como correcto.
         
             \begin{figure}[htbp]
                 \centering
@@ -59,3 +59,14 @@
                 \caption{Ejemplo del funcionamiento del programa \textit{dtkintegrate} en el sistema operativo GNU-Ubuntu 20.04.2 LTS, utilizando como molécula de estudio al benceno.}
                 \label{fig: ejem-vegasintegrator}
             \end{figure}
+            
+        \subsection{Definición de la diferencia de entropía informacional}
+            \noindent Para analizar los resultados, se definió la diferencia de entropías, donde se toma como referencia aquellas asociadas a la base 6-31G,
+            \begin{align}
+                \Delta (S_T^{N_e})_i^{6-31G} \equiv (S_T^{N_e})_i^{\mu}-(S_T^{N_e})_i^{6-31G},
+            \end{align}
+            donde $(S_T^{N_e})_i^{\mu}$ es la suma de las entropías informacionales en los espacios de posiciones y momentos, asociada a la base $\mu\in\{\text{aug-cc-pVDZ, aug-cc-pVTZ, cc-pVDZ, cc-pVTZ, 6-31G, 6-31+G**, 6-31G(2df,p)}\}$ para el átomo $i$-ésimo, $i\in\{1,2,...,36\}$, $N_e$ indica la densidad electrónica normalizada al número de electrones del sistema, mientras que $T$ indica la suma de ambas.
+    
+            Se tomó como referencia 6-31G al ser la base que considera menos propiedades electrónicas a comparación de las bases restantes (polarización, densidad electrónica difusa, correlación electrónica e interacciones de largo alcance), por lo que valores negativos de $\Delta (S_T^{N_e})^{6-31G}$ indicarían una calidad menor a aquella de la base $6-31G$. Al comparar diferentes bases, aquella que muestre el valor $\Delta (S_T^{N_e})^{6-31G}$ máximo para un átomo específico, sería la base con la mejor calidad para tal átomo. Por último, la cantidad $\Delta (S_T^{N_e})^{6-31G}$ para la base $6-31G$ valdrá cero para cualquier átomo o molécula por ser la referencia.
+
+    
