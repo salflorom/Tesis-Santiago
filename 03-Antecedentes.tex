@@ -6,7 +6,7 @@
         \end{align}
         siendo $I$ la integral exacta de $f$ sobre el volumen $\Omega$, $l\in\N$ y de modo que $\Mean{f}\rightarrow I$ cuando $N_{ev}\rightarrow\oo$.
         
-        Su varianza se puede determinar a partir de la expresión
+        La varianza para este método de integración se puede determinar a partir de la expresión
         \begin{align}\label{eq: devest mc}
             \sigma^2 = \frac{\Mean{f^2}-\Mean{f}^2}{N_{ev}-1}
         \end{align}
@@ -21,24 +21,27 @@
         \end{align}
         es por eso que se han desarrollado métodos adaptativos que buscan reducir ese costo sin sacrificar las ventajas del mismo método.
         
-        \subsection{Muestreo de importancia}
-            \noindent La varianza $\sigma^2$ puede reducirse hasta alcanzar un valor óptimo, el cual es
-                \begin{align}\label{eq: densidad optima}
-                    p(\bm{x}) = \frac{\Abs{f(\bm{x})}}{\int_{\Omega}\Abs{f(\bm{x})}}.
-                \end{align}
-            Aunque en la práctica es imposible alcanzarlo, la ecuación \eqref{eq: densidad optima} muestra que tal valor se logra cuando las evaluaciones sobre $f$ se concentran en donde su magnitud es mayor.
+        % \subsection{Muestreo de importancia}
+        %     \noindent La varianza $\sigma^2$ puede reducirse hasta alcanzar un valor óptimo, el cual se logra cuando
+        %         \begin{align}\label{eq: densidad optima}
+        %             p(\bm{x}) = \frac{\Abs{f(\bm{x})}}{\int_{\Omega}\Abs{f(\bm{x})}}.
+        %         \end{align}
             
-        \subsection{Muestreo estratificado}
-            \noindent Uno de los métodos para alcanzar la varianza $\sigma^2$ óptima consiste en subdividir la región $\Omega$ en $N_g$ subconjuntos $\omega_i$, con $i\in\{1,2,\dots,N_g\}$, de tamaño variable, a los que se llamarán incrementos o intervalos por dimensión. De ese modo, se puede integrar utilizando $N_{ev}/N_g$ puntos de muestreo aleatorios en cada $\omega_i$.
+        %     Se llega a esta conclusión al buscar el mínimo de la varianza bajo la restricción de que $p$ se encuentra normalizada a 1.
+            
+        %     La importancia de conocer este tipo de muestreo es que la densidad de probabilidad óptima depende del área bajo la curva. Si el integrando pudiera aproximarse a una función simple como una constante, el área bajo la curva podría aproximarse al área de un rectángulo. Afortunadamente, puede realizarse tal aproximación utilizando el muestreo estratificado. 
+            
+        % \subsection{Muestreo estratificado}
+        %     \noindent Uno de las estrategias para alcanzar una varianza $\sigma^2$ óptima consiste en subdividir la región $\Omega$ en $N_g$ subconjuntos $\omega_i$, con $i\in\{1,2,\dots,N_g\}$, de tamaño variable, a los que se llamarán incrementos o intervalos por dimensión. De ese modo, se puede integrar utilizando $N_{ev}/N_g$ puntos de muestreo aleatorios en cada $\omega_i$.
                 
-            La varianza utilizando este método, $\sigma_s^2$, puede reducirse hasta un valor
-            \begin{align}
-                \sigma_s^2 \rightarrow \frac{\sigma^2}{N_g},
-            \end{align}
-            sin embargo el número de evaluaciones sobre $f$ crece al valor $N_{ev}=2N_g^d$, volviéndose un serio problema cuando se trata de integrales en múltiples dimensiones.
+        %     La varianza utilizando este método, $\sigma_s^2$, puede reducirse hasta un valor
+        %     \begin{align}
+        %         \sigma_s^2 \rightarrow \frac{\sigma^2}{N_g},
+        %     \end{align}
+        %     sin embargo el número de evaluaciones sobre $f$ crece al valor $N_{ev}=2N_g^d$, volviéndose un serio problema cuando se trata de integrales en múltiples dimensiones.
         
     \section{Método Las Vegas+}
-        \noindent Este método de integración fue desarrollado por primera vez por Lepage, P. \cite{lepage1978} en 1978 y ha sido tan ampliamente utilizado que incluso llegó a usarse en el CERN \cite{vegas-cern} y se implementó en diversos lenguajes de programación como en Fortran \cite{lepagefortran} o Python a través del programa VegasFlow \cite{vegasflow}. Además, se propusieron mejoras de la primera versión por parte de otros desarrolladores \cite{vegas-revisited} para el área de la física de partículas. La última mejora implementada sobre este método fue publicada por su propio autor en agosto del 2021 y lo llamó Las Vegas+ \cite{lepage2021}.
+        \noindent Este método de integración fue desarrollado por primera vez por Lepage, P. \cite{lepage1978} en 1978 y ha sido tan ampliamente utilizado que incluso llegó a usarse en el CERN \cite{vegas-cern} y se implementó en diversos lenguajes de programación como en Fortran \cite{lepagefortran} o Python a través del programa VegasFlow \cite{vegasflow}. Además, se propusieron mejoras de la primera versión por parte de otros desarrolladores \cite{vegas-revisited} para el área de la física de partículas. La última mejora implementada sobre este método fue publicada por su propio autor en agosto del 2021 y lo llamó Las Vegas+ \cite{lepage2021}. La notación que se utilizará en esta sección será aquella utilizada por el autor del presente método.
         
         La importancia de este método iterativo radica en su capacidad de adaptarse al integrando para reducir la incertidumbre $\sigma^2$ prontamente, disminuyendo el número de evaluaciones a un orden $O(N_gd)$, en lugar de $O\Par{N_g^d}$, donde $N_g$ y $d$ son el número de incrementos y de dimensiones, respectivamente.
         
@@ -52,7 +55,7 @@
         \end{align}
         donde $N_{ev}$ es el número de evaluaciones que se realizan sobre $f$.
         
-        En términos estadísticos, la integral $I$ es el valor esperado de la muestra de puntos obtenidos a través de una distribución aleatoria uniforme, por lo que la incertidumbre que presenta este método de integración es
+        La integral $I$ es el valor esperado de $J(y)f(x(y))$, por lo que la incertidumbre que presenta este método de integración es
         \begin{align}
             \sigma^2 = \frac{1}{N_{ev}-1}\Par{\sum_y\Sqbr{J(y)}^2\Sqbr{f(x(y))}^2-S^2}
         \end{align}
@@ -79,7 +82,7 @@
         \end{align}
         el cual es una función escalonada con anchos $\Delta x_i$.
         
-        Otra ventaja de la transformación mencionada es la manera en que trata al integrando en el nuevo espacio, pues concentra el muestreo de puntos en aquellas zonas del integrando donde se presenten picos pronunciados y reduce el muestreo en zonas donde el integrando sea plano. En promedio, cada intervalo recibirá un mismo número de puntos de muestreo (alrededor de $N_{ev}/N_g$), mostrando la aplicación del muestreo de importancia como método adaptativo en Monte Carlo.
+        En promedio, cada intervalo recibirá un mismo número de puntos de muestreo (alrededor de $N_{ev}/N_g$), mostrando la aplicación del muestreo de importancia como método adaptativo en Monte Carlo.
         
         El procedimiento del método Las Vegas+ consiste en generar un mallado uniforme y realizar un muestreo Monte Carlo para adquirir información del integrando, la cual será usada para modificar el mallado y realizar nuevamente un muestreo. Sucesivamente, el algoritmo recaudará cada vez más información para al final alcanzar un mallado óptimo y adaptado al comportamiento de la función a integrar.
         
@@ -87,19 +90,19 @@
         \begin{align}
             d_i \equiv \frac{1}{n_i}\sum_{x(y)\in\Delta x_i}\Sqbr{J(y)}^2\Sqbr{f(x(y))}^2,
         \end{align}
-        el cual deberá tender a una constante como índice de un mallado óptimo. Para realizar el refinamiento del mallado, $d_i$ debe redefinirse como
+        el cual deberá tender a una constante como índice de un mallado óptimo. Para realizar el refinamiento del mallado, Lepage, P. propuso que $d_i$ se redefiniera como
         \begin{align}
             d_i \rightarrow \Par{\frac{1-d_i}{\ln{\Sqbr{1/d_i}}}}^{\alpha},
         \end{align}
         donde $\alpha$ se define como taza de convergencia y su valor depende del integrando, obteniéndose a prueba y error. Sin embargo, típicamente se escoge $\alpha=1$ y el valor $\alpha=0$ indica que ya no se realizará más refinamiento del mallado. Este parámetro es una constante durante el proceso de integración.
         
-        Para saber si $d_i$ es constante, se busca que $d_i$ sea considerablemente igual en cada intervalo. Sean
+        Sean
         \begin{align}\label{eq: d d_i}
             d & \equiv \sum_i d_i \nonumber\\
             \text{y} & \\
             \delta d & \equiv \frac{\sum_id_i}{N_g}. \nonumber
         \end{align}
-        Una vez definidas las variables \eqref{eq: d d_i}, se procede al siguiente algoritmo.
+        Una vez definidas las variables \eqref{eq: d d_i}, se procede al siguiente algoritmo desarrollado por su autor.
         \begin{enumerate}
             \item Se inicializan las variables siguientes.
                 \begin{align*}
@@ -118,7 +121,7 @@
                 Se regresa al paso 2.
         \end{enumerate}
         
-        Una vez generada la nueva malla, se reemplaza la anterior por esta, se realiza un nuevo muestreo Monte Carlo y se repite el procedimiento hasta alcanzar el mallado óptimo y que el estimado de la integral sea suficientemente preciso.
+        Una vez generada la nueva malla, se remplaza la anterior por esta, se realiza un nuevo muestreo Monte Carlo y se repite el procedimiento hasta alcanzar el mallado óptimo y que el estimado de la integral sea suficientemente preciso.
         
         Para funciones cuyo dominio se encuentre en un espacio multidimensional, es decir,
         \begin{align}
@@ -128,12 +131,12 @@
         \begin{align}
             d_i^\mu \equiv \frac{1}{n_i^{\mu}}\sum_{x^{\mu}(y^{\mu})\in\Delta x_i^{\mu}}\Sqbr{J(y)}^2\Sqbr{f(\bm{x}(y))}^2,
         \end{align}
-        donde $\mu$ representa la dimensión respectiva, $0<y^{\mu}<1$ y
+        donde $\mu$ representa la dimensión respectiva ($\mu\in\{x,y,z\}$ para una función de tipo $R^3\rightarrow R$), $0<y^{\mu}<1$ y
         \begin{align}
             J(y) = \prod_{\mu} J^{\mu}(y).
         \end{align}
         
-        Dado que cada integración Monte Carlo arroja información sobre el integrando, se puede utilizar también para obtener un estimado acumulado y una varianza acumulada que ayudan a amortiguar la variación de ambas estimaciones, las cuales se pueden determinar mediante
+        Dado que cada integración Monte Carlo arroja información sobre el integrando, el autor del método Las Vegas propuso utilizar tal información para obtener un promedio y una varianza acumulados que ayudan a amortiguar la variación de ambas estimaciones, las cuales se pueden determinar mediante
         \begin{align}
             \bar{I} & = \frac{\sum_jI_j/\sigma_j^2}{\sum_j1/\sigma_j^2} \nonumber\\
             \text{y} & \\
@@ -141,12 +144,12 @@
         \end{align}
         siendo $j$ el índice del número de iteraciones.
         
-        Por último, se debe verificar que los resultados obtenidos en cada iteración sean consistentes con respecto a las incertidumbres estimadas. La forma de hacerlo es a través de pruebas $\chi^2$, expresadas para este caso como
+        Por último, se debe verificar que los resultados obtenidos en cada iteración sean consistentes con respecto a las incertidumbres estimadas. Lepage, P. propuso utilizar pruebas $\chi^2$, expresadas para este caso como
         \begin{align}
             \chi^2 = \sum_j\frac{\Par{I_j-\bar{I}}^2}{\sigma_j^2}.
         \end{align}
         
-        Si $\chi^2$ llegara a ser mayor al número de iteraciones presentes (menos uno), el proceso de integración deberá reiniciarse.
+        La condición que su autor planteó fue que si $\chi^2$ llegara a ser mayor al número de iteraciones presentes (menos uno), el proceso de integración deberá reiniciarse.
         
         Hay casos donde $\chi^2$ supera frecuentemente el umbral mencionado anteriormente. Algunas veces se debe a que la malla no se encuentra lo suficientemente refinada en las primeras iteraciones y otras veces a que el número de puntos de muestreo no es lo suficientemente grande para garantizar un comportamiento gaussiano alrededor de la integral. Para solucionar el primero, se puede eliminar la estimación obtenida en las primeras iteraciones (termalización) para considerar solo aquellas donde el mallado ya se encuentra lo suficientemente refinado; para el segundo caso, será suficiente con incrementar el número de puntos de muestreo a utilizar por iteración.
         
@@ -237,7 +240,7 @@
             \begin{align}\label{eq: densidad elec}
                 \rho(\bm{r}) \equiv N_{e}\int d\sigma_1d\bm{x}_2\cdots d\bm{x_N}\psi^*\Par{\bm{x}_1,\bm{x}_2,\dots,\bm{x}_N}\psi\Par{\bm{x}_1,\bm{x}_2,\dots,\bm{x}_N},
             \end{align}
-            donde $\bm{x}_i=x(\bm{r}_i,\sigma_i)$, $\sigma_i$ es el espín del $i$-ésimo electrón y $N_{e}$ es el número de electrones que componen al átomo o la molécula, alberga la información del número de electrones por unidad de volumen en un punto del espacio de posiciones \cite{jensen}. Cabe notar que se considera un espacio 4-dimensional (por cada electrón) sobre $\psi$ al ser esta una función antisimétrica, por lo que el espín influye considerablemente en la localización de los electrones sobre el espacio 3-dimensional. Así mismo, la densidad electrónica puede estudiarse tanto en el espacio de posiciones, como en el espacio de momentos a través de la transformada de Fourier, y su expresión es $\Pi=\Pi(\bm{p})$. Esto debido a que el espacio es Fourier es el espacio de momentos:
+            donde $\psi$ es la función de onda del sistema multielectrónico, $\bm{x}_i=\bm{x}_i(\bm{r}_i,\sigma_i)$, $\sigma_i$ es el espín del $i$-ésimo electrón, $\bm{r}_i=\bm{r}_i(x,y,z)$ es una coordenada espacial arbitraria y $N_{e}$ es el número de electrones que componen al átomo o la molécula, alberga la información del número de electrones por unidad de volumen en un punto del espacio de posiciones \cite{jensen}. Cabe notar que se considera un espacio 4-dimensional (por cada electrón) sobre $\psi$ al ser esta una función antisimétrica, por lo que el espín influye considerablemente en la localización de los electrones sobre el espacio 3-dimensional. Así mismo, la densidad electrónica puede estudiarse tanto en el espacio de posiciones, como en el espacio de momentos a través de la transformada de Fourier, y su expresión es $\Pi=\Pi(\bm{p})$. Esto debido a que el espacio es Fourier es el espacio de momentos:
             
             \begin{align}
                 \Pi(\bm{p}) = \frac{1}{(2\pi)^{3/2}}\int\rho(\bm{r})e^{-i\bm{p}\cdot\bm{r}}d\bm{r},
@@ -285,7 +288,7 @@
                 S_{\rho}^{1}+S_{\Pi}^{1} \ge 3\Par{1+\ln{\pi}}.
             \end{align}
             
-            Gadre, S. et al. \cite{gadre} propusieron que la suma de las entropías podría arrojar información sobre la calidad de un conjunto base que conforma a los orbitales atómicos y probó su hipótesis con los métodos y bases. Tripathi, A. et al. \cite{tripathi}, realizaron una prueba semejante, pero con la serie isoelectrónica del Berilio. Por último, H{\^o}, M. et al. \cite{ho} mostraron estudios sobre la sensibilidad de las entropías $S_{\rho}$, $S_{\Pi}$ y $S_{\rho}+S_{\Pi}$ ante pequeñas variaciones de la densidad electrónica y sobre series isoelectrónicas de átomos.
+            Gadre, S. et al. \cite{gadre} propusieron que la suma de las entropías podría arrojar información sobre la calidad de un conjunto base que conforma a los orbitales atómicos y puso a prueba su hipótesis con bases de desdoblamiento simple, doble y Near-Hartree-Fock \cite{nhf}. Tripathi, A. et al. \cite{tripathi}, realizaron una prueba semejante, pero con la serie isoelectrónica del Berilio. Por último, H{\^o}, M. et al. \cite{ho} mostraron estudios sobre la sensibilidad de las entropías $S_{\rho}$, $S_{\Pi}$ y $S_{\rho}+S_{\Pi}$ ante pequeñas variaciones de la densidad electrónica y sobre series isoelectrónicas de átomos.
                     
     \section{Método Hartree-Fock}
         \noindent También llamado método del campo autoconsistente (SCF por sus siglas en inglés), consiste en encontrar la función de onda de un átomo a través de varias iteraciones \cite{berthier,mcweeny,pople,roothaan}. En este método, se consideran funciones de onda antisimétricas y se expresan a través de determinantes de Slater.
@@ -381,65 +384,65 @@
     \section{Métodos post-Hartree-Fock}
         \noindent Estos métodos se caracterizan por superar el límite Hartree-Fock al tomar en cuenta la correlación electrónica. Se llegan a utilizar diversas estrategias como excitaciones electrónicas o perturbaciones del estado Hartree-Fock, entre otras formas. Algunos de estos métodos son los siguientes.
         
-        \subsection{Métodos de interacción de configuraciones}
-            Estos métodos, llamémoslos CI (por sus siglas en inglés), se desarrollan considerando excitaciones electrónicas, lo cual conlleva a la generación de orbitales ocupados (aquellos cuyos electrones ocupan en la configuración de Hartree-Fock) y virtuales (aquellos que aparecen por la presencia de electrones excitados).
+        % \subsection{Métodos de interacción de configuraciones}
+        %     Estos métodos, llamémoslos CI (por sus siglas en inglés), se desarrollan considerando excitaciones electrónicas, lo cual conlleva a la generación de orbitales ocupados (aquellos cuyos electrones ocupan en la configuración de Hartree-Fock) y virtuales (aquellos que aparecen por la presencia de electrones excitados).
             
-            El desarrollo de este método se realiza a través de una combinación lineal de determinantes de Slater que presentan excitaciones electrónicas simples (CIS), dobles (CID), triples (CIT), etcétera, además del determinante de en el estado base, caso Hartree-Fock. Esta combinación se optimiza a través del método por variaciones, sin dejar a un lado la ortonormalidad de las funciones de onda y sin optimizar los orbitales moleculares de Hartree-Fock.
+        %     El desarrollo de este método se realiza a través de una combinación lineal de determinantes de Slater que presentan excitaciones electrónicas simples (CIS), dobles (CID), triples (CIT), etcétera, además del determinante de en el estado base, caso Hartree-Fock. Esta combinación se optimiza a través del método por variaciones, sin dejar a un lado la ortonormalidad de las funciones de onda y sin optimizar los orbitales moleculares de Hartree-Fock.
             
-            \begin{align}\label{eq: psi ci}
-                \Psi(\bm{x}_1,\bm{x}_2,\bm{x}_3,...,\bm{x}_n) = c_{0}\psi_{0}+\sum_{S=1}^{i}c_S\psi_{S}+\sum_{D=i+1}^{j}c_D\psi_{D}+\sum_{T=j+1}c_T\psi_{T}+\cdots,
-            \end{align}
-            donde el subíndice 0 indica a la función de onda Hartree-Fock, $S$ al conjunto de funciones de onda que representan excitaciones simples, $D$ al de excitaciones dobles y $T$ para triples, y el orden seguiría bajo el mismo patrón.
+        %     \begin{align}\label{eq: psi ci}
+        %         \Psi(\bm{x}_1,\bm{x}_2,\bm{x}_3,...,\bm{x}_n) = c_{0}\psi_{0}+\sum_{S=1}^{i}c_S\psi_{S}+\sum_{D=i+1}^{j}c_D\psi_{D}+\sum_{T=j+1}c_T\psi_{T}+\cdots,
+        %     \end{align}
+        %     donde el subíndice 0 indica a la función de onda Hartree-Fock, $S$ al conjunto de funciones de onda que representan excitaciones simples, $D$ al de excitaciones dobles y $T$ para triples, y el orden seguiría bajo el mismo patrón.
             
-            Si se minimiza la energía para encontrar los coeficientes $c_i$, de modo que $\Braket{\Psi}{\Psi}=1$, se pueden usar los multiplicadores indeterminados de Lagrange,
-            \begin{align}
-                \Lag(c_0,c_1,...,c_i,...)=\Bra{\Psi}\Ham\Ket{\Psi}-\lambda\Par{\Braket{\Psi}{\Psi}-1}.
-            \end{align}
+        %     Si se minimiza la energía para encontrar los coeficientes $c_i$, de modo que $\Braket{\Psi}{\Psi}=1$, se pueden usar los multiplicadores indeterminados de Lagrange,
+        %     \begin{align}
+        %         \Lag(c_0,c_1,...,c_i,...)=\Bra{\Psi}\Ham\Ket{\Psi}-\lambda\Par{\Braket{\Psi}{\Psi}-1}.
+        %     \end{align}
             
-            Las expresiones $\Bra{\Psi}\Ham\Ket{\Psi}$ y $\Braket{\Psi}{\Psi}$ en términos de los coeficientes de la expansión de $\Psi$ pueden mostrarse como
-            \begin{align}
-                \Bra{\Psi}\Ham\Ket{\Psi} & = \sum_{i=0}\sum_{j=0}c_ic_j\Bra{\psi_i}\Ham\Ket{\psi_j} = \sum_{i=0}a_i^2E_i+\sum_{i=0}\sum_{j=0}\Bra{\psi_i}\Ham\Ket{\psi_j}
-            \end{align}
-            y
-            \begin{align}
-                \Braket{\Psi}{\Psi} & = \sum_{i=0}\sum_{j=0}c_ic_j\Braket{\psi_i}{\psi_j} = \sum_{i=0}c_i^2\Braket{\psi_i}{\psi_j}
-            \end{align}
+        %     Las expresiones $\Bra{\Psi}\Ham\Ket{\Psi}$ y $\Braket{\Psi}{\Psi}$ en términos de los coeficientes de la expansión de $\Psi$ pueden mostrarse como
+        %     \begin{align}
+        %         \Bra{\Psi}\Ham\Ket{\Psi} & = \sum_{i=0}\sum_{j=0}c_ic_j\Bra{\psi_i}\Ham\Ket{\psi_j} = \sum_{i=0}a_i^2E_i+\sum_{i=0}\sum_{j=0}\Bra{\psi_i}\Ham\Ket{\psi_j}
+        %     \end{align}
+        %     y
+        %     \begin{align}
+        %         \Braket{\Psi}{\Psi} & = \sum_{i=0}\sum_{j=0}c_ic_j\Braket{\psi_i}{\psi_j} = \sum_{i=0}c_i^2\Braket{\psi_i}{\psi_j}
+        %     \end{align}
             
-            Dado que cada parcial de $\Lag$, 
-            \begin{align}
-                \Dfpartial{}{\Lag}{c_i} = 2\sum_jc_j\Bra{\psi_i}\Ham\Ket{\psi_j}-2\lambda c_i & = 0
-            \end{align}
-            y
-            \begin{align}
-                a_i(E_i-\lambda)+\sum_{j\neq0}c_j\Bra{\psi_i}\Ham\Ket{\psi_j} & = 0,
-            \end{align}
-            depende únicamente de su propia variable, podemos resolver el problema mediante valores propios, es decir,
-            \begin{align} \label{eq: matriz_1 ci}
-                \begin{pmatrix}
-                    \Bra{\psi_0}\Ham\Ket{\psi_0}-E & \Bra{\psi_0}\Ham\Ket{\psi_1} & \cdots & \Bra{\psi_0}\Ham\Ket{\psi_j} & \cdots \\
-                    \Bra{\psi_1}\Ham\Ket{\psi_0} & \Bra{\psi_1}\Ham\Ket{\psi_1}-E & \cdots & \Bra{\psi_1}\Ham\Ket{\psi_j} & \cdots \\ 
-                    \vdots & \vdots & \ddots & \vdots & \vdots \\
-                    \Bra{\psi_j}\Ham\Ket{\psi_0} & \Bra{\psi_j}\Ham\Ket{\psi_1} & \cdots & \Bra{\psi_j}\Ham\Ket{\psi_j}-E & \cdots \\                    
-                    \vdots & \vdots & \cdots & \vdots & \ddots \\
-                \end{pmatrix}
-                \begin{pmatrix}
-                    c_0 \\
-                    c_1 \\
-                    \vdots \\
-                    c_j \\
-                    \vdots
-                \end{pmatrix} = E
-                \begin{pmatrix}
-                    c_0 \\
-                    c_1 \\
-                    \vdots \\
-                    c_j \\
-                    \vdots
-                \end{pmatrix},
-            \end{align}
-            para proceder a la búsqueda de la energía mínima y los coeficientes $c_i$, con $i\in\{0,1,...\}$. La energía es el menor valor propio de \eqref{eq: matriz_1 ci} y los vectores propios son los coeficientes de los conjuntos de la función de onda \eqref{eq: psi ci}. El cálculo de los elementos $\Bra{\psi_i}\Ham\Ket{\psi_j}$ varía en dependencia de la pareja de orbitales $\psi_i$ y $\psi_j$, el cual puede verse con mayor detalle en el libro \textit{Introduction to Computational Chemistry} de Jensen, F. \cite{jensen}.
+        %     Dado que cada parcial de $\Lag$, 
+        %     \begin{align}
+        %         \Dfpartial{}{\Lag}{c_i} = 2\sum_jc_j\Bra{\psi_i}\Ham\Ket{\psi_j}-2\lambda c_i & = 0
+        %     \end{align}
+        %     y
+        %     \begin{align}
+        %         a_i(E_i-\lambda)+\sum_{j\neq0}c_j\Bra{\psi_i}\Ham\Ket{\psi_j} & = 0,
+        %     \end{align}
+        %     depende únicamente de su propia variable, podemos resolver el problema mediante valores propios, es decir,
+        %     \begin{align} \label{eq: matriz_1 ci}
+        %         \begin{pmatrix}
+        %             \Bra{\psi_0}\Ham\Ket{\psi_0}-E & \Bra{\psi_0}\Ham\Ket{\psi_1} & \cdots & \Bra{\psi_0}\Ham\Ket{\psi_j} & \cdots \\
+        %             \Bra{\psi_1}\Ham\Ket{\psi_0} & \Bra{\psi_1}\Ham\Ket{\psi_1}-E & \cdots & \Bra{\psi_1}\Ham\Ket{\psi_j} & \cdots \\ 
+        %             \vdots & \vdots & \ddots & \vdots & \vdots \\
+        %             \Bra{\psi_j}\Ham\Ket{\psi_0} & \Bra{\psi_j}\Ham\Ket{\psi_1} & \cdots & \Bra{\psi_j}\Ham\Ket{\psi_j}-E & \cdots \\                    
+        %             \vdots & \vdots & \cdots & \vdots & \ddots \\
+        %         \end{pmatrix}
+        %         \begin{pmatrix}
+        %             c_0 \\
+        %             c_1 \\
+        %             \vdots \\
+        %             c_j \\
+        %             \vdots
+        %         \end{pmatrix} = E
+        %         \begin{pmatrix}
+        %             c_0 \\
+        %             c_1 \\
+        %             \vdots \\
+        %             c_j \\
+        %             \vdots
+        %         \end{pmatrix},
+        %     \end{align}
+        %     para proceder a la búsqueda de la energía mínima y los coeficientes $c_i$, con $i\in\{0,1,...\}$. La energía es el menor valor propio de \eqref{eq: matriz_1 ci} y los vectores propios son los coeficientes de los conjuntos de la función de onda \eqref{eq: psi ci}. El cálculo de los elementos $\Bra{\psi_i}\Ham\Ket{\psi_j}$ varía en dependencia de la pareja de orbitales $\psi_i$ y $\psi_j$, el cual puede verse con mayor detalle en el libro \textit{Introduction to Computational Chemistry} de Jensen, F. \cite{jensen}.
             
-            Cuando se consideran todos los posibles determinantes de Slater por cada excitación, el método es CI(full), pero este método exige un coste computacional muy elevado, por lo que se suele cortar la combinación lineal de determinantes de Slater hasta las interacciones simples CIS, dobles CISD, triples CIST, etcétera. Por ejemplo, si se corta la serie hasta las excitaciones dobles, pero se consideran todos los determinantes de Slater por cada tipo de excitación, se tiene el método CISD(full).
+        %     Cuando se consideran todos los posibles determinantes de Slater por cada excitación, el método es CI(full), pero este método exige un coste computacional muy elevado, por lo que se suele cortar la combinación lineal de determinantes de Slater hasta las interacciones simples CIS, dobles CISD, triples CIST, etcétera. Por ejemplo, si se corta la serie hasta las excitaciones dobles, pero se consideran todos los determinantes de Slater por cada tipo de excitación, se tiene el método CISD(full).
             
         \subsection{Métodos perturbativos M\o ller-Plesset}
             \noindent Son métodos pos-Hartree-Fock que se caracterizan por usar la teoría perturbativa de Rayleigh-Schr\"odinger como estrategia para superar el límite Hartree-Fock y se pueden realizar perturbaciones de segundo orden (MP2) \cite{mp2-1}, tercero (MP3) \cite{mp3-1}, cuarto (MP4) \cite{mp4-1} e incluso más. MP2 puede tomar en cuenta entre el 80\% y 90\% de la energía de correlación, MP3 entre el 90\% y 95\%, y MP4 entre el 95\% y 98\% \cite{jensen}. Sobre los métodos subsecuentes, no se suele tener mucha información, puesto que requieren mucho trabajo computacional.
@@ -539,7 +542,7 @@
         \begin{align}
             N \equiv \Par{\frac{2\alpha}{\Pi}}\Sqbr{\frac{(8\alpha)^{i+j+k}i!j!k!}{(2i)!(2j)!(2k)!}}^{1/2}
         \end{align}
-        es la constante de normalización, $x_b$, $y_b$ y $z_b$ son las coordenadas del núcleo $b$-ésimo, $\zeta>0$ es un parámetro variacional y los valores $i$, $j$ y $k$ indican el tipo de gaussiana que se desea crear. La razón de llamarla primitiva es porque se pueden formar orbitales atómicos GTO a partir de combinaciones lineales de funciones primitivas.
+        es la constante de normalización, $x_b$, $y_b$ y $z_b$ son las coordenadas del núcleo $b$-ésimo, $\zeta>0$ es un parámetro variacional y los valores $i$, $j$ y $k$ indican el tipo de gaussiana que se desea crear (s, p, d o f). La razón de llamarla primitiva es porque se pueden formar orbitales atómicos GTO a partir de combinaciones lineales de funciones primitivas.
 
         Las combinaciones lineales de estas funciones \eqref{eq: gaussiana} se adecúan para cada orbital molecular e incluso llegan a reforzar a los orbitales de capas interna y de valencia formando combinaciones lineales de gaussianas para formar gaussianas más adecuadas para el caso. La base más común es 6-31G \cite{gto}, la cual utiliza una combinación lineal de 6 gaussianas para los orbitales de capa interna, mientras que los orbitales de valencia se conforman por una combinación de 3 gaussianas en la zona interna y una gaussiana en la externa.
         
